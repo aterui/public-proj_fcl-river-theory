@@ -34,7 +34,8 @@ df_param <- tibble(# parameters for brnet
                    s0 = runif(n_para, 0.5, 1),
                    p_disturb = runif(n_para, 0.01, 0.1),
                    p_dispersal = runif(n_para, 0.01, 0.1),
-                   theta = runif(n_para, 0.01, 0.1))
+                   theta = runif(n_para, 0.01, 0.1)) %>% 
+  mutate(param_set = seq_len(nrow(.)))
 
 # geometry parameters
 n_rep <- 20
@@ -64,7 +65,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                         # network generation
                                         net <- brnet(n_patch = n_patch[j],
                                                      p_branch = p_branch[j],
-                                                     mean_disturb_source = x$m_disturb,
+                                                     mean_disturb_source = x$mean_disturb_source,
                                                      sd_disturb_source = x$sd_disturb_source,
                                                      sd_disturb_lon = x$sd_disturb_lon,
                                                      plot = FALSE)
