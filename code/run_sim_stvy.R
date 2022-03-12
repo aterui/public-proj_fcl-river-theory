@@ -2,7 +2,6 @@
 # setup -------------------------------------------------------------------
 
 rm(list = ls(all.names = TRUE))
-
 source(here::here("code/library.R"))
 
 cl <- makeCluster(detectCores())
@@ -11,7 +10,7 @@ registerDoSNOW(cl)
 # set parameters ----------------------------------------------------------
 
 # igpsim parameters
-n_para <- 5
+n_para <- 500
 df_param <- tibble(# parameters for brnet
                    mean_disturb_source = runif(n_para, 0.2, 0.8),
                    sd_disturb_source = runif(n_para, 0.1, 1),
@@ -38,7 +37,7 @@ df_param <- tibble(# parameters for brnet
   mutate(param_set = seq_len(nrow(.)))
 
 # geometry parameters
-n_rep <- 20
+n_rep <- 100
 repeat {
   n_patch <- round(runif(n_rep, 10, 150))
   p_branch <- runif(n_rep, 0.01, 0.99)
