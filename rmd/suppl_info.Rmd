@@ -38,7 +38,7 @@ table_stvy_chunk <- knit_chunk <- NULL
 
 for(i in 1:length(table_stvy)) {
   
-  table_legend <- paste0("Sensitivity analysis of the ", c_text[i]," effect on the FCL. Parameter estimates of linear regression models are shown. Response variables are Spearman's rank correlation between food chain length and ", c_text[i],". Response and explanatory variables (i.e., simulation parameters) were standardized (mean = 0, SD = 1) before the analysis.")
+  table_legend <- paste0("Sensitivity analysis of the ", c_text[i]," effect on the FCL. Parameter estimates of linear regression models are shown. The response variable is the Spearman's rank correlation between food chain length and ", c_text[i],". Response and explanatory variables (i.e., simulation parameters) were standardized (mean = 0, SD = 1) before the analysis.")
   
   knit_chunk <- paste0("## Table S", i + j, " Sensitivity analysis for ", c_text[i]," \n",
                        table_legend,
