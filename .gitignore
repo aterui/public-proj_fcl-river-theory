@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+rmd/document_output*
+output/.pdf
