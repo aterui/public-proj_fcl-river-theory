@@ -3,4 +3,4 @@
 .RData
 .Ruserdata
 rmd/document_output*
-output/.pdf
+output/*.pdf
