@@ -36,7 +36,7 @@ df_param <- tibble(# parameters for brnet
                    h_cp = runif(n_para, 0.5, 5), # to handling_time[3]
                    s0 = runif(n_para, 0.5, 1),
                    p_disturb = runif(n_para, 0, 0.2),
-                   p_dispersal = runif(n_para, 0.001, 0.1),
+                   p_dispersal = runif(n_para, 0, 0.1),
                    theta = runif(n_para, 0.01, 1)) %>% 
   mutate(param_set = seq_len(nrow(.)))
 
