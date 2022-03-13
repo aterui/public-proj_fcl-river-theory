@@ -34,7 +34,9 @@ df_r <- sim_stvy_result %>%
            n_fcl,
            n_timestep,
            n_warmup,
-           n_burnin) %>% 
+           n_burnin,
+           base_k,
+           z) %>% 
   mutate(sd_ratio = log(sd_disturb_source / sd_disturb_lon)) %>% 
   pivot_longer(cols = mean_disturb_source:sd_ratio,
                names_to = "param",
