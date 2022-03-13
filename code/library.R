@@ -1,8 +1,10 @@
 
 # common packages
-pacman::p_load(here,
-               mcbrnet,
+pacman::p_load(mcbrnet,
                tidyverse,
                foreach,
                doParallel,
-               doSNOW)
+               doSNOW,
+               stargazer,
+               broom,
+               knitr)
