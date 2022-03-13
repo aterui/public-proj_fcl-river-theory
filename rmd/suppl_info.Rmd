@@ -1,0 +1,58 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      before_body: title.tex
+knit: (function(inputFile, encoding) {
+        rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
+      })
+header-includes:
+  \pagenumbering{gobble}
+  \usepackage{amsmath}
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+```{=tex}
+\newpage
+\pagenumbering{arabic}
+```
+
+
+```{r table_sensitivity}
+
+source(here::here("code/table_stvy.R"))
+
+j <- 0
+
+## conditional text
+c_text <- c("ecosystem size",
+            "ecosystem complexity")
+
+table_stvy_chunk <- knit_chunk <- NULL
+
+for(i in 1:length(table_stvy)) {
+  
+  table_legend <- paste0("Sensitivity analysis of the ", c_text[i]," effect on the FCL. Parameter estimates of linear regression models are shown. Response variables are Spearman's rank correlation between food chain length and ", c_text[i],". Response and explanatory variables (i.e., simulation parameters) were standardized (mean = 0, SD = 1) before the analysis.")
+  
+  knit_chunk <- paste0("## Table S", i + j, " Sensitivity analysis for ", c_text[i]," \n",
+                       table_legend,
+                       "\n```{r table_s", i + j,", results='asis'}
+                       \n\n
+                       table_stvy[[", i,"]]
+                       \n\n
+                       ```\n",
+                       "\n\\pagebreak\n")
+  
+  table_stvy_chunk <- c(table_stvy_chunk, knit_chunk)  
+  
+}
+
+```
+
+`r paste(knit(text = table_stvy_chunk), collapse = '\n')`
