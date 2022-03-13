@@ -12,9 +12,9 @@ registerDoSNOW(cl)
 # igpsim parameters
 n_para <- 500
 df_param <- tibble(# parameters for brnet
-                   mean_disturb_source = runif(n_para, 0.2, 0.8),
-                   sd_disturb_source = runif(n_para, 0.1, 10),
-                   sd_disturb_lon = runif(n_para, 0.1, 10),
+                   mean_disturb_source = runif(n_para, 0, 0.9),
+                   sd_disturb_source = runif(n_para, 0.01, 1),
+                   sd_disturb_lon = runif(n_para, 0.01, 1),
                    
                    # carring capacity
                    base_k = 100,
@@ -35,7 +35,7 @@ df_param <- tibble(# parameters for brnet
                    h_bp = runif(n_para, 0.5, 5), # to handling_time[2]
                    h_cp = runif(n_para, 0.5, 5), # to handling_time[3]
                    s0 = runif(n_para, 0.5, 1),
-                   p_disturb = runif(n_para, 0.001, 0.1),
+                   p_disturb = runif(n_para, 0, 0.2),
                    p_dispersal = runif(n_para, 0.001, 0.1),
                    theta = runif(n_para, 0.01, 1)) %>% 
   mutate(param_set = seq_len(nrow(.)))

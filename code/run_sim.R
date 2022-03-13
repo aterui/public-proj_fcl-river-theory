@@ -10,9 +10,9 @@ registerDoSNOW(cl)
 # set parameters ----------------------------------------------------------
 
 # igpsim parameters
-df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
-                        sd_disturb_source = 5,
-                        sd_disturb_lon = 0.1,
+df_param <- expand.grid(mean_disturb_source = c(0.1, 0.9),
+                        sd_disturb_source = 1,
+                        sd_disturb_lon = 0.01,
                         
                         # carring capacity
                         base_k = 100,
@@ -22,29 +22,33 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
                         n_warmup = 200,
                         n_burnin = 400,
                         r_b = c(5, 10),
-                        e_bc = c(2, 4), # to conv_eff[1]
+                        e_bc = 4, # to conv_eff[1]
                         e_bp = c(0, 2, 4), # to conv_eff[2]
                         e_cp = c(2, 4), # to conv_eff[3]
-                        a_bc = c(0.1, 0.5), # to attack_rate[1]
+                        a_bc = 0.5, # to attack_rate[1]
                         a_bp = c(0.1, 0.5), # to attack_rate[2]
                         a_cp = c(0.1, 0.5), # to attack_rate[3]
-                        h_bc = c(0.1, 0.5), # to handling_time[1]
-                        h_bp = c(0.1, 0.5), # to handling_time[2]
-                        h_cp = c(0.1, 0.5), # to handling_time[3]
+                        h_bc = 0.5, # to handling_time[1]
+                        h_bp = c(0.5, 5), # to handling_time[2]
+                        h_cp = c(0.5, 5), # to handling_time[3]
                         s0 = 0.8,
                         p_disturb = c(0.01, 0.1),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
-  filter(mean_disturb_source == 0.8 & p_disturb == 0.1 |
-         mean_disturb_source == 0.2 & p_disturb == 0.01) %>% 
-  filter(e_bp == 0 & e_cp == 4 & a_bp == 0.1 & h_bp == 0.5 |
-         e_bp == 2 & e_cp == 4 & a_bp == 0.1 & h_bp == 0.5 |
-         e_bp == 4 & e_cp == 2 & a_bp == 0.5 & h_bp == 0.1) %>% 
-  slice(1:3)
+  filter(mean_disturb_source == 0.9 & p_disturb == 0.1 |
+         mean_disturb_source == 0.1 & p_disturb == 0.01) %>% 
+  filter(e_bp == 0 & a_bp == 0.1 & h_bp == 5 &
+         e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
+           
+         e_bp == 2 & a_bp == 0.1 & h_bp == 5 &
+         e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
+         
+         e_bp == 4 & a_bp == 0.5 & h_bp == 0.5 &
+         e_cp == 2 & a_cp == 0.1 & h_cp == 5)
 
 # geometry parameters
-n_rep <- 5
+n_rep <- 1000
 repeat {
   n_patch <- round(runif(n_rep, 10, 150))
   p_branch <- runif(n_rep, 0.01, 0.99)
@@ -77,7 +81,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                                      plot = FALSE)
                                         
                                         # patch attributes
-                                        v_k <- 100 * net$df_patch$n_patch_upstream^1.1
+                                        v_k <- x$base_k * net$df_patch$n_patch_upstream^x$z
                                         v_m_disturb <- net$df_patch$disturbance
                                         
                                         dyn <- igpsim(n_patch = n_patch[j],
