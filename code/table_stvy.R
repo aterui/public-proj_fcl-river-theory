@@ -24,7 +24,7 @@ term_label <- c("Disturbance prob.",
                 "Handling time (C to P)",
                 "Survival prob.",
                 "Dispersal prob.",
-                "Dispersal distance")
+                "Inverse of mean dispersal distance")
 
 param_label <- c("$p_{m}$",
                  "$\\mu_{m}$",
