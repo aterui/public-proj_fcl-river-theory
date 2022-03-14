@@ -45,7 +45,16 @@ df_param <- expand.grid(mean_disturb_source = c(0.1, 0.9),
          e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
          
          e_bp == 4 & a_bp == 0.5 & h_bp == 0.5 &
-         e_cp == 2 & a_cp == 0.1 & h_cp == 5)
+         e_cp == 2 & a_cp == 0.1 & h_cp == 5) %>% 
+  arrange(p_disturb,
+          e_bp,
+          theta) %>% 
+  mutate(param_set = seq_len(nrow(.))) %>% 
+  relocate(param_set,
+           p_disturb,
+           e_bp,
+           theta)
+
 
 # geometry parameters
 n_rep <- 1000
