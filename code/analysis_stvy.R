@@ -16,20 +16,13 @@ df_param <- sim_stvy_result %>%
 ## treat them as zero correlation
 df_r <- sim_stvy_result %>% 
   group_by(param_set) %>% 
-  summarize(r_np = suppressWarnings(cor(fcl,
-                                        n_patch,
-                                        method = "spearman")),
-            r_pb = suppressWarnings(cor(fcl,
-                                        p_branch,
-                                        method = "spearman")),
-            n_fcl = n_distinct(fcl)) %>% 
-  mutate(r_np = ifelse(n_fcl == 1, 0, r_np),
-         r_pb = ifelse(n_fcl == 1, 0, r_pb)) %>% 
+  do(r_np = coef(lm(fcl ~ scale(n_patch) + scale(p_branch), data = .))[2],
+     r_pb = coef(lm(fcl ~ scale(n_patch) + scale(p_branch), data = .))[3]) %>% 
+  mutate(across(r_np:r_pb, as.numeric)) %>% 
   left_join(df_param,
             by = "param_set") %>% 
   ungroup() %>% 
   relocate(param_set,
-           n_fcl,
            n_timestep,
            n_warmup,
            n_burnin) %>% 
