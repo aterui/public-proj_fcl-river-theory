@@ -10,7 +10,7 @@ registerDoSNOW(cl)
 # set parameters ----------------------------------------------------------
 
 # igpsim parameters
-df_param <- expand.grid(mean_disturb_source = c(0.1, 0.9),
+df_param <- expand.grid(mean_disturb_source = 0.8,
                         sd_disturb_source = c(0.1, 5),
                         sd_disturb_lon = c(5, 0.1),
                         
@@ -36,8 +36,6 @@ df_param <- expand.grid(mean_disturb_source = c(0.1, 0.9),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
-  filter(mean_disturb_source == 0.9 & p_disturb == 0.1 |
-         mean_disturb_source == 0.1 & p_disturb == 0.01) %>% 
   filter(sd_disturb_source != sd_disturb_lon) %>% 
   filter(e_bp == 0 & a_bp == 0.1 & h_bp == 5 &
          e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |

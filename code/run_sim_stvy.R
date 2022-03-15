@@ -12,7 +12,7 @@ registerDoSNOW(cl)
 # igpsim parameters
 n_para <- 500
 df_param <- tibble(# parameters for brnet
-                   mean_disturb_source = runif(n_para, 0, 0.9),
+                   mean_disturb_source = 0.8,
                    sd_disturb_source = runif(n_para, 0.01, 1),
                    sd_disturb_lon = runif(n_para, 0.01, 1),
                    
