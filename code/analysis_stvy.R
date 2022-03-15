@@ -16,9 +16,13 @@ df_param <- sim_stvy_result %>%
 ## treat them as zero correlation
 df_r <- sim_stvy_result %>% 
   group_by(param_set) %>% 
-  do(r_np = coef(lm(fcl ~ scale(n_patch) + scale(p_branch), data = .))[2],
-     r_pb = coef(lm(fcl ~ scale(n_patch) + scale(p_branch), data = .))[3]) %>% 
-  mutate(across(r_np:r_pb, as.numeric)) %>% 
+  summarize(r_np = suppressWarnings(cor(fcl, n_patch,
+                                        method = "spearman")),
+            r_pb = suppressWarnings(cor(fcl, p_branch,
+                                        method = "spearman")),
+            n_fcl = n_distinct(fcl)) %>% 
+  mutate(r_np = ifelse(n_fcl == 1, 0, r_np),
+         r_pb = ifelse(n_fcl == 1, 0, r_pb)) %>% 
   left_join(df_param,
             by = "param_set") %>% 
   ungroup() %>% 
@@ -37,9 +41,7 @@ df_r <- sim_stvy_result %>%
 fit_sense <- df_r %>% 
   group_by(response) %>% 
   do(fit = lm(y ~ 
-                -1 + 
                 p_disturb +
-                mean_disturb_source +
                 sd_disturb_source +
                 sd_disturb_lon +
                 r_b +

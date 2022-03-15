@@ -8,8 +8,8 @@ source(here::here("code/analysis_stvy.R"))
 
 # table -------------------------------------------------------------------
 
-term_label <- c("Disturbance prob.",
-                "Disturbance intensity",
+term_label <- c("Intercept",
+                "Disturbance prob.",
                 "Disturbance variation at headwaters",
                 "Local disturbance variation",
                 "Reproductive rate of basal species",
@@ -26,8 +26,8 @@ term_label <- c("Disturbance prob.",
                 "Dispersal prob.",
                 "Inverse of mean dispersal distance")
 
-param_label <- c("$p_{m}$",
-                 "$\\mu_{m}$",
+param_label <- c("",
+                 "$p_{m}$",
                  "$\\sigma_{s}$",
                  "$\\sigma_{l}$",
                  "$r_b$",
