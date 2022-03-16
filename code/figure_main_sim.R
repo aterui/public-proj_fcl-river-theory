@@ -75,7 +75,7 @@ g_pb <- df_sim %>%
              labeller = label_parsed) +
   labs(x = "Ecosystem complexity (branching prob.)",
        y = "Food chain length",
-       linetype = "IGP")
+       linetype = "Omnivory")
 
 ggsave(g_pb,
        filename = here::here("output/figure_pb_main.pdf"),

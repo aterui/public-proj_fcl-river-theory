@@ -66,7 +66,7 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
                labeller = label_parsed) +
     labs(x = "Ecosystem size (number of patches)",
          y = "Food chain length",
-         linetype = "IGP")
+         linetype = "Omnivory")
   
   return(g_np)
 }
@@ -89,7 +89,7 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
                labeller = label_parsed) +
     labs(x = "Ecosystem complexity (branching prob.)",
          y = "Food chain length",
-         linetype = "IGP")
+         linetype = "Omnivory")
   
   return(g_pb)
 }
