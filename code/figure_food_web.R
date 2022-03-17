@@ -64,9 +64,3 @@ g_fw <- foreach(i = 1:3) %do% {
 g_web <- g_fw[[1]] |
   g_fw[[2]] |
   g_fw[[3]]
-
-
-# export ------------------------------------------------------------------
-
-save(g_web,
-     file = here::here("output/figure_foodweb.RData"))

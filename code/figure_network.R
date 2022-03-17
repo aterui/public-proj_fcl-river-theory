@@ -79,12 +79,3 @@ g_disturb <- bind_rows(mutate(net[[1]]$df_patch, p_branch = 0.2),
        fill = "Branching probability") +
   guides(color = "none") +
   ggtitle("D")
-
-
-# export ------------------------------------------------------------------
-
-save(g_net,
-     file = here::here("output/figure_network.RData"))
-
-save(g_disturb,
-     file = here::here("output/figure_disturb.RData"))
