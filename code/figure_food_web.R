@@ -56,11 +56,11 @@ g_fw <- foreach(i = 1:3) %do% {
                     label.size = 0,
                     fill = NA) +
     theme_graph() +
-    labs(title = title_fw[i])
+    labs(subtitle = title_fw[i])
   
   return(g)
 }
 
-g_web <- g_fw[[1]] |
+g_web <- g_fw[[1]] + ggtitle("A") |
   g_fw[[2]] |
   g_fw[[3]]

@@ -19,7 +19,7 @@ para <- expand.grid(n_patch = n_patch,
 
 
 net <- foreach(i = seq_len(nrow(para))) %do% {
-  set.seed(123)
+  set.seed(122)
   brnet(n_patch = para$n_patch[i],
         p_branch = para$p_branch[i],
         mean_disturb_source = 0.8,
