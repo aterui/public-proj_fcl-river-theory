@@ -39,15 +39,6 @@ ng <- foreach(i = seq_len(length(net))) %do% {
     ggraph(layout = layout_as_tree(.,
                                    flip.y = FALSE,
                                    root = 1)) +
-<<<<<<< Updated upstream
-    geom_edge_link(color = "steelblue") +
-    geom_node_point(shape = 21,
-                    fill = colvalue$color[match(V(adj)$disturb, colvalue$value)],
-                    color = grey(0, 0),
-                    size = 1) +
-    labs(subtitle = paste("Branching prob. =", para$p_branch[i])) +
-    theme_graph()
-=======
     geom_edge_link(color = "steelblue",
                    edge_width = 0.01) +
     geom_node_point(aes(fill = disturb),
@@ -64,7 +55,6 @@ ng <- foreach(i = seq_len(length(net))) %do% {
     theme(rect = element_blank(),
           panel.border = element_blank(),
           panel.background = element_blank())
->>>>>>> Stashed changes
   
   return(g)
 }
