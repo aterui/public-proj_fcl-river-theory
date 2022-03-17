@@ -11,8 +11,8 @@ registerDoSNOW(cl)
 
 # igpsim parameters
 df_param <- expand.grid(mean_disturb_source = 0.8,
-                        sd_disturb_source = c(0.1, 5),
-                        sd_disturb_lon = c(5, 0.1),
+                        sd_disturb_source = c(0.1, 3),
+                        sd_disturb_lon = c(3, 0.1),
                         
                         # carring capacity
                         base_k = 100,
