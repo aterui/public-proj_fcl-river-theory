@@ -7,7 +7,7 @@ source(here::here("code/figure_theme.R"))
 
 # network -----------------------------------------------------------------
 
-n_patch <- 150
+n_patch <- 50
 p_branch <- c(0.2, 0.5, 0.8)
 sd_lon <- sd_source <- c(0.1, 3)
 
