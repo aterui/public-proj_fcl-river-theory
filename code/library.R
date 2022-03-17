@@ -7,4 +7,9 @@ pacman::p_load(mcbrnet,
                doSNOW,
                stargazer,
                broom,
-               knitr)
+               knitr,
+               ggraph,
+               NetIndices,
+               tidygraph,
+               patchwork,
+               igraph)
