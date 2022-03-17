@@ -7,7 +7,7 @@ source(here::here("code/figure_theme.R"))
 
 # network -----------------------------------------------------------------
 
-n_patch <- 50
+n_patch <- 150
 p_branch <- c(0.2, 0.5, 0.8)
 sd_lon <- sd_source <- c(0.1, 5)
 
@@ -49,8 +49,8 @@ ng <- foreach(i = seq_len(length(net))) %do% {
     geom_edge_link(color = "steelblue") +
     geom_node_point(shape = 21,
                     fill = colvalue$color[match(V(adj)$disturb, colvalue$value)],
-                    color = grey(0.5),
-                    size = 3) +
+                    color = grey(0, 0),
+                    size = 1) +
     labs(subtitle = paste("Branching prob. =", para$p_branch[i])) +
     theme_graph()
   
