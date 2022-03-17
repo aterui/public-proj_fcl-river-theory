@@ -21,18 +21,18 @@ df_param <- expand.grid(e_bc = 4, # to conv_eff[1]
                         a_bp = c(0.1, 0.5), # to attack_rate[2]
                         a_cp = c(0.1, 0.5), # to attack_rate[3]
                         h_bc = 0.5, # to handling_time[1]
-                        h_bp = c(0.5, 5), # to handling_time[2]
-                        h_cp = c(0.5, 5) # to handling_time[3]
+                        h_bp = 0.5, # to handling_time[2]
+                        h_cp = 0.5 # to handling_time[3]
 ) %>% 
   as_tibble() %>% 
-  filter(e_bp == 0 & a_bp == 0.1 & h_bp == 5 &
-           e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
+  filter(e_bp == 0 & a_bp == 0.1 &
+           e_cp == 4 & a_cp == 0.5 |
            
-           e_bp == 2 & a_bp == 0.1 & h_bp == 5 &
-           e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
+           e_bp == 2 & a_bp == 0.1 &
+           e_cp == 4 & a_cp == 0.5 |
            
-           e_bp == 4 & a_bp == 0.5 & h_bp == 0.5 &
-           e_cp == 2 & a_cp == 0.1 & h_cp == 5) %>% 
+           e_bp == 4 & a_bp == 0.5 &
+           e_cp == 2 & a_cp == 0.1) %>% 
   mutate(omn = case_when(e_bp == 0 ~ "Chain",
                          e_bp == 2 ~ "Weak",
                          e_bp == 4 ~ "Strong"),
@@ -79,5 +79,4 @@ g_delta <- df_m %>%
   geom_line(color = grey(0.4)) +
   labs(x = "Basal species density",
        y = expression("Preference to basal over IG-prey"~~(delta)),
-       linetype = "Omnivory") +
-  ggtitle("B")
+       linetype = "Omnivory")

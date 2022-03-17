@@ -9,7 +9,7 @@ source(here::here("code/figure_theme.R"))
 
 n_patch <- 150
 p_branch <- c(0.2, 0.5, 0.8)
-sd_lon <- sd_source <- c(0.1, 5)
+sd_lon <- sd_source <- c(0.1, 3)
 
 para <- expand.grid(n_patch = n_patch,
                     p_branch = p_branch,
@@ -19,7 +19,7 @@ para <- expand.grid(n_patch = n_patch,
 
 
 net <- foreach(i = seq_len(nrow(para))) %do% {
-  set.seed(122)
+  set.seed(124)
   brnet(n_patch = para$n_patch[i],
         p_branch = para$p_branch[i],
         mean_disturb_source = 0.8,
@@ -27,13 +27,6 @@ net <- foreach(i = seq_len(nrow(para))) %do% {
         sd_disturb_lon = para$sd_lon[i],
         plot = FALSE)
 }
-
-v_disturb <- unlist(lapply(seq_len(length(net)),
-                           FUN = function(x) net[[x]]$df_patch$disturbance))
-
-colvalue <- data.frame(color = viridis::viridis(length(v_disturb)),
-                       value = sort(v_disturb))
-
 
 ng <- foreach(i = seq_len(length(net))) %do% {
   
@@ -46,6 +39,7 @@ ng <- foreach(i = seq_len(length(net))) %do% {
     ggraph(layout = layout_as_tree(.,
                                    flip.y = FALSE,
                                    root = 1)) +
+<<<<<<< Updated upstream
     geom_edge_link(color = "steelblue") +
     geom_node_point(shape = 21,
                     fill = colvalue$color[match(V(adj)$disturb, colvalue$value)],
@@ -53,11 +47,29 @@ ng <- foreach(i = seq_len(length(net))) %do% {
                     size = 1) +
     labs(subtitle = paste("Branching prob. =", para$p_branch[i])) +
     theme_graph()
+=======
+    geom_edge_link(color = "steelblue",
+                   edge_width = 0.01) +
+    geom_node_point(aes(fill = disturb),
+                    shape = 21,
+                    color = grey(0.5),
+                    stroke = 0.1,
+                    size = 2) +
+    scale_fill_continuous(high = "steelblue",
+                          low = grey(0.95)) +
+    guides(fill = ifelse(i == 3, guide_legend(), "none")) +
+    labs(subtitle = paste("Branching prob. =",
+                          para$p_branch[i]),
+         fill = "Disturbance") +
+    theme(rect = element_blank(),
+          panel.border = element_blank(),
+          panel.background = element_blank())
+>>>>>>> Stashed changes
   
   return(g)
 }
 
-g_net <- (ng[[1]] + ggtitle("C")) | ng[[2]] | ng[[3]]
+g_net <- (ng[[1]] + labs(title = "C")) + ng[[2]] + ng[[3]] + plot_layout(guide = "collect")
 
 
 # disturbance distribution ------------------------------------------------
@@ -76,6 +88,5 @@ g_disturb <- bind_rows(mutate(net[[1]]$df_patch, p_branch = 0.2),
              linetype = "dashed") +
   labs(x = "Disturbance intensity",
        y = "Density",
-       fill = "Branching probability") +
-  guides(color = "none") +
-  ggtitle("D")
+       fill = "Branching prob.") +
+  guides(color = "none")

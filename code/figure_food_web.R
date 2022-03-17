@@ -7,60 +7,69 @@ source(here::here("code/library.R"))
 
 # figure ------------------------------------------------------------------
 
-delta <- c(0, 0.05, 0.95)
+delta <- c(0, 0.31, 0.73)
 title_fw <- c("Chain", "Weak omnivory", "Strong omnivory")
 
 g_fw <- foreach(i = 1:3) %do% {
   
-  m_weight <- rbind(c(0, 1, 1, 0),
-                    c(0, 0, 1, 0),
-                    c(0, 0, 0, 0),
-                    c(0, 0, 0, 0))
+  # interaction matrix; sp 4 & 5 are dummy
+  m_weight <- rbind(c(0, 1, 1, 0, 0),
+                    c(0, 0, 1, 0, 0),
+                    c(0, 0, 0, 0, 0),
+                    c(0, 0, 0, 0, 0),
+                    c(0, 0, 0, 0, 0))
   
   m_weight[1, 3] <- delta[i]
   m_weight[2, 3] <- 1 - delta[i]
   
+  # ggraph object
   graph <- as_tbl_graph(m_weight)
   
+  # trophic position
   layout <- create_layout(graph, "fr")
+  layout$y <- TrophInd(m_weight)$TL
+  layout$y[4] <- layout$y[5] <- 3
+  layout$label <- c("B", "C", "P", "", "")
   
   if (m_weight[2, 3] == 1) {
     
-    layout$x <- c(1, 1, 1, 1)  
+    layout$x <- rep(0.5, 5)
     
   } else {
     
-    layout$x <- c(1, 0.5, 1.5, 1.5)
+    layout$x <- c(0.5, # Basal
+                  0.5 - 1/layout$y[3], # Intraguild prey
+                  0.5 + 1/layout$y[3], # Intraguild predator
+                  0, # dummy 1
+                  1 # dummy 2
+                  )
     
   }
   
-  layout$y <- TrophInd(m_weight)$TL
-  layout$y[4] <- 3
-  layout$label <- c("B", "C", "P", "")
-  
+  # graph
   g <- ggraph(layout) + 
     geom_edge_link(arrow = arrow(type = "closed",
                                  ends = "last",
-                                 length = unit(5, "mm"),
+                                 length = unit(0.05, "npc"),
                                  angle = 15),
                    aes(edge_color = weight),
-                   start_cap = circle(7, 'mm'),
-                   end_cap = circle(7, 'mm'),
+                   start_cap = circle(0.07, 'npc'),
+                   end_cap = circle(0.07, 'npc'),
                    show.legend = T) +
     scale_edge_color_continuous(low = "lightgrey",
                                 high = "black",
                                 guide = "none") +
     geom_node_label(aes(label = label), 
                     color = grey(0.25),
-                    size = 10,
+                    size = 6,
                     label.size = 0,
                     fill = NA) +
-    theme_graph() +
-    labs(subtitle = title_fw[i])
+    labs(subtitle = title_fw[i]) +
+    theme(rect = element_blank(),
+          panel.border = element_blank(),
+          panel.background = element_blank())
   
   return(g)
 }
 
-g_web <- g_fw[[1]] + ggtitle("A") |
-  g_fw[[2]] |
-  g_fw[[3]]
+g_web <- (g_fw[[1]] + ggtitle("A")) | g_fw[[2]] | g_fw[[3]]

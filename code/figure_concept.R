@@ -12,12 +12,23 @@ source(here::here("code/figure_network.R"))
 # figure ------------------------------------------------------------------
 
 layout <- "
-ABCD
-EEEG
+AAAB
+CCCD
 "
 
+<<<<<<< Updated upstream
 g_web +
   g_delta + 
   g_net + 
   g_disturb + 
   plot_layout(design = layout)
+=======
+g_concept <- wrap_plots(g_web) + g_delta + ggtitle("B") +
+  wrap_plots(g_net) + g_disturb + ggtitle("D") +
+  plot_layout(design = layout)
+
+ggsave(g_concept,
+       filename = here::here("output/figure_concept.pdf"),
+       width = 12,
+       height = 6)
+>>>>>>> Stashed changes
