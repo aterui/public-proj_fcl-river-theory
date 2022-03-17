@@ -29,22 +29,22 @@ df_param <- expand.grid(mean_disturb_source = 0.8,
                         a_bp = c(0.1, 0.5), # to attack_rate[2]
                         a_cp = c(0.1, 0.5), # to attack_rate[3]
                         h_bc = 0.5, # to handling_time[1]
-                        h_bp = c(0.5, 5), # to handling_time[2]
-                        h_cp = c(0.5, 5), # to handling_time[3]
+                        h_bp = 0.5, # to handling_time[2]
+                        h_cp = 0.5, # to handling_time[3]
                         s0 = 0.8,
                         p_disturb = c(0.01, 0.1),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
   filter(sd_disturb_source != sd_disturb_lon) %>% 
-  filter(e_bp == 0 & a_bp == 0.1 & h_bp == 5 &
-         e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
+  filter(e_bp == 0 & a_bp == 0.1 &
+         e_cp == 4 & a_cp == 0.5 |
            
-         e_bp == 2 & a_bp == 0.1 & h_bp == 5 &
-         e_cp == 4 & a_cp == 0.5 & h_cp == 0.5 |
+         e_bp == 2 & a_bp == 0.1 &
+         e_cp == 4 & a_cp == 0.5 |
          
-         e_bp == 4 & a_bp == 0.5 & h_bp == 0.5 &
-         e_cp == 2 & a_cp == 0.1 & h_cp == 5) %>% 
+         e_bp == 4 & a_bp == 0.5 &
+         e_cp == 2 & a_cp == 0.1) %>% 
   arrange(p_disturb,
           e_bp,
           theta) %>% 
