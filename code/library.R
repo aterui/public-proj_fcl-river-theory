@@ -2,6 +2,7 @@
 # common packages
 pacman::p_load(mcbrnet,
                tidyverse,
+               tidygraph,
                foreach,
                doParallel,
                doSNOW,
@@ -10,6 +11,5 @@ pacman::p_load(mcbrnet,
                knitr,
                ggraph,
                NetIndices,
-               tidygraph,
                patchwork,
                igraph)
