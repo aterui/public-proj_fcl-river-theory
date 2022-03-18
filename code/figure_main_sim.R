@@ -13,7 +13,7 @@ load(file = here::here("output/result_main.RData"))
 df_sim <- sim_main_result %>% 
   group_by(param_set) %>% 
   filter(theta == 1,
-         sd_disturb_source == 5,
+         sd_disturb_source == 3,
          sd_disturb_lon == 0.1) %>% 
   mutate(igp = case_when(e_bp == 0 ~ "Chain",
                          e_bp == 2 ~ "Weak",
