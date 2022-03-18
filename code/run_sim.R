@@ -114,12 +114,19 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                                       theta = x$theta,
                                                       distance_matrix = net$distance_matrix)
                                         
+                                        df_occ <- dyn$df_dynamics %>%
+                                          group_by(species) %>% 
+                                          summarize(p = mean(abundance > 0))
+                                        
                                         df <- tibble(n_rep = j,
                                                      mc_capacity = sum(v_k),
                                                      n_patch = n_patch[j],
                                                      p_branch = p_branch[j],
                                                      x,
-                                                     fcl = mean(dyn$df_patch$fcl))
+                                                     fcl = mean(dyn$df_patch$fcl),
+                                                     p_basal = df_occ$p[1],
+                                                     p_igprey = df_occ$p[2],
+                                                     p_igpred = df_occ$p[3])
                                         
                                         return(df)
                                       }
