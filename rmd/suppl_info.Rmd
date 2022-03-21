@@ -14,7 +14,8 @@ header-includes:
 
 ```{r setup, include=FALSE}
 
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE)
 
 ```
 
@@ -56,3 +57,40 @@ for(i in 1:length(table_stvy)) {
 ```
 
 `r paste(knit(text = table_stvy_chunk), collapse = '\n')`
+
+
+\pagebreak
+
+
+```{r si_figure_fcl}
+
+source(here::here("code/figure_si_fcl.R"))
+
+j <- 0
+
+## conditional text
+c_text <- c("ecosystem size",
+            "ecosystem complexity")
+
+fig_fcl_chunk <- knit_chunk <- NULL
+
+for(i in 1:length(list_g_fcl)) {
+  
+  figure_legend <- paste0(str_to_sentence(c_text[i])," effect on food chain length. We used the following values of parameters: $\\theta$ = `r df_sim$theta[i]`, $\\sigma_l$ = `r df_sim$sd_disturb_lon[i]`, and $\\sigma_h$ = `r df_sim$sd_disturb_source[i]`")
+  
+  knit_chunk <- paste0("## Figure S", i + j, " ", str_to_sentence(c_text[i]), " effect on food chain length", " \n",
+                       "\n```{r figure_s", i + j,", fig.height = 6.5, fig.width = 8}
+                       \n\n
+                       list_g_fcl[[", i,"]]
+                       \n\n
+                       ```\n",
+                       figure_legend,
+                       "\n\\pagebreak\n")
+  
+  fig_fcl_chunk <- c(fig_fcl_chunk, knit_chunk)  
+  
+}
+
+```
+
+`r paste(knit(text = fig_fcl_chunk), collapse = '\n')`
