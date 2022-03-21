@@ -80,4 +80,5 @@ df_param <- sim_main_result %>%
                                  param == "s0" ~ "Unif(0.5, 1)",
                                  param == "p_dispersal" ~ "Unif(0, 0.1)")) %>% 
   arrange(Group, Parameter) %>% 
+  mutate(Group = ifelse(duplicated(Group), NA, Group)) %>% 
   dplyr::select(Group, Parameter, Main, Sensitivity)
