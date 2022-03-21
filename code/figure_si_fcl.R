@@ -13,12 +13,12 @@ load(file = here::here("output/result_main.RData"))
 df_sim <- sim_main_result %>% 
   group_by(param_set) %>% 
   filter(!(theta == 1 &
-           sd_disturb_source == 5 &
+           sd_disturb_source == 3 &
            sd_disturb_lon == 0.1)) %>% 
-  mutate(igp = case_when(e_bp == 0 ~ "Chain",
+  mutate(omn = case_when(e_bp == 0 ~ "Chain",
                          e_bp == 2 ~ "Weak",
                          e_bp == 4 ~ "Strong"),
-         igp = factor(igp, levels = c("Chain",
+         omn = factor(omn, levels = c("Chain",
                                       "Weak",
                                       "Strong")),
          productivity = recode(r_b,
@@ -38,10 +38,10 @@ df_sim <- sim_main_result %>%
   )
 
 df_param <- expand.grid(theta = 0.1,
-                        sd_disturb_source = c(0.1, 5),
-                        sd_disturb_lon = c(0.1, 5)) %>% 
+                        sd_disturb_source = c(0.1, 3),
+                        sd_disturb_lon = c(0.1, 3)) %>% 
   as_tibble() %>% 
-  filter(sd_disturb_source != sd_disturb_lon)
+  filter(sd_disturb_source > sd_disturb_lon)
 
 
 # figure ------------------------------------------------------------------
@@ -56,7 +56,7 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = n_patch,
                y = fcl,
-               linetype = igp)) +
+               linetype = omn)) +
     geom_smooth(method = "loess",
                 size = 0.5,
                 color = "salmon",
@@ -79,7 +79,7 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = p_branch,
                y = fcl,
-               linetype = igp)) +
+               linetype = omn)) +
     geom_smooth(method = "loess",
                 size = 0.5,
                 color = "steelblue",
@@ -93,3 +93,8 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
   
   return(g_pb)
 }
+
+
+list_g_fcl <- list()
+list_g_fcl[[1]] <- list_g_np[[1]]
+list_g_fcl[[2]] <- list_g_pb[[1]]
