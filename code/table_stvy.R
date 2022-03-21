@@ -49,10 +49,10 @@ table_stvy <- foreach(i = 1:2) %do% {
     tidy() %>%
     mutate(Term = param_label,
            Interpretation = term_label) %>% 
-    select(Term,
-           Interpretation,
-           Estimate =estimate,
-           SE = std.error) %>% 
+    dplyr::select(Term,
+                  Interpretation,
+                  Estimate =estimate,
+                  SE = std.error) %>% 
     kable(format = "markdown",
           digits = 3)
 }

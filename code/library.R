@@ -1,7 +1,6 @@
 
 # common packages
 pacman::p_load(mcbrnet,
-               tidyverse,
                tidygraph,
                foreach,
                doParallel,
@@ -12,4 +11,5 @@ pacman::p_load(mcbrnet,
                ggraph,
                NetIndices,
                patchwork,
-               igraph)
+               igraph,
+               tidyverse)
