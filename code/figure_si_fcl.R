@@ -65,18 +65,20 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = n_patch,
                y = value,
-               linetype = omn)) +
+               linetype = omn,
+               color = y,
+               fill = y)) +
     geom_smooth(method = "loess",
-                size = 0.5,
-                color = "salmon",
-                fill = "salmon") +
+                size = 0.5) +
     facet_grid(rows = vars(y),
                cols = vars(disturb, productivity),
                labeller = label_parsed,
                scales = "free_y") +
     labs(x = "Ecosystem size (number of patches)",
          y = "Value",
-         linetype = "Omnivory")
+         linetype = "Omnivory") +
+    guides(color = "none",
+           fill = "none")
   
   return(g_np)
 }
@@ -90,18 +92,20 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = p_branch,
                y = value,
-               linetype = omn)) +
+               linetype = omn,
+               color = y,
+               fill = y)) +
     geom_smooth(method = "loess",
-                size = 0.5,
-                color = "steelblue",
-                fill = "steelblue") +
+                size = 0.5) +
     facet_grid(rows = vars(y),
                cols = vars(disturb, productivity),
                labeller = label_parsed,
                scales = "free_y") +
     labs(x = "Ecosystem complexity (branching prob.)",
          y = "Value",
-         linetype = "Omnivory")
+         linetype = "Omnivory") +
+    guides(color = "none",
+           fill = "none")
   
   return(g_pb)
 }
