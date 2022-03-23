@@ -2,14 +2,14 @@
 # setup -------------------------------------------------------------------
 
 rm(list = ls())
-pacman::p_load(tidyverse)
+source(here::here("code/library.R"))
 
 
 # table -------------------------------------------------------------------
 
 load(file = here::here("output/result_main.RData"))
 
-df_param <- sim_main_result %>% 
+df_value <- sim_main_result %>% 
   dplyr::select(-n_rep,
                 -mc_capacity,
                 -n_patch,
@@ -24,7 +24,8 @@ df_param <- sim_main_result %>%
                 -p_basal,
                 -p_igprey,
                 -p_igpred) %>% 
-  summarize(across(.fns = function(x) list(unique(x)))) %>% 
+  filter(sd_disturb_source > sd_disturb_lon) %>% 
+  summarize(across(.fns = function(x) list(sort(unique(x))))) %>% 
   pivot_longer(cols = everything(),
                names_to = "param",
                values_to = "Main") %>%
@@ -78,7 +79,24 @@ df_param <- sim_main_result %>%
                                  param == "sd_disturb_source" ~ "Unif(0.05, 5)",
                                  param == "sd_disturb_lon" ~ "Unif(0.05, 5)",
                                  param == "s0" ~ "Unif(0.5, 1)",
-                                 param == "p_dispersal" ~ "Unif(0, 0.1)")) %>% 
+                                 param == "p_dispersal" ~ "Unif(0, 0.1)"),
+         Interpretation = case_when(param == "r_b" ~ "Reproductive rate of basal species",
+                                    param == "e_bc" ~ "Conversion efficiency (B to C)",
+                                    param == "e_bp" ~ "Conversion efficiency (B to P)",
+                                    param == "e_cp" ~ "Conversion efficiency (C to P)",
+                                    param == "a_bc" ~ "Attack rate (C on B)",
+                                    param == "a_bp" ~ "Attack rate (P on B)",
+                                    param == "a_cp" ~ "Attack rate (P on C)",
+                                    param == "h_bc" ~ "Handling time (C on B)",
+                                    param == "h_bp" ~ "Handling time (P on B)",
+                                    param == "h_cp" ~ "Handling time (P on C)",
+                                    param == "theta" ~ "Inverse of mean dispersal distance",
+                                    param == "p_disturb" ~ "Disturbance prob.",
+                                    param == "mean_disturb_source" ~ "Disturbance intensity",
+                                    param == "sd_disturb_source" ~ "Disturbance variation at headwaters",
+                                    param == "sd_disturb_lon" ~ "Local disturbance variation",
+                                    param == "s0" ~ "Survival prob.",
+                                    param == "p_dispersal" ~ "Dispersal prob.")) %>% 
   arrange(Group, Parameter) %>% 
   mutate(Group = ifelse(duplicated(Group), NA, Group)) %>% 
-  dplyr::select(Group, Parameter, Main, Sensitivity)
+  dplyr::select(Group, Parameter, Interpretation, Main, Sensitivity)
