@@ -12,9 +12,6 @@ load(file = here::here("output/result_main.RData"))
 
 df_sim <- sim_main_result %>% 
   group_by(param_set) %>% 
-  filter(!(theta == 1 &
-           sd_disturb_source == 3 &
-           sd_disturb_lon == 0.1)) %>% 
   mutate(omn = case_when(e_bp == 0 ~ "Chain",
                          e_bp == 2 ~ "Weak",
                          e_bp == 4 ~ "Strong"),
@@ -34,10 +31,21 @@ df_sim <- sim_main_result %>%
                           `0.1` = sprintf('"High disturbance"~(p[m]=="%.2f")',
                                           p_disturb)),
          disturb = factor(disturb,
-                          levels = rev(levels(factor(disturb))))
-  )
+                          levels = rev(levels(factor(disturb))))) %>% 
+  pivot_longer(cols = c(fcl, p_basal, p_igprey, p_igpred),
+               names_to = "y",
+               values_to = "value") %>% 
+  mutate(y = case_when(y == "fcl" ~ "Food~chain~length",
+                       y == "p_basal" ~ "Basal~species~occupancy",
+                       y == "p_igprey" ~ "IG-prey~occupancy",
+                       y == "p_igpred" ~ "IG-predator~occupancy"),
+         y = factor(y,
+                    levels = c("Food~chain~length",
+                               "Basal~species~occupancy",
+                               "IG-prey~occupancy",
+                               "IG-predator~occupancy")))
 
-df_param <- expand.grid(theta = 0.1,
+df_param <- expand.grid(theta = c(0.1, 1),
                         sd_disturb_source = c(0.1, 3),
                         sd_disturb_lon = c(0.1, 3)) %>% 
   as_tibble() %>% 
@@ -48,6 +56,7 @@ df_param <- expand.grid(theta = 0.1,
 
 theme_set(plt_theme)
 
+## ecosystem size
 list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
   
   g_np <- df_sim %>% 
@@ -55,22 +64,24 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_lon == df_param$sd_disturb_lon[i],
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = n_patch,
-               y = fcl,
+               y = value,
                linetype = omn)) +
     geom_smooth(method = "loess",
                 size = 0.5,
                 color = "salmon",
                 fill = "salmon") +
-    facet_grid(rows = vars(disturb),
-               cols = vars(productivity),
-               labeller = label_parsed) +
+    facet_grid(rows = vars(y),
+               cols = vars(disturb, productivity),
+               labeller = label_parsed,
+               scales = "free_y") +
     labs(x = "Ecosystem size (number of patches)",
-         y = "Food chain length",
+         y = "Value",
          linetype = "Omnivory")
   
   return(g_np)
 }
 
+## ecosystem complexity
 list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
 
   g_pb <- df_sim %>% 
@@ -78,23 +89,21 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_lon == df_param$sd_disturb_lon[i],
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = p_branch,
-               y = fcl,
+               y = value,
                linetype = omn)) +
     geom_smooth(method = "loess",
                 size = 0.5,
                 color = "steelblue",
                 fill = "steelblue") +
-    facet_grid(rows = vars(disturb),
-               cols = vars(productivity),
-               labeller = label_parsed) +
+    facet_grid(rows = vars(y),
+               cols = vars(disturb, productivity),
+               labeller = label_parsed,
+               scales = "free_y") +
     labs(x = "Ecosystem complexity (branching prob.)",
-         y = "Food chain length",
+         y = "Value",
          linetype = "Omnivory")
   
   return(g_pb)
 }
 
-
-list_g_fcl <- list()
-list_g_fcl[[1]] <- list_g_np[[1]]
-list_g_fcl[[2]] <- list_g_pb[[1]]
+list_g_fcl <- list(list_g_np, list_g_pb)
