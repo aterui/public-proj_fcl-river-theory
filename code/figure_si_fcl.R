@@ -65,9 +65,8 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = n_patch,
                y = value,
-               linetype = omn,
-               color = y,
-               fill = y)) +
+               color = omn,
+               fill = omn)) +
     geom_smooth(method = "loess",
                 size = 0.5) +
     facet_grid(rows = vars(y),
@@ -77,8 +76,8 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
     labs(x = "Ecosystem size (number of patches)",
          y = "Value",
          linetype = "Omnivory") +
-    guides(color = "none",
-           fill = "none")
+    MetBrewer::scale_color_met_d("Hiroshige") +
+    MetBrewer::scale_fill_met_d("Hiroshige")
   
   return(g_np)
 }
@@ -92,9 +91,8 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
            sd_disturb_source == df_param$sd_disturb_source[i]) %>% 
     ggplot(aes(x = p_branch,
                y = value,
-               linetype = omn,
-               color = y,
-               fill = y)) +
+               color = omn,
+               fill = omn)) +
     geom_smooth(method = "loess",
                 size = 0.5) +
     facet_grid(rows = vars(y),
@@ -104,8 +102,8 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
     labs(x = "Ecosystem complexity (branching prob.)",
          y = "Value",
          linetype = "Omnivory") +
-    guides(color = "none",
-           fill = "none")
+    MetBrewer::scale_color_met_d("Hiroshige") +
+    MetBrewer::scale_fill_met_d("Hiroshige")
   
   return(g_pb)
 }

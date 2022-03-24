@@ -46,8 +46,9 @@ ng <- foreach(i = seq_len(length(net))) %do% {
                     color = grey(0.5),
                     stroke = 0.1,
                     size = 2) +
-    scale_fill_continuous(high = "steelblue",
-                          low = grey(0.95)) +
+    MetBrewer::scale_fill_met_c("Hiroshige") +
+    #scale_fill_continuous(high = "steelblue",
+    #                      low = grey(0.95)) +
     guides(fill = ifelse(i == 3, guide_legend(), "none")) +
     labs(subtitle = paste("Branching prob. =",
                           para$p_branch[i]),
@@ -78,5 +79,5 @@ g_disturb <- bind_rows(mutate(net[[1]]$df_patch, p_branch = 0.2),
              linetype = "dashed") +
   labs(x = "Disturbance intensity",
        y = "Density",
-       fill = "Branching prob.") +
-  guides(color = "none")
+       fill = "Branching prob.",
+       color = "Branching prob.")

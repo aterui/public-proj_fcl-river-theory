@@ -45,17 +45,20 @@ theme_set(plt_theme)
 g_np <- df_sim %>% 
   ggplot(aes(x = n_patch,
              y = fcl,
-             linetype = omn)) +
+             color = omn,
+             fill = omn)) +
   geom_smooth(method = "loess",
-              size = 0.5,
-              color = "salmon",
-              fill = "salmon") +
+              size = 0.5) +
   facet_grid(rows = vars(disturb),
              cols = vars(productivity),
              labeller = label_parsed) +
   labs(x = "Ecosystem size (number of patches)",
        y = "Food chain length",
-       linetype = "Omnivory")
+       color = "Omnivory",
+       fill = "Omnivory") +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  MetBrewer::scale_fill_met_d("Hiroshige")
+
 
 ggsave(g_np,
        filename = here::here("output/figure_np_main.pdf"),
@@ -65,17 +68,20 @@ ggsave(g_np,
 g_pb <- df_sim %>% 
   ggplot(aes(x = p_branch,
              y = fcl,
-             linetype = omn)) +
+             color = omn,
+             fill = omn)) +
   geom_smooth(method = "loess",
-              size = 0.5,
-              color = "steelblue",
-              fill = "steelblue") +
+              size = 0.5) +
   facet_grid(rows = vars(disturb),
              cols = vars(productivity),
              labeller = label_parsed) +
   labs(x = "Ecosystem complexity (branching prob.)",
        y = "Food chain length",
-       linetype = "Omnivory")
+       color = "Omnivory",
+       fill = "Omnivory") +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  MetBrewer::scale_fill_met_d("Hiroshige")
+
 
 ggsave(g_pb,
        filename = here::here("output/figure_pb_main.pdf"),
