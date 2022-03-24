@@ -12,4 +12,5 @@ pacman::p_load(mcbrnet,
                NetIndices,
                patchwork,
                igraph,
-               tidyverse)
+               tidyverse,
+               MetBrewer)
