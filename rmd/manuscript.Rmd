@@ -7,6 +7,8 @@ knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
 bibliography: references.bib
+header-includes:
+  \usepackage{textgreek}
 ---
 
 **Author:** Justin P.F. Pomeranz^1,2,\*^, Jacques C. Finlay^3^, Akira Terui^1,\*^
@@ -23,170 +25,83 @@ Understanding the drivers of food chain length in natural communities has intrig
 
 # Introduction
 
-The origin of variation in food chain length (FCL), the number of feeding links from the basal species to top predators, has intrigued ecologists for decades due to its importance in regulating top-down effects 1, energy flow2, and contaminant concentrations in top predators that humans often consume3. Hypotheses regarding controls of food chain length can be organized into three broad categories. First, the resource availability hypothesis states that basal productivity controls food chain length because imperfect energy conversion through predator-prey interactions restricts energy available to higher trophic levels4. Second, the disturbance hypothesis (or the dynamical stability hypothesis) predicts longer food chains are vulnerable to environmental perturbations (i.e., the dynamical constraint). Thus, habitats with frequent and/or severe disturbance should support fewer trophic levels5. Lastly, the ecosystem size hypothesis posits that larger ecosystems should harbor longer food chains through a suite of mechanisms, including enhanced colonization rates6 increased habitat heterogeneity7 and surpassing spatial constraints inhibiting metapopulation dynamics.
-
-Among the three hypotheses, the ecosystem size hypothesis has been consistently supported in both theoretical and empirical explorations, likely because it encompasses multiple mechanisms which underlie the positive association8,9. For example, large ecosystems have increased species richness (species-area relationship8), buffer against disturbances9, and have greater numbers of immigrant sources in the ecosystem, harboring stable metapopulations of constituent species that make up long food chains 6,10,11. Meanwhile, the theoretical basis for the other two hypotheses rest on implicit assumptions of linear food chains, which are often violated in natural systems. As such, the effects of disturbance and resource availability on food chain length have been found to be highly variable among ecosystem types and geographic regions 12--14. 
-
-More recently, food web ecologists have begun to recognize that FCL rarely responds to a single driver, but instead is determined by interactions of multiple factors. For example, Ward and McCann15 showed that FCL was more responsive to increasing productivity in large ecosystems compared with small ecosystems, whereas FCL was more sensitive to size in low productivity systems . Such context dependent  responses to extrinsic factors seem to be tightly coupled with the arrangement of trophic links within a food web, often referred to as food web motifs16,17. For example, omnivory (feeding at multiple trophic levels) is a strong intrinsic driver of food chain length 6,15,18,19. When omnivory is absent in three-species communities, the trophic structure assumes a simple linear food chain with maximum length equal to 3 (**Figure 1**). However, as omnivory increases, FCL decreases proportionally as the top predator eats lower in the food web 15,20. Theoretical work predicts that food webs are destabilized when omnivory is prevalent, leading to the loss of species and shorter food chains even in productive, large ecosystems. Conversely, weak omnivory stabilize the food web and increase persistence of species within a community, particularly at intermediate levels of productivity and high disturbance levels 20,21. Omnivory is a dominant module in natural communities 22 but is often not accounted for in theoretical studies20, but see 15. Due to the context-dependency of FCL to multiple drivers, and the potential for interactive effects, a unified framework of multiple food chain drivers is needed to better understand when and where FCL will respond to these extrinsic and intrinsic factors. 
-
-While recent research  efforts of food web ecologists have substantially advanced our understanding of food chain drivers, most of the previous work has been conducted in simple, two-dimensional systems, such as lakes7,23,24 and oceanic islands 25,26. However, many natural habitats have a high degree of spatial complexity that cannot be represented simply by ecosystem size. Branching ecosystems, for example, are ubiquitous yet overlooked landscape structures 27, in which geomorphological or biological processes form naturally fractal branching patterns, where the geometric arrangement of patches is similar across spatial scales28 (e.g., rivers, trees, caves, mountain ranges). While we know that food web interactions are spatially influenced29,30, the theory to account for it has lagged, particularly in branching habitat architectures.  Here, we theoretically explore drivers of food chain length in rivers, an excellent example of branching ecosystems.
-
-Ample evidence suggests that branching structure controls environmental heterogeneity and dispersal pathways of organisms within river ecosystems. For example, water and materials propagate downstream as small streams hierarchically join to form larger streams and rivers. Consequently, environmental signals are highly variable among tributaries while showing a strong within-tributary correlation e.g., carrying capacity, flood disturbance31,32. Confluences serve as merging points where branch-specific dynamics aggregate to form distinct environmental conditions in downstream habitat patches 33. Habitat heterogeneity therefore increases with branching complexity (**Figure 1**), which we define here as the probability of branching per unit river distance. Hence, highly-branched river networks provide diverse habitats that buffer the impact of large-scale environmental fluctuations 34, broadening opportunities for species to recolonize habitat patches post-disturbance. Thus, ecosystem complexity in river networks may be a widespread yet overlooked extrinsic environmental driver which needs to be incorporated to understand food chain length. 
-
-We develop a model in which trophic community dynamics within branching habitats are simulated. We investigate extrinsic controls such as ecosystem size (number of patches), complexity (branching probability), disturbance regime and productivity level (carrying capacity). In addition, our simulation model incorporates intrinsic drivers of food chain length including food web motifs (degree of omnivory) and dispersal ability, allowing us to investigate the context dependency on drivers of food chain length across extrinsic factors. We find that ecosystem size and complexity are both positively related to FCL, but the form of this relationship is dependent on other extrinsic and intrinsic factors. Trophic structure (degree of omnivory) and disturbance regime are both strong drivers of FCL on their own and have interactive effects. We also find that productivity and dispersal ability were both positively related to FCL. Our model is an important step in unifying drivers of FCL across extrinsic and intrinsic drivers and parsing their context-dependency in spatially complex ecosystems.
-
 # Methods
 
 ## **Network Generation**
 
 We generated branching networks as connected habitat patches (**Figure 1A**). The geometric arrangement of networks was controlled by two parameters: ecosystem size, the number of patches ($N_{p}$); and ecosystem complexity, branching probability ($P_{b}$). Habitat patches were assigned to be a confluence (or upstream terminal patch) with probability $P_{b}$, or an in-branch patch with probability $1-P_{b}$. Branches (tributaries) are a series of connected patches between confluences (or upstream terminal patches). The number of patches within branch $q$, $n_{p,q}$, is a random variable drawn from a geometric distribution $n_{p,q} \sim Ge(P_{b})$ but conditional on $N_{p} = \sum_{q}^{N_{b}} n_{p,q}$ ($N_{b}$ is the number of branches in a network). Full details of the network generation process is described in @teruiEmergentDualScaling2021. For each ecological scenario described below, we generated 1000 networks across a gradient of ecosystem size and complexity by drawing $N_{p}$ and $P_{b}$ from uniform distributions as: $N_{p} \sim Unif(10, 150)$ and $P_{b} \sim Unif(0.01, 0.99)$ ($N_{p}$ was rounded to the nearest integer before running simulations). 
 
-We simulated the spatial distribution of disturbance intensity (i.e., proportional mortality in the event of stochastic regional disturbance) as follows. A disturbance value, $m_{h}$, was assigned randomly to upstream terminal patch $h$ as $logit~m_{h} \sim Normal(logit~m, \sigma_{h}^2)$, where $m$ is the average of disturbance intensity at headwaters in an ordinary scale. The disturbance values propagate downstream through a spatial autoregressive process as $logit~m_{down} = logit~m_{up}+ \epsilon$, where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\epsilon$ was drawn from $Normal(0, \sigma_{l}^2)$. This autoregressive process resembles natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches): $logit~m_{down} = \omega~logit~m_{1,up} +(1-\omega)~logit~m_{2,up}$, where $m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
+We simulated the spatial distribution of disturbance intensity (i.e., proportional mortality in the event of stochastic regional disturbance) as follows. A disturbance value, $m_{h}$, was assigned randomly to upstream terminal patch $h$ as $logit~m_{h} \sim Normal(logit~\mu_m, \sigma_{h}^2)$, where $\mu_m$ is the average of disturbance intensity at headwaters in an ordinary scale. The disturbance values propagate downstream through a spatial autoregressive process as $logit~m_{down} = logit~m_{up}+ \epsilon$, where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\epsilon$ was drawn from $Normal(0, \sigma_{l}^2)$. This autoregressive process resembles natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches): $logit~m_{down} = \omega~\{logit~m_{1,up} +\epsilon_1\}+(1-\omega)~\{logit~m_{2,up} +\epsilon_2\}$, where $m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, $\epsilon_1$ and $\epsilon_2$ are independent local noises, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
 
-We also mimicked the downstream increase of local carrying capacity [@teruiThreeEcologicalFactors2016; @carraraComplexInteractionDendritic2014; @rahelFishAssemblagesHabitat1991]. Carrying capacity in patch $x$, $K_x$, was assumed to increase as a power function of ecosystem area (i.e., watershed area) [@finlayStreamSizeHuman2011; @koenigEmergentProductivityRegimes2019]: $$
+We also mimicked the downstream increase of local carrying capacity [@teruiThreeEcologicalFactors2016; @carraraComplexInteractionDendritic2014; @rahelFishAssemblagesHabitat1991]. Carrying capacity in patch $x$, $K_x$, was assumed to increase as a power function of ecosystem area (i.e., watershed area) [@finlayStreamSizeHuman2011; @koenigEmergentProductivityRegimes2019]: 
+
+```{=tex}
+\begin{align}
 K_{x} = K_{base}N_{p,up}^z
-$$where $K_{base}$ is the carrying capacity at the upstream terminal patch, $N_{p,up}$ the number of patches upstream, and $z$ is the scaling exponent. We used $K_{base} = 100$ and $z = 0.54$ based on empirical relationships of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
+\end{align}
+```
+where $K_{base}$ is the carrying capacity at the upstream terminal patch, $N_{p,up}$ the number of patches upstream, and $z$ is the scaling exponent. We used $K_{base} = 100$ and $z = 0.54$ based on empirical relationships of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
 
 ## **Tri-trophic dynamic simulation model**
 
-We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch. A discrete model is suitable for organisms with predictable reproduction cycles, a common life-history for many lotic species including macroinvertebrates and fish. Our simulation model consists of three species communities; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{ix}(t+1)$ for species i (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
+We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch. A discrete model is suitable for organisms with predictable reproduction cycles, a common life-history for many lotic species including macroinvertebrates and fish. Our simulation model consists of three species communities; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{i,x}(t+1)$ for species i (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
+
+```{=tex}
+\begin{align}
+A_{i,x}(t+1) \sim Poisson(\bar{A}_{i,x}(t) + I_{i,x}(t) - E_{i,x}(t))
+\end{align}
+```
+where $\bar{A}_{i,x}$ is the expected species abundance after within-patch trophic interactions, $I_{i,x}(t)$ the expected number of immigrants into patch $x$, and $E_{i,x}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
+
+In each time step, internal dynamics occur first. The basal species is exposed to predation as well as other sources of mortality:
+
+```{=tex}
+\begin{align}
+A_{B,x}'(t) = s_{0,B}\{1-z_{B,x}(t)\}A_{B,x}(t)
+\end{align}
+```
+where $s_{0,i}$ is the background survival probability (density independent) and $z_{B,x}(t)$ the proportional mortality caused by predation. Subsequently, a density-dependent recruitment occurs:
+
+```{=tex}
+\begin{align}
+\bar{A}_{B,x}(t) = \frac{r_{b}A_{B,x}'(t)}{1 + \frac{r_b - 1}{K_{x}}A_{B,x}'(t)}(1-\psi(t)~m_{x})
+\end{align}
+```
+$r_b$ is the reproductive rate for survived individuals, $\psi(t)$ the random binary variable indicating the occurrence of regional disturbance (disturbance occurs if $\psi(t)=1$ otherwise $0$), and $m_x$ the proportional mortality caused by disturbance. $\psi(t)$ was drawn from a Bernoulli distribution with disturbance probability $p_m$. The predator-induced mortality $z_{B,x}(t)$ is determined as follows:
+
+```{=tex}
+\begin{equation}
+z_{B,x}(t) = z_{BC,x}(t) + z_{BP,x}(t) =
+\left\{
+\begin{aligned}
+&\frac{W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)}{A_{B,x}(t)} &&\text{if~$W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t) < A_{B,x}(t)$}\\
+&1 &&\text{if~$W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t) > A_{B,x}(t)$}\\
+\end{aligned}
+\right.
+\end{equation}
+```
+where $W_{ij,x}(t)$ is the total consumption of consumer $j$ on prey $i$ (number of individuals). We assumed the Holling Type-II functional response for predator-prey interactions:
+
+```{=tex}
+\begin{align}
+W_{ij,x} = \frac{a_{ij}A_{i,x}A_{j,x}}{A_{j,x} + a_{ij}h_{ij}A_{i,x}}
+\end{align}
+```
+$a_{ij}$ is the attack rate and $h_{ij}$ the handling time. The parameter $\delta_{x}(t)$ is the relative preference of intraguild predator $P$ to basal species $B$ over intraguild prey $C$. To be realistic, we assume that the preference parameter depends on the relative potential amount of energy obtained from each prey:
+
+```{=tex}
+\begin{align}
+\delta_{x} = \frac{e_{BP} f_{BP}(A_{B,x})}{e_{BP} f_{BP}(A_{B,x}) + e_{CP} f_{CP}(A_{C,x})}
+\end{align}
+```
+where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}) = \frac{a_{ij}A_{i,x}}{1 + a_{ij}h_{ij}A_{i,x}}$. An analogous approach has been applied to a model with multiple prey choices [@shotanishijimaRolesAlternativePrey2014].
+
+The intraguild prey $C$ is controlled by both prey availability and predation.
 
 $$
-A_{ix}(t+1) \sim Poisson(\bar{A}_{ix}(t) + I_{ix}(t) - E_{ix}(t))
+\bar{A}_{C,x}(t) = e_{BC}s_{0,C}(1-z_{CP,x})z_{BC,x}A_{B,x}
 $$
-
-where $\bar{A}_{ix}$ is the expected species abudance after within-patch trophic interactions, \$I\_{ix} the expected number of immigrants into patch $x$, and $E_{ix}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
-
-Let Nix(t) Nix(t) represent the population density of species i in patch x at time t. The model starts with some initial nonzero population densities for all three species in each patch. The initial population abundances for each species i in each patch x were independently sampled from a random Poisson distribution Poisson(ix)Poisson(𝝺ix), where ix𝝺ix for B, C and P was 0.8Kx \* K, 0.5Kx \*K and 0.25Kx \* K, respectively.  First, dispersal from all patches is accounted for. The number of emigrants, Eix(t) for species i in from patch x at time t, is estimated as the product of dispersal probability, Pdispersal and species abundance Nix(t). The dispersal probability was assumed to be constant for all three species in each simulation run. Then, the number of emigrants from patch x is divided into immigrants, Iix(t) Ixy(t) to each patch y. The immigration probability at patch x and time t, ix(t) xy ξxy from patch x to y is calculated considering network structure and species dispersal capability as followsbased on the habitat structure among patches according to: 
-
-xy(t) =y,y≠xExy(t)e-θdxyxy,y≠xExy(t)e-θdxy
-
-ix(t) = y,yxEiy(t)e-dxyxy,yxEiy(t)e-dxy
-
-Where dxy is the distance between patch x and y, and θ controls the rate of decay. Then, the expected number of immigrants into patch x is calculated as Iix(t)=ix(t)xEix. 
-
-The realized number of individuals Nix(t+1) (species i at patch x and time t+1) is given as:
-
-Nix(t+1)∼ Poisson(nix(t)+Iix(t)-Eix(t))
-
-where Nix(t) is the number of individuals at time t,(i.e., before dispersal) Iix(t) the expected number of immigrants to patch x, and Eix(t) the expected number of emigrants from patch x. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes. Note that a value of 0 is assigned to Nix(t + 1) for any non-positive value of 𝝺 59. 
-
-After dispersal, trophic interactions occur.continuous predation occurs. We model the tri-trophic interactions with intraguild predation as follows:
-
-nBx(t+1)=(rmax1+υNBx(t)')(1-mx)				Basal species
-
-nCx(t+1)=WBC, xNCx(t)'(1-mx)			Intraguild prey
-
-nPx(t+1)=(eBPWBP, x+eCPWCP, x)NPx(t)'(1-mx)	Intraguild predator
-
-The above equations indicate that the basal species exhibit a  where rmax is the maximum population growth of basal species, υ the term controlling density-dependence (rmax-1Kx), and mx the proportional mortality when disturbance occurs (disturbance occurs when =1, otherwise 0).
-
-\
-
-The number of prey i eaten by consumer j, Wij, in a season is calculated as:
-
-\
-Wij= ijNiNjijNj+Ni
-
-where Ni and Nj are resource and consumer densities, respectively and αij and βij are coefficients describing the functional response as the ratio of resources, i, to consumers, j, increases. βij describes how fast the predation curve reaches the asymptote of the Type II functional response, and αij/βij determines the location of the asymptote57. 
-
-The predator species P, searches for and consumes both species in a patch. Its total effort is controlled by parameters α.p and β.p. The preference parameter δ, controls the proportional search effort of species P for resource B and C:
-
-WBP=δ(Wij)
-
-WCP=(1 - δ)(Wij) 
-
-Predator preference for resource B is determined by the equation:
-
-δ= eBPNBeBPNB+ eCPNC
-
-Where eBP and eCP are the conversion efficiencies of predator P for resource B and C, and NB and NC are resource densities, respectively. This formulation allows for flexible diet shifts of the predator based on realized energy gain (conversion efficiency times prey availability) from the prey species60.
-
-At each time-step within a patch, FCL was defined as 0 if no species were present, 1 if only B was present and 2 if only B + C or B + P were present. When all three species were present, FCL was calculated based on the proportion of each resource in P's diet (𝜆i) according to:
-
-FCL = (1 \* B+ 2 \*C) +1
-
-When P only consumes B or C, FCL = 2 or 3, respectively. When P consumes both resources equally, FCL = 2.5. In each simulation, FCL was averaged across all patches and time-steps. 
-
-The number of individuals in each patch is reduced by the number consumed Wij (predation effect), as well as by a base survival probability, s0: 
-
-NB'=s0(NB- WBC -  WBP)
-
-NC'=s0(NC'-WCP)
-
-P'=s0P
-
-Finally, those individuals remaining reproduce according to the following:
-
-NB, t+1=(rmax1 + υ NB' NB' )(1-φmx)
-
-NC, t+1=(WBCNC')(1-φmx)
-
-NP, t+1=(eBPWBP+ eCPWCP)NP'(1-φmx)
-
-where rmax is the maximum per-capita reproduction rate of the basal species and υ = rmax-1K determines the asymptotic relationship of population growth, where K is carrying capacity. In the absence of predation, population growth of the basal species follows a logistic growth relationship. For the consumer species (C and P) eij is the efficiency of converting resource i into new consumer j. The last term in the equation accounts for the proportional mortality in the event of a disturbance, where mx = the disturbance value (see **Network Generation**) and 𝜑 is an indicator variable of disturbance:
-
-φ =0, no disturbance
-
-φ =1, disturbance occurs
-
-If species B is extirpated from a patch, both the other species were also assumed to be extirpated from that patch during that time step. Species B can colonize any open patch, whereas species C and P can only successfully colonize patches where B was already present (i.e., prey resource is necessary for successful establishment). 
-
-## **Simulations**
-
-We used 24 combinations of parameter sets (**SI Table**). The parameter sets include two environmental factors, and twelve ecological scenarios. For environmental scenarios, we used two parameter sets that controlled the frequency and magnitude of disturbances (low and high disturbance regime, respectively). In the low disturbance regime, the probability of a disturbance occurring at each time step was 0.0001 (i.e., a 10,000 year recurrence), and the mean disturbance magnitude was μm = 0.1 (10% reduction in population densities). In contrast, the high disturbance regime had a probability of 0.01 (i.e., 100 year recurrence), and the mean disturbance magnitude was μm = 0.9 (90% reduction in population densities61)
-
-For the ecological scenarios, we used two productivity levels, two dispersal abilities, and three levels of omnivory. Productivity was varied by setting the carrying capacity of the basal species, B (K = 50, 150). Dispersal ability varies the effective distance between patches and can control the probability that a patch is re-colonized post-disturbance. Two levels of dispersal ability were simulated. The high dispersal ability was set with parameters Pdispersal = 0.1 and θ = 0.1 (i.e., high probability of individuals emigrating, and far distance traveled). The low dispersal scenario was set with parameters Pdispersal = 0.01 and θ = 1  (i.e., low probability of dispersal, short dispersal distance). These values were chosen to represent extreme scenarios. Preliminary analyses using intermediate parameter sets had responses between these two scenarios. 
-
-Finally, we investigated three food web motifs (**Figure 1B**). Trophic interaction strengths can be controlled by varying the attack rate or conversion efficiency by the consumer P (Ward and McCann 2017). To simplify model simulations, we fixed the attack rate for both C and P (parameters 𝛼 = 8 and 𝛽 = 20), and the conversion efficiency for C as ebc = 6. We controlled the presence and strength of trophic interactions for the predator, P, by varying the conversion efficiency for both prey resources (i.e., varied prey resource quality). The scenario names and parameter levels were as follows: (1) "Food chain": ebp = 0, ecp = 4; (2) "Strong IGP": ebp = 2, ecp = 4; (3) "Weak IGP": ebp = 4, ecp = 2. 
-
-Under each scenario, we simulate 1200 timesteps of trophic dynamics (including 200 steps of burn-in) in 1000 branching networks across a gradient of ecosystem size (number of habitat patches, from 5 to 150) and ecosystem complexity (branching probability, from 0.01 to 0.99). Simulations ran for 200 time steps as a burn-in period to minimize influences of initial conditions. The last 1000 timesteps were recorded to estimate the temporal average of food chain length across all patches within a network. 
-
-Values of simulation parameters are summarized in (SI). We performed simulations using the mcbrnet and IGPtoy packages (blinded citation, in preparation) in R version 4.0.3. R Code to reproduce simulations, figures, and tables are available at <https://github.com/Jpomz/priv-igp-sens>. 
-
-\
-The model starts with some initial nonzero population densities for all three species in each patch. The initial population abundances for each species i in each patch x were independently sampled from a random Poisson distribution Poisson(ix)Poisson(𝝺ix), where ix𝝺ix for B, C and P was 0.8Kx \* K, 0.5Kx \*K and 0.25Kx \* K, respectively. 
 
 # Results
 
-First, we depicted branching ecosystems as connected habitat patches, which local communities inhabit. Each local community is composed of basal (B), primary consumer (C), and top predator (P), and these constituent species disperse along the network corridors following exponential dispersal kernels. The arrangement and strength of trophic interactions can be varied based on the simulation parameters (food web motifs, **Figure 1**, see **Methods**). Periodically, local communities are impacted by disturbance, whose strength is highly correlated within a tributary. Therefore, our simulation framework resembles environmental dynamics of natural river systems. 
-
-We explored how food web motifs affected FCL across extrinsic factors. FCL is related to the degree of omnivory of the predator P (**Figure 1**). When P only consumes C, its trophic level is 3. However, as the proportion of B in P's diet increases, FCL decreases, reaching a minimum of 2 when B constitutes all of P's diet. We assume that P searches for both resources proportionally based on the conversion efficiency for each prey resource (i.e., prey quality) and the relative densities of each resource (see **Methods**). To control the level of omnivory, we varied the conversion efficiencies of both prey resources. 
-
-In addition to food web motifs, we also investigated the effects of species dispersal ability and disturbance regime. To simplify our simulations, we looked at two scenarios of dispersal ability. 1) Low dispersal ability, in which a small proportion of the population of all three species emigrate, and the likelihood of successful immigration to neighboring patches declines exponentially with increasing distance (i.e., short-distance dispersal). 2) High dispersal ability, in which a larger proportion of the population emigrates, and the likelihood of successful immigration to neighboring patches declines less-rapidly with increasing distance (i.e., long-distance dispersal; see **Methods**). 
-
-The effect of disturbance was also investigated by looking at low and high disturbance regimes. The low disturbance regime was defined as having a low probability of a relatively weak magnitude disturbance occurring throughout the habitat network in each time step. This can be likened to spring-fed streams which are relatively stable through time but are subjected to occasional disturbances such as floods from high precipitation events. In contrast, we investigated a high disturbance regime in which the probability and magnitude of disturbances occurring throughout the habitat network was much higher. This scenario could represent "flashy" streams which are predominantly driven by surface runoff and precipitation events. 
-
-We examined interactive effects of extrinsic and intrinsic factors controlling food chain length. We simulated habitat networks over a gradient of both ecosystem size and complexity (branching probability). For each habitat network, we simulated trophic dynamics under two different regimes of disturbance (rare or frequent), productivity (low or high carrying capacity of the basal species), and dispersal ability (low and high), and three local food web structures (the degree of omnivory, **Figure 1**), for a total of 24 scenario combinations. We simulated meta-food web dynamics over 1200 time steps, including 200 steps for burn in, and yielded estimates of food chain length averaged in space and time (see **Methods**). Varying the disturbance regime resulted in markedly different results across ecosystem size and complexity. Thus, we present our results for each disturbance regime separately below. 
-
-## **Low disturbance regime**
-
-In ecosystem networks with a low disturbance regime (i.e., dynamical stability), FCL was largely determined by food web motifs (colored lines in **Figure 2**). Generally, FCL was negatively related to the degree of omnivory, with simple linear food chains (P only consumes C) having the longest FCL, and strong omnivory (P consumes very little C) having the shortest FCL. When carrying capacity and dispersal ability was low, there was a slight increase in FCL with the omnivorous motifs across increasing ecosystem size, and when dispersal ability was high, there was a moderate increase for the strong omnivory module (**Figure 2A**). In addition, there was a slight increase in FCL with high dispersal ability across both carrying capacities, but the effect was greater at low carrying capacity. However, when carrying capacity was increased, FCL was largely invariant across gradients of ecosystem size.
-
-There was very little effect of ecosystem complexity on FCL in the low disturbance regime. In all scenarios, FCL did not vary in response to increasing ecosystem complexity, although there was a very slight decline for all three food web modules when carrying capacity and dispersal ability were low. FCL was predominantly determined by food web motifs and carrying capacity, with FCL being negatively related to omnivory, and positively related to carrying capacity. Like the results across ecosystem size, there was a positive effect of high dispersal ability on FCL, and this effect was greater in ecosystems with low carrying capacity (interactive effect). 
-
-## **High disturbance regime**
-
-Ecosystem networks with a high disturbance regime had much different responses of FCL across both ecosystem size and complexity. FCL increased across both gradients under all combinations of carrying capacity and dispersal ability, and in most food web motifs (**Figure 3**). However, the strength of the relationship was variable for some motifs, and when dispersal ability and carrying capacity were low, and omnivory was absent, FCL was largely invariant across both gradients (top right panel in **Figure 3A and 3B**. Once again, FCL was largely determined by the degree of omnivory, with simple linear food chains generally having longer FCL, and weak IGP having the shortest FCL. 
-
-When dispersal ability and carrying capacity were low, however, a simple linear food chain structure resulted in the shortest FCL across both ecosystem size and complexity. It is likely that this simple motif with a few strong links was unstable and could not persist when exposed to frequent, high magnitude disturbances (e.g., supports dynamical stability hypothesis). In these environments, having prey choice (omnivory) appears to be a necessary requirement to maintain the persistence of species. 
-
-Increasing dispersal ability and carrying capacity had positive effects on FCL across both ecosystem size and complexity. Similar to the results in the low disturbance regime, increasing dispersal ability in ecosystems with low carrying capacity resulted in a large increase in FCL, suggesting an interactive effect.
-
 # Discussion
-
-The ecosystem size hypothesis of food chain length has received support from both theoretical and empirical work. Because ecosystem size encompasses several distinct mechanisms that could influence food chain structure, work so far has not elaborated the underlying drivers. Ecosystem complexity is an extrinsic factor which is scale-invariant and related to ecosystem size yet has not been incorporated in theoretical explorations of food chain length to date. Here, we show that food chain length responds positively and independently to increasing ecosystem size and complexity. This supports our hypothesis that scale-dependent theories of FCL are inadequate to correctly predict FCL in ecosystems with a complex structural geometry.  However, the relationship between FCL and ecosystem complexity varied based on additional extrinsic and intrinsic factors, supporting the emerging paradigm that there is no one single driver of FCL in ecosystems 15, but moreover that there is context dependency for which factor is the primary driver of the relationship. Although we focus on river networks here, we expect our results to be transferable to other branching structures, including mountain ranges and cave systems.
-
-While increased disturbance intensity and frequency consistently reduced food chain length as predicted by dynamical stability hypothesis 5, more important findings in this study were evident from their synergistic effects with ecosystem structure. Our low disturbance regime scenario can be viewed as habitat networks having nearly homogeneous environments, in which long food chains were generally supported independent of ecosystem size and complexity and FCL was predominantly determined by food web motifs. However, under high disturbance regimes, only large and complex networks could provide diverse and heterogeneous habitats with potential refugia, allowing species to thrive and maintain long food chains. This result has important implications for ecosystem management because anthropogenic climate change is predicted to increase the frequency and magnitude of disturbances 35,36. River networks are especially vulnerable due to their propensity to go dry during droughts37 as well as susceptibility to more intense flood disturbance with increasing storm intensity38. Increased dispersal ability alleviated the reduction in FCL from increased disturbance regime in our simulation, and reduced the negative impacts of disturbance and climate change in empirical studies 39. However, human activities have altered the habitat heterogeneity, connectivity, and dispersal ability of species within riverine networks 40,41. In-stream habitat in rivers and streams have been homogenized and lateral connections to the floodplain have been severed by the removal of large woody debris, channelization and straightening of river corridors, and through flow regulation 42,43, and this has affected community assembly44 and trophic structure 45.
-
-Although dispersal has received little attention in food chain research, our simulation highlighted its importance in regulating food chain length. In particular, high dispersal was required for ecosystem size and complexity to have consistent positive effects on FCL under high disturbance regimes. This is probably because sufficient propagules are needed to successfully recolonize after disturbance and maintain long food chains in large and/or complex networks. Human activities that affect habitat connectivity and dispersal ability of species within riverine networks may compromise the buffering effects of ecosystem size and complexity against disturbance by limiting dispersing propagules. For example, dams and diversion have altered the connectivity between suitable habitat patches, or have completely blocked dispersal ability 46,47. Light pollution has also negatively affected the ability of adult aquatic insects to disperse between habitat patches 48.
-
-The context dependency of disturbance, productivity and dispersal has important implications for the conservation and management of freshwater ecosystems. This adds an important distinction in the discussion of the suitability of assigning protection or conservation status to regions. Current conservation schemes generally emphasize size, aiming to protect the largest areas possible. While this is certainly a useful attribute generally, designating regions with a high degree of variability, or many small patches, may be more beneficial than a large, homogenous area 49, and accounting for ecosystem complexity is particularly suited to ecosystem architectures in which branches have variable environmental conditions. Conservation and management activities should focus on activities that increase the habitat heterogeneity and connectivity of suitable habitat patches to increase resilience to predicted increases in disturbance frequency and magnitude. 
-
-The role of food web motifs on FCL largely followed our predictions (**Figure 1**). Specifically, FCL declined as the value of the resource B, and thus the proportion in the diet, to the predator P increased. Essentially, the relative qualitative values of the resources to the predator controlled the level of omnivory and FCL. Although FCL was greatest when the community was arranged as a simple linear food chain, this arrangement was not the most stable. Specifically, when disturbance regime was high, and productivity and dispersal ability were low, the observed FCL across networks was \~1 (although increasing dispersal ability and/or carrying capacity resulted in food chains of \~2.5-3). Therefore, in the absence of prey resource choice, strong, top-down trophic interactions were destabilizing, leading to the extirpation of consumer species at higher trophic levels across the networks. 
-
-Changes in community composition are occurring worldwide and in all habitats. Species extirpations and extinctions, coupled with species introductions and invasions are creating novel communities worldwide. In Lake Tahoe (USA), for example, replacement of the top fish predator and the introduction of a freshwater shrimp substantially altered the food web structure 50. Understanding the interactions within these novel communities, and how this could affect food chain lengths is an important goal of contemporary ecologists. The strength of omnivory in these novel communities can be increased or decreased, depending on the introduced species and the extant species pool or community. For example, non-indigenous fishes in the Eastern Mediterranean Sea outcompete native species for high quality prey items, causing native species to increase consumption of non-preferred prey items51. Introductions of non-native fishes in the Colorado River basin have led to longer FCL and narrower niches (e.g., lower degree of omnivory) of native species52. Alternatively, the introduction of hyper-successful basal or primary consumer species can weaken or remove the omnivory link by becoming the dominant prey resource. For example, nonnative New Zealand mud snail dominated the macroinvertebrate biomass in streams in Yellowstone National Park and likely affected food web structure53.  Having a single prey resource dominate the community is akin to reducing the degree of omnivory (i.e., removing prey choice), which destabilizes the community, particularly under high disturbance regimes. 
-
-It is abundantly clear that ecosystem complexity in natural systems is the rule, not the exception. Early theoretical and empirical work has assumed simple habitat structure as a necessity. However, habitat heterogeneity, such as the presence of prey refugia, and dispersal between connected habitat patches allow communities to stabilize and persist through space and time 54--56. Complex ecosystem structure is an extrinsic factor that can affect food chain length in communities. Incorporating a realistic understanding of ecosystem structural complexity could alter our perception of communities in naturally complex systems, potentially leading to paradigm shifts in macroecology. 
-
-\
