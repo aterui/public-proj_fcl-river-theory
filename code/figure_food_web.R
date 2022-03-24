@@ -72,4 +72,4 @@ g_fw <- foreach(i = 1:3) %do% {
   return(g)
 }
 
-g_web <- (g_fw[[1]] + ggtitle("A")) | g_fw[[2]] | g_fw[[3]]
+g_web <- (g_fw[[1]] + ggtitle("C")) | g_fw[[2]] | g_fw[[3]]

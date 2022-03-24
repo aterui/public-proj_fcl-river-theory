@@ -15,8 +15,8 @@ layout <- "
 AAAB
 CCCD
 "
-g_concept <- wrap_plots(g_web) + g_delta + ggtitle("B") +
-  wrap_plots(g_net) + g_disturb + ggtitle("D") +
+g_concept <-  wrap_plots(g_net) + g_disturb + ggtitle("B") +
+  wrap_plots(g_web) + g_delta + ggtitle("D") +
   plot_layout(design = layout)
 
 ggsave(g_concept,

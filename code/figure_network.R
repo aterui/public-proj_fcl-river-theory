@@ -60,7 +60,7 @@ ng <- foreach(i = seq_len(length(net))) %do% {
   return(g)
 }
 
-g_net <- (ng[[1]] + labs(title = "C")) + ng[[2]] + ng[[3]] + plot_layout(guide = "collect")
+g_net <- (ng[[1]] + labs(title = "A")) + ng[[2]] + ng[[3]] + plot_layout(guide = "collect")
 
 
 # disturbance distribution ------------------------------------------------
