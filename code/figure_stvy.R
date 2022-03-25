@@ -45,8 +45,8 @@ df_r <- sim_stvy_result %>%
 g_np <- df_r %>% 
   ggplot(aes(x = value,
              y = r_np)) +
-  geom_point(alpha = 0.075,
-             col = "blue") +
+  #geom_point(alpha = 0.075,
+  #           col = "blue") +
   geom_smooth(method = "lm") +
   facet_wrap(facets = ~param,
              scales = "free",
@@ -62,8 +62,8 @@ ggsave(g_np,
 g_pb <- df_r %>% 
   ggplot(aes(x = value,
              y = r_pb)) +
-  geom_point(alpha = 0.075,
-             col = "blue") +
+  #geom_point(alpha = 0.075,
+  #           col = "blue") +
   geom_smooth(method = "lm") +
   facet_wrap(facets = ~param,
              scales = "free",
