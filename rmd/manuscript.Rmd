@@ -124,8 +124,8 @@ The population growth of the intraguild prey is controlled by conversion efficie
 \hat{A}_{C,x}(t) =
 \left\{
 \begin{aligned}
-&s_{0,C}(1-z_{CP,x})e_{BC}W_{BC,x}(t) &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
-&s_{0,C}(1-z_{CP,x})\frac{e_{BC}W_{BC,x}(t)}{W_{B,x}(t)}A_{B,x} &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
+&s_{0,C} (1 - z_{CP,x}) e_{BC}W_{BC,x}(t) &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
+&s_{0,C} (1 - z_{CP,x}) e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x} \right) &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
 \end{aligned}
 \right.
 \end{equation}
@@ -139,8 +139,8 @@ The population of the intraguild predator is fueled by two prey species:
 \hat{A}_{P,x}(t) =
 \left\{
 \begin{aligned}
-&s_{0,P}\left[e_{BP}\delta_{x}(t)W_{BP,x}(t) + e_{CP}(1 - \delta_{x})W_{CP,x}(t)\right] &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
-&s_{0,P}\left[\frac{e_{BP}\delta_{x}(t)W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x} + e_{CP}(1 - \delta_{x})W_{CP,x}(t)\right] &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
+&s_{0,P} \left[e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
+&s_{0,P} \left[e_{BP} \left(\frac{\delta_{x}(t)W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x}\right) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
 \end{aligned}
 \right.
 \end{equation}
@@ -149,18 +149,31 @@ After recruitment, the constituent species experience stochastic regional distur
 
 ```{=tex}
 \begin{align}
-\bar{A}_{i,x}(t) = [1 - \psi(t)m_{x}]\hat{A}_{i,x}(t)
+\bar{A}_{i,x}(t) = [1 - \psi(t) m_{x}] \hat{A}_{i,x}(t)
 \end{align}
 ```
-The binary random variable $\psi(t)$ expresses the occurrence of regional disturbance (disturbance occurs if $\psi(t)=1$ otherwise $0$), and $m_x$ is the disturbance intensity at patch $x$ as determined by the network generation process. $\psi(t)$ was drawn from a Bernoulli distribution with disturbance probability $p_m$.
+The binary random variable $\psi(t)$ expresses the occurrence of regional disturbance (disturbance occurs if $\psi(t)=1$ otherwise $0$), and $m_x$ is the disturbance intensity at patch $x$ as determined by the network generation process. $\psi(t)$ is drawn from a Bernoulli distribution with disturbance probability $p_m$.
 
-***Dispersal.*** We simulated distance-dependent dispersal along a network. The number of emigrants from patch x at time t, $E_{i,x}(t)$, is estimated as the product of dispersal probability $p_{d}$ and species abundance $A_{i,x}$. The dispersal probability was assumed to be constant for all three species in each simulation run. Then, the number of emigrants from patch x is divided into immigrants, Iix(t) Ixy(t) to each patch y. The immigration probability at patch x and time t, ix(t) xy ξxy from patch x to y is calculated considering network structure and species dispersal capability as followsbased on the habitat structure among patches according to: 
+***Dispersal.*** We simulated distance-dependent dispersal along a network. The number of emigrants from patch $x$ at time $t$, $E_{i,x}(t)$, is estimated as the product of dispersal probability $p_{d}$ and species abundance after internal dynamics $\bar{A}_{i,x}(t)$. The dispersal probability was assumed to be constant for all three species. The relative immigration potential $\xi_{i,x}(t)$ is calculated considering network structure and species dispersal capability as follows: 
 
-xy(t) =y,y≠xExy(t)e-θdxyxy,y≠xExy(t)e-θdxy
+```{=tex}
+\begin{align}
+\xi_{i,x}(t)=\frac{\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})}
+\end{align}
+```
+where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
 
-ix(t) = y,yxEiy(t)e-dxyxy,yxEiy(t)e-dxy
+## Simulation
 
-Where dxy is the distance between patch x and y, and θ controls the rate of decay. Then, the expected number of immigrants into patch x is calculated as Iix(t)=ix(t)xEix
+We used 24 combinations of parameter sets (**SI Table**). The parameter sets include two environmental factors, and twelve ecological scenarios. For environmental scenarios, we used two parameter sets that controlled the frequency and magnitude of disturbances (low and high disturbance regime, respectively). In the low disturbance regime, the probability of a disturbance occurring at each time step was 0.0001 (i.e., a 10,000 year recurrence), and the mean disturbance magnitude was μm = 0.1 (10% reduction in population densities). In contrast, the high disturbance regime had a probability of 0.01 (i.e., 100 year recurrence), and the mean disturbance magnitude was μm = 0.9 (90% reduction in population densities61)
+
+For the ecological scenarios, we used two productivity levels, two dispersal abilities, and three levels of omnivory. Productivity was varied by setting the carrying capacity of the basal species, B (K = 50, 150). Dispersal ability varies the effective distance between patches and can control the probability that a patch is re-colonized post-disturbance. Two levels of dispersal ability were simulated. The high dispersal ability was set with parameters Pdispersal = 0.1 and θ = 0.1 (i.e., high probability of individuals emigrating, and far distance traveled). The low dispersal scenario was set with parameters Pdispersal = 0.01 and θ = 1  (i.e., low probability of dispersal, short dispersal distance). These values were chosen to represent extreme scenarios. Preliminary analyses using intermediate parameter sets had responses between these two scenarios. 
+
+Finally, we investigated three food web motifs (**Figure 1B**). Trophic interaction strengths can be controlled by varying the attack rate or conversion efficiency by the consumer P (Ward and McCann 2017). To simplify model simulations, we fixed the attack rate for both C and P (parameters 𝛼 = 8 and 𝛽 = 20), and the conversion efficiency for C as ebc = 6. We controlled the presence and strength of trophic interactions for the predator, P, by varying the conversion efficiency for both prey resources (i.e., varied prey resource quality). The scenario names and parameter levels were as follows: (1) "Food chain": ebp = 0, ecp = 4; (2) "Strong IGP": ebp = 2, ecp = 4; (3) "Weak IGP": ebp = 4, ecp = 2. 
+
+Under each scenario, we simulate 1200 timesteps of trophic dynamics (including 200 steps of burn-in) in 1000 branching networks across a gradient of ecosystem size (number of habitat patches, from 5 to 150) and ecosystem complexity (branching probability, from 0.01 to 0.99). Simulations ran for 200 time steps as a burn-in period to minimize influences of initial conditions. The last 1000 timesteps were recorded to estimate the temporal average of food chain length across all patches within a network.
+
+\
 
 # Results
 
