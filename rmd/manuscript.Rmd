@@ -7,9 +7,31 @@ knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
 bibliography: references.bib
+csl: the-american-naturalist.csl
 header-includes:
   \usepackage{textgreek}
 ---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE)
+
+# Sensitivity data
+load(file = here::here("output/result_main.RData"))
+
+n_rep <- max(sim_main_result$n_rep)
+n_scenario <- sim_main_result %>% 
+  filter(sd_disturb_source > sd_disturb_lon) %>% 
+  summarize(n = n_distinct(param_set)) %>% 
+  pull(n)
+n_sim <- sim_main_result %>% 
+  mutate(n_sim = n_timestep + n_burnin + n_warmup) %>% 
+  pull() %>% 
+  unique()
+```
 
 **Author:** Justin P.F. Pomeranz^1,2,\*^, Jacques C. Finlay^3^, Akira Terui^1,\*^
 
@@ -27,9 +49,9 @@ Understanding the drivers of food chain length in natural communities has intrig
 
 # Methods
 
-## **Network Generation**
+## **Network generation**
 
-We generated branching networks as connected habitat patches (**Figure 1A**). The geometric arrangement of networks was controlled by two parameters: ecosystem size, the number of patches ($N_{p}$); and ecosystem complexity, branching probability ($P_{b}$). Habitat patches were assigned to be a confluence (or upstream terminal patch) with probability $P_{b}$, or an in-branch patch with probability $1-P_{b}$. Branches (tributaries) are a series of connected patches between confluences (or upstream terminal patches). The number of patches within branch $q$, $n_{p,q}$, is a random variable drawn from a geometric distribution $n_{p,q} \sim Ge(P_{b})$ but conditional on $N_{p} = \sum_{q}^{N_{b}} n_{p,q}$ ($N_{b}$ is the number of branches in a network). Full details of the network generation process is described in @teruiEmergentDualScaling2021. For each ecological scenario described below, we generated 1000 networks across a gradient of ecosystem size and complexity by drawing $N_{p}$ and $P_{b}$ from uniform distributions as: $N_{p} \sim Unif(10, 150)$ and $P_{b} \sim Unif(0.01, 0.99)$ ($N_{p}$ was rounded to the nearest integer before running simulations). 
+We generated branching networks as connected habitat patches (**Figure 1A**). The geometric arrangement of networks was controlled by two parameters: ecosystem size, the number of patches ($N_{p}$); and ecosystem complexity, branching probability ($P_{b}$). Habitat patches were assigned to be a confluence (or upstream terminal patch) with probability $P_{b}$, or an in-branch patch with probability $1-P_{b}$. Branches (tributaries) are a series of connected patches between confluences (or upstream terminal patches). The number of patches within branch $q$, $n_{p,q}$, is a random variable drawn from a geometric distribution $n_{p,q} \sim Ge(P_{b})$ but conditional on $N_{p} = \sum_{q}^{N_{b}} n_{p,q}$ ($N_{b}$ is the number of branches in a network). Full details of the network generation process is described in @teruiEmergentDualScaling2021.
 
 We simulated the spatial distribution of disturbance intensity (i.e., proportional mortality in the event of stochastic regional disturbance) as follows. A disturbance value, $m_{h}$, was assigned randomly to upstream terminal patch $h$ as $logit~m_{h} \sim Normal(logit~\mu_m, \sigma_{h}^2)$, where $\mu_m$ is the average of disturbance intensity at headwaters in an ordinary scale. The disturbance values propagate downstream through a spatial autoregressive process as:
 
@@ -108,7 +130,7 @@ $a_{ij}$ is the attack rate and $h_{ij}$ the handling time. To be realistic, the
 \delta_{x}(t) = \frac{e_{BP} f_{BP}(A_{B,x}(t))}{e_{BP} f_{BP}(A_{B,x}(t)) + e_{CP} f_{CP}(A_{C,x}(t))}
 \end{align}
 ```
-where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}(t)) = \frac{a_{ij}A_{i,x}(t)}{1 + a_{ij}h_{ij}A_{i,x}(t)}$. An analogous approach has been applied to a model with multiple prey choices [@shotanishijimaRolesAlternativePrey2014]. Subsequently, a density-dependent recruitment occurs:
+where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}(t)) = \frac{a_{ij}A_{i,x}(t)}{1 + a_{ij}h_{ij}A_{i,x}(t)}$. An analogous approach has been applied to a model with multiple prey choices [@nishijimaRolesAlternativePrey2014]. Subsequently, a density-dependent recruitment occurs:
 
 ```{=tex}
 \begin{align}
@@ -163,18 +185,43 @@ The binary random variable $\psi(t)$ expresses the occurrence of regional distur
 ```
 where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
 
+***Food chain length.*** At each patch and time step, food chain length was determined as the highest trophic position ($TP_{x}(t)$) of the existing species. When the intraguild predator exists, the trophic position was determined as follows:
+
+```{=tex}
+\begin{align}
+TP_{P,x}(t) = \delta_{x}(t) + 2(1 - \delta_{x}(t)) + 1
+\end{align}
+```
+This definition accounts for the influence of omnivory.
+
 ## Simulation
 
-We used 24 combinations of parameter sets (**SI Table**). The parameter sets include two environmental factors, and twelve ecological scenarios. For environmental scenarios, we used two parameter sets that controlled the frequency and magnitude of disturbances (low and high disturbance regime, respectively). In the low disturbance regime, the probability of a disturbance occurring at each time step was 0.0001 (i.e., a 10,000 year recurrence), and the mean disturbance magnitude was μm = 0.1 (10% reduction in population densities). In contrast, the high disturbance regime had a probability of 0.01 (i.e., 100 year recurrence), and the mean disturbance magnitude was μm = 0.9 (90% reduction in population densities61)
+Prior to the main simulation, we performed an extensive sensitivity analysis to identify influential parameters (see **Supplementary Text** and **Table S2-S3**). Our sensitivity analysis revealed that ecosystem size and/or complexity effects were sensitive to disturbance, productivity, dispersal, and omnivory. Therefore, we ran the main simulation with `r n_scenario` parameter sets differing in these ecological contexts (two levels of disturbance, two levels of productivity, two levels of dispersal distance, and three levels of omnivory).
 
-For the ecological scenarios, we used two productivity levels, two dispersal abilities, and three levels of omnivory. Productivity was varied by setting the carrying capacity of the basal species, B (K = 50, 150). Dispersal ability varies the effective distance between patches and can control the probability that a patch is re-colonized post-disturbance. Two levels of dispersal ability were simulated. The high dispersal ability was set with parameters Pdispersal = 0.1 and θ = 0.1 (i.e., high probability of individuals emigrating, and far distance traveled). The low dispersal scenario was set with parameters Pdispersal = 0.01 and θ = 1  (i.e., low probability of dispersal, short dispersal distance). These values were chosen to represent extreme scenarios. Preliminary analyses using intermediate parameter sets had responses between these two scenarios. 
+We controlled disturbance level with disturbance probability $p_{m}$ (low disturbance, `r min(sim_main_result$p_disturb)`; high disturbance, `r max(sim_main_result$p_disturb)`). We used the identical value of mean disturbance intensity at headwaters ($\mu_{m}=$ `r max(sim_main_result$mean_disturb_source)`), spatial variation in disturbance intensity at headwaters ($\sigma_{h}=$ `r min(sim_main_result$sd_disturb_source)`), and local disturbance variation ($\sigma_{l}=$ `r unique(sim_main_result$sd_disturb_lon)`) regardless of disturbance scenario. Productivity was varied by setting different values of basal species' growth rate ($r_{b}=$ `r unique(sim_main_result$r_b)`). For dispersal, we examined short- and long-distance dispersal scenarios (short-distance dispersal $\theta=$ `r max(sim_main_result$theta)`; long-distance dispersal $\theta=$ `r min(sim_main_result$theta)`), while using constant dispersal probability ($p_{d}=$ `r unique(sim_main_result$p_dispersal)`).
 
-Finally, we investigated three food web motifs (**Figure 1B**). Trophic interaction strengths can be controlled by varying the attack rate or conversion efficiency by the consumer P (Ward and McCann 2017). To simplify model simulations, we fixed the attack rate for both C and P (parameters 𝛼 = 8 and 𝛽 = 20), and the conversion efficiency for C as ebc = 6. We controlled the presence and strength of trophic interactions for the predator, P, by varying the conversion efficiency for both prey resources (i.e., varied prey resource quality). The scenario names and parameter levels were as follows: (1) "Food chain": ebp = 0, ecp = 4; (2) "Strong IGP": ebp = 2, ecp = 4; (3) "Weak IGP": ebp = 4, ecp = 2. 
+Finally, we investigated three levels of omnivory (**Figure 1D**). Trophic interaction strengths can be controlled by varying the attack rate and/or conversion efficiency [@wardMechanisticTheoryAquatic2017]. We changed attack rate ($a_{BP}$ and $a_{CP}$) and conversion efficiency ($e_{BP}$ and $e_{CP}$) of two prey items for intraguild predator $P$. Specifically, we used the following combinations to represent three levels of omnivory: "Chain", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(min(sim_main_result$a_bp), max(sim_main_result$a_cp), unique(sim_main_result$e_bp)[1], max(sim_main_result$e_cp))` $\}$; "Weak omnivory", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(min(sim_main_result$a_bp), max(sim_main_result$a_cp), unique(sim_main_result$e_bp)[2], max(sim_main_result$e_cp))` $\}$; and "Strong omnivory", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(max(sim_main_result$a_bp), min(sim_main_result$a_cp), unique(sim_main_result$e_bp)[3], min(sim_main_result$e_cp))` $\}$. To simplify simulation setup, we fixed the following parameters: $e_{BC}=$ `r unique(sim_main_result$e_bc)` , $a_{BC}=$ `r unique(sim_main_result$a_bc)`, and $h_{ij}=$ `r unique(sim_main_result$h_bc)`.
 
-Under each scenario, we simulate 1200 timesteps of trophic dynamics (including 200 steps of burn-in) in 1000 branching networks across a gradient of ecosystem size (number of habitat patches, from 5 to 150) and ecosystem complexity (branching probability, from 0.01 to 0.99). Simulations ran for 200 time steps as a burn-in period to minimize influences of initial conditions. The last 1000 timesteps were recorded to estimate the temporal average of food chain length across all patches within a network.
-
-\
+Under each scenario, we ran `r max(sim_main_result$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(sim_main_result$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(sim_main_result$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $Poisson(0.5)$. Subsequently, we ran a burn-in period with no propagules for `r unique(sim_main_result$n_burnin)` time steps to remove the effects of initial conditions. We obtained the mean food chain length across all habitat patches for the last `r unique(sim_main_result$n_timestep)` time steps. Note that simulation replicates are differ in ecosystem size ($N_{p}\sim Unif(10,150)$) and ecosystem complexity ($P_{b} \sim Unif(0.01, 0.99)$) so we can estimate their effects on food chain length.
 
 # Results
 
+Our simulation highlighted the interactive nature of putative controls of food chain length. In particular, disturbance regimes had the strongest influence on the qualitative relationships between FCL and ecosystem properties. Below, we report our results for low and high disturbance regimens separately.
+
+## **Low disturbance regime**
+
+In ecosystems with a low disturbance regime, FCL was largely determined by omnivory with limited effects of ecosystem size and complexity (colored lines in **Figure 2**). Unsurprisingly, FCL was negatively related to the degree of omnivory, with no-omnivory food chains ($P$ only consumes $C$) having the longest FCL, and strong omnivory ($P$ consumes very little $C$) having the shortest FCL. These trends were consistent across dispersal scenarios (**Figure 2**).
+
+Although the effects of ecosystem properties on FCL were minimal, there were noticeable effects on the occupancies of constituent species in some scenarios. For example, the occupancies of $C$ and $P$ increased with ecosystem size when omnivory was strong (see the most left column in **Figures S1 and S2**). However, these changes were not translated into changes in FCL due to the structural constraint imposed by omnivory ($C$ and $P$ occupy a similar trophic position; **Figure 1D**). Similarly, the occupancy of $P$ decreased with ecosystem complexity when omnivory was strong, but FCL remained almost the same as the increase of $C$ could compensate for the loss of $P$ for the same reason (**Figure S3 and S4**).
+
+## **High disturbance regime**
+
+A high disturbance regime produced much different responses of FCL. FCL increased across both gradients of ecosystem size and complexity under all combinations of productivity, the degree of omnivory, and dispersal distance (**Figure 3**). However, the effects of ecosystem size and complexity were mediated by ecological factors differently. Ecosystem size effects were stronger with longer dispersal distance ($\theta = 0.1$), while the opposite was true for ecosystem complexity (**Figure 3**). In addition, the effect of ecosystem complexity was pronounced in food webs with weaker omnivory (**Figure 3B**).
+
+Interestingly, the positive effects of ecosystem size and complexity were driven by different mechanisms. For ecosystem size, the underlying mechanism was consistent when productivity was high; increased occupancies of all the three species resulted in longer food chains. However, when productivity was low, the mechanisms were more complex, particularly with strong omnivory (the third column in **Figure S1 and S2**). In this scenario, the occupancies of $B$ and $C$ decreased at larger ecosystem sizes, while $P$ increased its occupancy (**Figure S1 and S2**). Therefore, $P$ compensated for the loss of $B$ and $C$ to maintain the positive relationship between FCL and ecosystem size. For ecosystem complexity, all the three species increased with ecosystem complexity when productivity was high, translating into longer food chains in more complex ecosystems (**Figure S3 and S4**). However, when food webs contained strong omnivory with low productivity (the third column in **Figure S3 and S4**), the increased occupacy of $C$ maintained the positive relationship between FCL and ecosystem complexity by offsetting the loss of $P$. Hence, the contrasting mechanisms underlie the positive effects of ecosystem size and complexity on FCL.
+
 # Discussion
+
+Discussion to be added
+
+# References
