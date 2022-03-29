@@ -1,0 +1,34 @@
+---
+title: "Figures"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE)
+```
+
+```{r figure1, fig.width=12, fig.height=6}
+source(here::here("code/figure_concept.R"))
+print(g_concept)
+```
+
+**Figure 1** (A) Example of simulated branching networks. Node color is reflective of the disturbance value calculated in network generation. (B) Distribution of disturbance values in branching networks. (C) Trophic interactions in a three-species community. $B$ refers to a basal species whose population level is controlled by a density-dependent function. The consumer species (or intraguild prey), $C$, consumes $B$ as a resource. The predator (or intraguild predator), $P$, is able to consume both $B$ and $C$. The structure and strength of these trophic interactions determined by functional responses. The strength of trophic interactions involving $P$ is represented by the darkness of the arrows (strength of the $B$-$C$ interaction is fixed), and food chain length varies in response to the proportion that each resource makes to the diet of $P$. On the far left, a simple linear food chain exists when the predator does not consume the basal species. Moving to the right, basal species' biomass is converted to predator biomass at higher efficiencies with greater attack rates. (D) Preference of predator $P$ to basal species $B$ over consumer $C$ under different omnivory scenarios. The preference changes with the relative density of $B$ to $C$ ($C=50$ in this example), and the rate of change is determined by attack rate and handling time.
+
+\pagebreak
+
+```{r figure2, fig.width=12, fig.height=5.5}
+source(here::here("code/figure_main_sim.R"))
+print(g_ld)
+```
+
+**Figure 2** Ecosystem size (A) and complexity (B) have little influence on food chain length under low disturbance regime. Lines are loess curves fitted to simulated data and are colored based on omnivory. Shaded ribbons are 95% confidence intervals. Parameters for low disturbance regime: disturbance probability $p_d = 0.01$ and mean proportional mortality at headwaters $\mu_{m}=0.8$.
+
+\pagebreak
+
+```{r figure3, fig.width=12, fig.height=5.5}
+source(here::here("code/figure_main_sim.R"))
+print(g_hd)
+```
+
+**Figure 3** Ecosystem size (A) and complexity (B) influence food chain length under high disturbance regime. Lines are loess curves fitted to simulated data and are colored based on omnivory. Shaded ribbons are 95% confidence intervals. Parameters for high disturbance regime: disturbance probability $p_{d} = 0.01$ and mean proportional mortality at headwaters $\mu_{m}=0.8$.

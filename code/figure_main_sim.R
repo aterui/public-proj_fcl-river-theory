@@ -12,8 +12,7 @@ load(file = here::here("output/result_main.RData"))
 
 df_sim <- sim_main_result %>% 
   group_by(param_set) %>% 
-  filter(theta == 1,
-         sd_disturb_source == 3,
+  filter(sd_disturb_source == 3,
          sd_disturb_lon == 0.1) %>% 
   mutate(omn = case_when(e_bp == 0 ~ "Chain",
                          e_bp == 2 ~ "Weak",
@@ -34,56 +33,74 @@ df_sim <- sim_main_result %>%
                           `0.1` = sprintf('"High disturbance"~(p[m]=="%.2f")',
                                           p_disturb)),
          disturb = factor(disturb,
-                          levels = rev(levels(factor(disturb))))
-         )
+                          levels = rev(levels(factor(disturb)))),
+         dispersal = recode(theta,
+                            `0.1` = sprintf('"Long dispersal"~(theta=="%.2f")',
+                                            theta),
+                            `1` = sprintf('"Short dispersal"~(theta=="%.2f")',
+                                          theta)),
+         
+  )
 
 
 # figure ------------------------------------------------------------------
 
 theme_set(plt_theme)
+param <- c(0.01, 0.1)
 
-g_np <- df_sim %>% 
-  ggplot(aes(x = n_patch,
-             y = fcl,
-             color = omn,
-             fill = omn)) +
-  geom_smooth(method = "loess",
-              size = 0.5) +
-  facet_grid(rows = vars(disturb),
-             cols = vars(productivity),
-             labeller = label_parsed) +
-  labs(x = "Ecosystem size (number of patches)",
-       y = "Food chain length",
-       color = "Omnivory",
-       fill = "Omnivory") +
-  MetBrewer::scale_color_met_d("Hiroshige") +
-  MetBrewer::scale_fill_met_d("Hiroshige")
+## Ecosystem size
+g_np_list <- foreach(i = seq_len(length(param))) %do% {
+  df_sim %>% 
+    filter(p_disturb == param[i]) %>% 
+    ggplot(aes(x = n_patch,
+               y = fcl,
+               color = omn,
+               fill = omn)) +
+    geom_smooth(method = "loess",
+                size = 0.5) +
+    facet_grid(rows = vars(dispersal),
+               cols = vars(productivity),
+               labeller = label_parsed) +
+    labs(x = "Ecosystem size (number of patches)",
+         y = "Food chain length",
+         color = "Omnivory",
+         fill = "Omnivory") +
+    MetBrewer::scale_color_met_d("Hiroshige") +
+    MetBrewer::scale_fill_met_d("Hiroshige")
+}
 
+## Ecosystem complexity
+g_pb_list <- foreach(i = seq_len(length(param))) %do% {
+  df_sim %>% 
+    filter(p_disturb == param[i]) %>% 
+    ggplot(aes(x = p_branch,
+               y = fcl,
+               color = omn,
+               fill = omn)) +
+    geom_smooth(method = "loess",
+                size = 0.5) +
+    facet_grid(rows = vars(dispersal),
+               cols = vars(productivity),
+               labeller = label_parsed) +
+    labs(x = "Ecosystem complexity (branching prob.)",
+         y = "Food chain length",
+         color = "Omnivory",
+         fill = "Omnivory") +
+    MetBrewer::scale_color_met_d("Hiroshige") +
+    MetBrewer::scale_fill_met_d("Hiroshige")
+}
 
-ggsave(g_np,
-       filename = here::here("output/figure_np_main.pdf"),
-       height = 6,
-       width = 7.5)
+## merge
+g_ld <- g_np_list[[1]] + g_pb_list[[1]] + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+g_hd <- g_np_list[[2]] + g_pb_list[[2]] + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
 
-g_pb <- df_sim %>% 
-  ggplot(aes(x = p_branch,
-             y = fcl,
-             color = omn,
-             fill = omn)) +
-  geom_smooth(method = "loess",
-              size = 0.5) +
-  facet_grid(rows = vars(disturb),
-             cols = vars(productivity),
-             labeller = label_parsed) +
-  labs(x = "Ecosystem complexity (branching prob.)",
-       y = "Food chain length",
-       color = "Omnivory",
-       fill = "Omnivory") +
-  MetBrewer::scale_color_met_d("Hiroshige") +
-  MetBrewer::scale_fill_met_d("Hiroshige")
+ggsave(g_ld,
+       filename = here::here("output/figure_ld_main.pdf"),
+       height = 7.5,
+       width = 12)
 
+ggsave(g_hd,
+       filename = here::here("output/figure_hd_main.pdf"),
+       height = 7.5,
+       width = 12)
 
-ggsave(g_pb,
-       filename = here::here("output/figure_pb_main.pdf"),
-       height = 6,
-       width = 7.5)

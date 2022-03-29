@@ -78,5 +78,5 @@ g_delta <- df_m %>%
              linetype = omn)) +
   geom_line(color = grey(0.4)) +
   labs(x = "Basal species density",
-       y = expression("Preference to basal over IG-prey"~~(delta)),
+       y = expression("Preference to B over C"~~(delta)),
        linetype = "Omnivory")

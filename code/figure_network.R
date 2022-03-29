@@ -40,13 +40,13 @@ ng <- foreach(i = seq_len(length(net))) %do% {
                                    flip.y = FALSE,
                                    root = 1)) +
     geom_edge_link(color = "steelblue",
-                   edge_width = 0.01) +
+                   edge_width = 0.1) +
     geom_node_point(aes(fill = disturb),
                     shape = 21,
                     color = grey(0.5),
                     stroke = 0.1,
                     size = 2) +
-    MetBrewer::scale_fill_met_c("Hiroshige") +
+    MetBrewer::scale_fill_met_c("Hiroshige", direction = -1) +
     #scale_fill_continuous(high = "steelblue",
     #                      low = grey(0.95)) +
     guides(fill = ifelse(i == 3, guide_legend(), "none")) +
