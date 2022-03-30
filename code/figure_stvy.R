@@ -66,7 +66,7 @@ g_pb <- df_r %>%
   #           col = "blue") +
   geom_smooth(method = "lm") +
   facet_wrap(facets = ~param,
-             scales = "free",
+             scales = "free_x",
              ncol = 3) +
   labs(y = "Spearman corr. between FCL and P_b") +
   theme_bw()
