@@ -1,6 +1,9 @@
 ---
 title: "Figures"
 output: pdf_document
+knit: (function(inputFile, encoding) {
+        rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
+      })
 ---
 
 ```{r setup, include=FALSE}
