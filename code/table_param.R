@@ -41,7 +41,7 @@ df_value <- sim_main_result %>%
                                param == "h_cp" ~"$h_{cp}$",
                                param == "theta" ~"$\\theta$",
                                param == "p_disturb" ~"$p_m$",
-                               param == "mean_disturb_source" ~ "$m$",
+                               param == "mean_disturb_source" ~ "$\\mu_m$",
                                param == "sd_disturb_source" ~ "$\\sigma_h$",
                                param == "sd_disturb_lon" ~ "$\\sigma_l$",
                                param == "s0" ~ "$s_0$",
