@@ -1,8 +1,10 @@
 ---
 title: "Ecosystem size and complexity are extrinsic drivers of food chain length in branching networks"
 output:
-  pdf_document:
-    latex_engine: xelatex
+  #pdf_document:
+  #  latex_engine: xelatex
+  word_document:
+    reference_docx: word_format.docx
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
@@ -69,143 +71,110 @@ We generated branching networks as connected habitat patches (**Figure 1A**). Th
 
 We simulated the spatial distribution of disturbance intensity (i.e., proportional mortality in the event of stochastic regional disturbance) as follows. A disturbance value, $m_{h}$, was assigned randomly to upstream terminal patch $h$ as $logit~m_{h} \sim Normal(logit~\mu_m, \sigma_{h}^2)$, where $\mu_m$ is the average of disturbance intensity at headwaters in an ordinary scale. The disturbance values propagate downstream through a spatial autoregressive process as:
 
-```{=tex}
-\begin{align}
+$$
 logit~m_{down} = logit~m_{up}+ \epsilon
-\end{align}
-```
+$$
+
 where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\epsilon$ was drawn from $Normal(0, \sigma_{l}^2)$. This autoregressive process resembles a natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches):
 
-```{=tex}
-\begin{align}
+$$
 logit~m_{down} = \omega~(logit~m_{1,up} +\epsilon_1)+(1-\omega)~(logit~m_{2,up} +\epsilon_2)
-\end{align}
-```
+$$
+
 $m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, $\epsilon_1$ and $\epsilon_2$ are independent local noises, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
 
 We also mimicked the downstream increase of local carrying capacity [@teruiThreeEcologicalFactors2016; @carraraComplexInteractionDendritic2014; @rahelFishAssemblagesHabitat1991]. Carrying capacity in patch $x$, $K_x$, was assumed to increase as a power function of ecosystem area (i.e., watershed area) [@finlayStreamSizeHuman2011; @koenigEmergentProductivityRegimes2019]: 
 
-```{=tex}
-\begin{align}
+$$
 K_{x} = K_{base}(N_{p,up} + 1)^z
-\end{align}
-```
+$$
+
 where $K_{base}$ is the carrying capacity at the upstream terminal patch, $N_{p,up}$ the number of patches upstream, and $z$ is the scaling exponent. We used $K_{base} = 100$ and $z = 0.54$ based on an empirical relationship of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
 
 ## **Tri-trophic dynamic simulation model**
 
 We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch. A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species communities; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{i,x}(t+1)$ for species i (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
 
-```{=tex}
-\begin{align}
+$$
 A_{i,x}(t+1) \sim Poisson(\bar{A}_{i,x}(t) + I_{i,x}(t) - E_{i,x}(t))
-\end{align}
-```
+$$
+
 where $\bar{A}_{i,x}(t+1)$ is the expected species abundance after within-patch trophic interactions, $I_{i,x}(t)$ the expected number of immigrants into patch $x$, and $E_{i,x}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
 
 ***Internal dynamics.*** Each time step starts with internal dynamics. The basal species is exposed to predation as well as other sources of mortality:
 
-```{=tex}
-\begin{align}
+$$
 A_{B,x}'(t) = s_{0,B}[1-z_{B,x}(t)]A_{B,x}(t)
-\end{align}
-```
+$$
+
 where $s_{0,i}$ is the background survival probability (density independent) and $z_{B,x}(t)$ the proportional mortality caused by predation. Let $W_{B,x}(t)$ be the total number of basal species consumed by $C$ and $P$. The predator-induced mortality $z_{B,x}(t)$, the sum of proportional predation by $C$ ($z_{BC,x}(t)$) and $P$ ($z_{BP,x}(t)$), is then:
 
-```{=tex}
-\begin{equation}
-z_{B,x}(t) = z_{BC,x}(t) + z_{BP,x}(t) =
-\left\{
-\begin{aligned}
-&\frac{W_{B,x}(t)}{A_{B,x}(t)} &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
-&1 &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
-\end{aligned}
-\right.
-\end{equation}
-```
+$$
+z_{B,x}(t) = z_{BC,x}(t) + z_{BP,x}(t) =\left\{\begin{aligned}&\frac{W_{B,x}(t)}{A_{B,x}(t)} &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\&1 &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+$$
+
 and
 
-```{=tex}
-\begin{align}
+$$
 W_{B,x}(t) = W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)
-\end{align}
-```
+$$
+
 where $W_{ij,x}(t)$ is the population-wide consumption of consumer $j$ on prey $i$ (number of individuals), and the parameter $\delta_{x}(t)$ is the relative preference of predator to basal species over consumer. We assume the Holling Type-II functional response for predator-prey interactions:
 
-```{=tex}
-\begin{align}
+$$
 W_{ij,x}(t) = \frac{a_{ij}A_{i,x}(t)A_{j,x}(t)}{A_{j,x}(t) + a_{ij}h_{ij}A_{i,x}(t)}
-\end{align}
-```
+$$
+
 $a_{ij}$ is the attack rate and $h_{ij}$ the handling time. To be realistic, the preference parameter is assumed to depend on the relative potential amount of energy obtained from each prey:
 
-```{=tex}
-\begin{align}
+$$
 \delta_{x}(t) = \frac{e_{BP} f_{BP}(A_{B,x}(t))}{e_{BP} f_{BP}(A_{B,x}(t)) + e_{CP} f_{CP}(A_{C,x}(t))}
-\end{align}
-```
+$$
+
 where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}(t)) = \frac{a_{ij}A_{i,x}(t)}{1 + a_{ij}h_{ij}A_{i,x}(t)}$. An analogous approach has been applied to a model with multiple prey choices [@nishijimaRolesAlternativePrey2014]. Subsequently, a density-dependent recruitment occurs:
 
-```{=tex}
-\begin{align}
+$$
 \hat{A}_{B,x}(t) = \frac{r_{b} A_{B,x}'(t)}{1 + \frac{r_b - 1}{K_{x}}A_{B,x}'(t)}
-\end{align}
-```
+$$
+
 $r_b$ is the reproductive rate for survived individuals.
 
 The population growth of the consumer is controlled by conversion efficiency, number of prey captured, background mortality, and predation:
 
-```{=tex}
-\begin{equation}
-\hat{A}_{C,x}(t) =
-\left\{
-\begin{aligned}
-&s_{0,C} (1 - z_{CP,x}) e_{BC}W_{BC,x}(t) &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
-&s_{0,C} (1 - z_{CP,x}) e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x} \right) &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
-\end{aligned}
-\right.
-\end{equation}
-```
-Equation 11 assumes competition between $C$ and $P$ when their total consumption $W_{B,x}(t)$ exceeds the abundance of basal species $A_{B,x}(t)$, and the relative consumption $\frac{W_{BC,x}(t)}{W_{B,x}(t)}$ rests on $a_{ij}$, $h_{ij}$, and $A_{j,x}(t)$.
+$$
+\hat{A}_{C,x}(t) =\left\{\begin{aligned}&s_{0,C} (1 - z_{CP,x}) e_{BC}W_{BC,x}(t) &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\&s_{0,C} (1 - z_{CP,x}) e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x} \right) &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+$$
+
+The above equation assumes competition between $C$ and $P$ when their total consumption $W_{B,x}(t)$ exceeds the abundance of basal species $A_{B,x}(t)$, and the relative consumption $\frac{W_{BC,x}(t)}{W_{B,x}(t)}$ rests on $a_{ij}$, $h_{ij}$, and $A_{j,x}(t)$.
 
 The population of the predator is fueled by two prey species:
 
-```{=tex}
-\begin{equation}
-\hat{A}_{P,x}(t) =
-\left\{
-\begin{aligned}
-&s_{0,P} \left[e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\
-&s_{0,P} \left[e_{BP} \left(\frac{\delta_{x}(t)W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x}\right) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\
-\end{aligned}
-\right.
-\end{equation}
-```
+$$
+\hat{A}_{P,x}(t) =\left\{\begin{aligned}&s_{0,P} \left[e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\&s_{0,P} \left[e_{BP} \left(\frac{\delta_{x}(t)W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x}\right) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+$$
+
 After recruitment, the constituent species experience stochastic regional disturbance, which causes proportional loss of $m$ to populations:
 
-```{=tex}
-\begin{align}
+$$
 \bar{A}_{i,x}(t) = [1 - \psi(t) m_{x}] \hat{A}_{i,x}(t)
-\end{align}
-```
+$$
+
 The binary random variable $\psi(t)$ expresses the occurrence of regional disturbance (disturbance occurs if $\psi(t)=1$ otherwise $0$), and $m_x$ is the disturbance intensity at patch $x$ as determined by the network generation process. $\psi(t)$ is drawn from a Bernoulli distribution with disturbance probability $p_m$.
 
 ***Dispersal.*** We simulated distance-dependent dispersal along with a network. The number of emigrants from patch $x$ at time $t$, $E_{i,x}(t)$, is estimated as the product of dispersal probability $p_{d}$ and species abundance after internal dynamics $\bar{A}_{i,x}(t)$. The dispersal probability was assumed to be constant for all three species. We calculated the relative immigration potential $\xi_{i,x}(t)$ considering network structure and species dispersal capability as follows: 
 
-```{=tex}
-\begin{align}
+$$
 \xi_{i,x}(t)=\frac{\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})}
-\end{align}
-```
+$$
+
 where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
 
 ***Food chain length.*** At each patch and time step, we determined FCL as the highest trophic position ($TP_{x}(t)$) of the existing species. When the predator exists, the trophic position is determined as follows:
 
-```{=tex}
-\begin{align}
+$$
 TP_{P,x}(t) = \delta_{x}(t) + 2(1 - \delta_{x}(t)) + 1
-\end{align}
-```
+$$
+
 This definition accounts for the influence of omnivory.
 
 ## Simulation
