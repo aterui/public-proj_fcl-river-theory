@@ -37,12 +37,6 @@ n_sim <- sim_main_result %>%
   unique()
 ```
 
-**Author:** Justin P.F. Pomeranz^1,2,\*^, Jacques C. Finlay^3^, Akira Terui^1,\*^
-
-^1^ Department of Biology, University of North Carolina at Greensboro; ^2^ Department of Environmental Sciences, Colorado Mesa University; ^3^ Department of Ecology, Evolution and Behavior, University of Minnesota
-
-**\*Corresponding Author:** JPF Pomeranz, jfpomeranz\@gmail.com; A Terui, hanabi0111\@gmail.com
-
 # Abstract
 
 Understanding the drivers of food chain length in natural communities has intrigued ecologists since Elton publicized 'food cycles' in the early 20th century. Proposed drivers of food chain length have included productivity, disturbance regime, ecosystem size, and trophic omnivory. However, current theories have largely assumed simple, two-dimensional habitat architectures and may not be adequate to predict food chain length in ecosystems with a complex, branching structure. Here, we develop a spatially explicit theoretical model which provides an integrated framework for understanding variation in food chain length in branching networks. We show independent, positive influences of ecosystem size and complexity on food chain length. However, these effects were contingent upon other drivers. In particular, the effects of ecosystem size and complexity appeared more clearly in high disturbance regimes. Our results suggest that ecosystem complexity is an important yet overlooked driver of food chain length in branching ecosystems.
@@ -185,7 +179,7 @@ We controlled disturbance level with disturbance probability $p_{m}$ (low distur
 
 Finally, we investigated three levels of omnivory (**Figure 1D**). Trophic interaction strengths can be controlled by varying the attack rate and/or conversion efficiency [@wardMechanisticTheoryAquatic2017]. We changed attack rate ($a_{BP}$ and $a_{CP}$) and conversion efficiency ($e_{BP}$ and $e_{CP}$) of two prey items for predator $P$. Specifically, we used the following combinations to represent three levels of omnivory: "Chain", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(min(sim_main_result$a_bp), max(sim_main_result$a_cp), unique(sim_main_result$e_bp)[1], max(sim_main_result$e_cp))` $\}$; "Weak omnivory", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(min(sim_main_result$a_bp), max(sim_main_result$a_cp), unique(sim_main_result$e_bp)[2], max(sim_main_result$e_cp))` $\}$; and "Strong omnivory", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(max(sim_main_result$a_bp), min(sim_main_result$a_cp), unique(sim_main_result$e_bp)[3], min(sim_main_result$e_cp))` $\}$. To simplify simulation setup, we fixed the following parameters: $e_{BC}=$ `r unique(sim_main_result$e_bc)` , $a_{BC}=$ `r unique(sim_main_result$a_bc)`, and $h_{ij}=$ `r unique(sim_main_result$h_bc)`.
 
-Under each scenario, we ran `r max(sim_main_result$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(sim_main_result$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(sim_main_result$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $Poisson(0.5)$. Subsequently, we ran a burn-in period with no propagules for `r unique(sim_main_result$n_burnin)` time steps to remove the effects of initial conditions. We obtained the mean FCL across all habitat patches for the last `r unique(sim_main_result$n_timestep)` time steps. Note that simulation replicates are differ in ecosystem size ($N_{p}\sim Unif(10,150)$) and ecosystem complexity ($P_{b} \sim Unif(0.01, 0.99)$) so we can estimate their effects on FCL.
+Under each scenario, we ran `r max(sim_main_result$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(sim_main_result$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(sim_main_result$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $Poisson(0.5)$. Subsequently, we ran a burn-in period with no propagules for `r unique(sim_main_result$n_burnin)` time steps to remove the effects of initial conditions. We obtained the mean FCL across all habitat patches for the last `r unique(sim_main_result$n_timestep)` time steps. Note that simulation replicates are differ in ecosystem size ($N_{p}\sim Unif(10,150)$) and ecosystem complexity ($P_{b} \sim Unif(0.01, 0.99)$) so we can estimate their effects on FCL. All analysis was performed in R 4.1.0 [@rcoreteamLanguageEnvironmentStatistical2021]
 
 # Results
 
@@ -218,17 +212,5 @@ It is not surprising that FCL declined with increasing omnivory because it effec
 Our findings add an important distinction to work to assess and prioritize protection or conservation status within human impacted regions. Classical conservation schemes emphasize ecosystem size, aiming to protect the largest areas possible [@diamondIslandDilemmaLessons1975]. While this is certainly a useful attribute generally, designating networks with a high degree of variability, or many small patches, can be more beneficial than a large, homogeneous area [@fahrigWhySeveralSmall2020]. Accounting for ecosystem complexity is particularly suited to ecosystem architectures in which branches have variable environmental conditions [@koningNetworkGrassrootsReserves2020; @teruiEmergentDualScaling2021]. As suggested by modern conservation initiatives, conservation and management activities should focus on activities that increase the habitat heterogeneity and connectivity of suitable habitat patches to increase resilience to predicted increases in disturbance frequency and magnitude [@schindlerPopulationDiversityPortfolio2010; @schindlerPortfolioConceptEcology2015a; @andersonPortfolioConservationMetapopulations2015].
 
 It is abundantly clear that ecosystem complexity in natural systems is the rule, not the exception. Early theoretical and empirical work has assumed simple habitat structure as a necessity. However, habitat heterogeneity, such as prey refugia, and dispersal between connected habitat patches allow communities to stabilize and persist through space and time [@pedersenNonhierarchicalDispersalPromotes2016; @mougiFoodwebComplexityMetacommunity2016]. Complex ecosystem structure is an extrinsic factor that can affect FCL in communities. Incorporating a realistic understanding of ecosystem structural complexity may improve our perception of communities in naturally complex systems.
-
-# **Acknowledgements**
-
-We thank C Perovich for thoughtful discussions in the early stages of this project. This material is based upon work supported by the National Science Foundation through the Division of Environmental Biology (DEB 2015634). 
-
-# **Author contributions**
-
-JP developed the theoretical model of trophic dynamics with input from AT. JP and AT ran the simulations, and made the figures. JP wrote the first draft, while AT and JF contributed significantly to the final version.
-
-# **Data availability**
-
-No data were used or produced in this research. R functions for simulations are provided as the R package *mcbrnet* (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
 
 # References
