@@ -1,4 +1,4 @@
-Readme
+README
 ================
 
 ## Article Information
@@ -14,16 +14,16 @@ Author: Justin P.F. Pomeranz, Jacques C. Finlay, Akira Terui
 
 | Name                | Description                             |
 |:--------------------|:----------------------------------------|
-| analysis\_stvy.R    | Code for sensitivity analysis           |
-| figure\_concept.R   | Code for figure 1                       |
-| figure\_delta.R     | Code for figure 1D                      |
-| figure\_food\_web.R | Code for figure 1C                      |
-| figure\_main\_sim.R | Code for figure 2, 3                    |
-| figure\_network.R   | Code for figure 1A, 1B                  |
-| figure\_si\_fcl.R   | Code for figure S1-S4                   |
-| figure\_stvy.R      | Code for figure of sensitivity analysis |
-| figure\_theme.R     | Code for figure theme                   |
-| library.R           | Package list                            |
+| analysis\_stvy.R    | code for sensitivity analysis           |
+| figure\_concept.R   | code for figure 1                       |
+| figure\_delta.R     | code for figure 1D                      |
+| figure\_food\_web.R | code for figure 1C                      |
+| figure\_main\_sim.R | code for figure 2, 3                    |
+| figure\_network.R   | code for figure 1A, 1B                  |
+| figure\_si\_fcl.R   | code for figure S1-S4                   |
+| figure\_stvy.R      | code for figure of sensitivity analysis |
+| figure\_theme.R     | code for figure theme                   |
+| library.R           | package list                            |
 | run\_sim.R          | run main simulations                    |
 | run\_sim\_stvy.R    | run sensitivity simulations             |
 | table\_param.R      | table for parameter values              |

@@ -1,5 +1,5 @@
 ---
-title: "Readme"
+title: "README"
 output: github_document
 ---
 
@@ -27,16 +27,16 @@ Author: Justin P.F. Pomeranz, Jacques C. Finlay, Akira Terui
 list.files(here::here("code")) %>% 
   as_tibble() %>% 
   rename(Name = value) %>% 
-  mutate(Description = c("Code for sensitivity analysis",
-                         "Code for figure 1",
-                         "Code for figure 1D",
-                         "Code for figure 1C",
-                         "Code for figure 2, 3",
-                         "Code for figure 1A, 1B",
-                         "Code for figure S1-S4",
-                         "Code for figure of sensitivity analysis",
-                         "Code for figure theme",
-                         "Package list",
+  mutate(Description = c("code for sensitivity analysis",
+                         "code for figure 1",
+                         "code for figure 1D",
+                         "code for figure 1C",
+                         "code for figure 2, 3",
+                         "code for figure 1A, 1B",
+                         "code for figure S1-S4",
+                         "code for figure of sensitivity analysis",
+                         "code for figure theme",
+                         "package list",
                          "run main simulations",
                          "run sensitivity simulations",
                          "table for parameter values",
