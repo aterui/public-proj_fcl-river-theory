@@ -1,0 +1,56 @@
+---
+title: "Readme"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      message = F,
+                      warning = F)
+
+pacman::p_load(tidyverse)
+```
+
+## Article Information
+
+Title: Ecosystem size and complexity are extrinsic drivers of food chain length in branching networks
+
+Author: Justin P.F. Pomeranz, Jacques C. Finlay, Akira Terui
+
+## File descriptions
+
+`code/` includes all R codes to reproduce findings from this research:
+
+
+```{r}
+
+list.files(here::here("code")) %>% 
+  as_tibble() %>% 
+  rename(Name = value) %>% 
+  mutate(Description = c("Code for sensitivity analysis",
+                         "Code for figure 1",
+                         "Code for figure 1D",
+                         "Code for figure 1C",
+                         "Code for figure 2, 3",
+                         "Code for figure 1A, 1B",
+                         "Code for figure S1-S4",
+                         "Code for figure of sensitivity analysis",
+                         "Code for figure theme",
+                         "Package list",
+                         "run main simulations",
+                         "run sensitivity simulations",
+                         "table for parameter values",
+                         "table for sensitivity analysis")) %>% 
+  knitr::kable(format = "markdown")
+```
+
+
+## Session Information
+
+```{r}
+
+source(here::here("code/library.R"))
+sessionInfo()
+
+```
+
