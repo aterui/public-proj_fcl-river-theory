@@ -69,21 +69,21 @@ $$
 logit~m_{down} = logit~m_{up}+ \epsilon
 $$
 
-where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\epsilon$ was drawn from $Normal(0, \sigma_{l}^2)$. This autoregressive process resembles a natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel [@nakamuraDisturbanceRegimesStream2000]. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches):
+where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\epsilon$ was drawn from $Normal(0, \sigma_{l}^2)$. This autoregressive process resembles a natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel [@nakamuraDisturbanceRegimesStream2000]. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches + 1):
 
 $$
 logit~m_{down} = \omega~(logit~m_{1,up} +\epsilon_1)+(1-\omega)~(logit~m_{2,up} +\epsilon_2)
 $$
 
-$m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, $\epsilon_1$ and $\epsilon_2$ are independent local noises, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
+$m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, $\epsilon_1$ and $\epsilon_2$ are independent local noises, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $\mu_m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
 
 We also mimicked the downstream increase of local carrying capacity reflecting downstream increases in algal resource availability [@teruiThreeEcologicalFactors2016; @carraraComplexInteractionDendritic2014; @rahelFishAssemblagesHabitat1991]. Carrying capacity in patch $x$, $K_x$, was assumed to increase as a power function of ecosystem area (i.e., watershed area) [@finlayStreamSizeHuman2011; @koenigEmergentProductivityRegimes2019]: 
 
 $$
-K_{x} = K_{base}(N_{p,up} + 1)^z
+K_{x} = K_{base}Q_{x}^z
 $$
 
-where $K_{base}$ is the carrying capacity at the upstream terminal patch, $N_{p,up}$ the number of patches upstream, and $z$ the scaling exponent. We used $K_{base} = 100$ and $z = 0.54$ based on an empirical relationship of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
+where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z$ the scaling exponent. In this formulation, the most upstream patch, at which $Q_x = 1$ (the number of upstream patches + 1), has the carrying capacity of $K_{base}$. We used $K_{base} = 100$ and $z = 0.54$ based on an empirical relationship of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
 
 ## **Tri-trophic dynamic simulation model**
 

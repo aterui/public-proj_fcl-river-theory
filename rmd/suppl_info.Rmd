@@ -22,6 +22,7 @@ options(knitr.kable.NA = '')
 
 # Sensitivity data
 source(here::here("code/analysis_stvy.R"))
+load(file = here::here("output/result_main.RData"))
 load(file = here::here("output/result_stvy.RData"))
 
 sim_sv <- sim_stvy_result
@@ -51,7 +52,7 @@ where $\zeta_k$ are the intercept and regression coefficients, and $x_{k,n}$ are
 
 The sensitivity analysis revealed key simulation parameters. For ecosystem size, dispersal distance $\theta$, local disturbance variation $\sigma_{l}$, and the reproductive rate of basal species $r_b$ were influential. However, parameters that influence food web structure were less influential (attack rate, conversion efficiency, and handling time). For ecosystem complexity, dispersal distance $\theta$ and probability $p_d$, local disturbance variation $\sigma_{l}$, and the reproductive rate of basal species $r_b$ were influential. Food web parameters were also important (attack rate, conversion efficiency, and handling time).
 
-Based on the results, we considered ecological scenarios relevant for putative controls of food chain: low and high productivity ($r_b = 4, 8$), low and high disturbance ($p_m = 0.01, 0.1$), and three food web architecture ("Chain" [$\{e_{BC}, e_{BP}, e_{CP}\} = \{4, 0, 4\}, \{a_{BC}, a_{BP}, a_{CP}\} = \{0.5, 0.1, 0.5\}$], "Weak omnivory" [$\{e_{BC}, e_{BP}, e_{CP}\} = \{4, 2, 4\}, \{a_{BC}, a_{BP}, a_{CP}\} = \{0.5, 0.1, 0.5\}$], and "Strong omnivory" [$\{e_{BC}, e_{BP}, e_{CP}\} = \{4, 4, 2\}, \{a_{BC}, a_{BP}, a_{CP}\} = \{0.5, 0.5, 0.1\}$]). Handling times were fixed at $0.5$ to reduce the number of parameter combinations.
+Based on the results, we considered ecological scenarios relevant for putative controls of food chain: low and high productivity ($r_b = 4, 8$), and low and high disturbance ($p_m = 0.01, 0.1$). We also investigated the role of omnivory by changing attack rate ($a_{BP}$ and $a_{CP}$) and conversion efficiency ($e_{BP}$ and $e_{CP}$) of two prey items for predator $P$. Specifically, we used the following combinations to represent three levels of omnivory: "Chain", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(min(sim_main_result$a_bp), max(sim_main_result$a_cp), unique(sim_main_result$e_bp)[1], max(sim_main_result$e_cp))` $\}$; "Weak omnivory", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(min(sim_main_result$a_bp), max(sim_main_result$a_cp), unique(sim_main_result$e_bp)[2], max(sim_main_result$e_cp))` $\}$; and "Strong omnivory", $\{a_{BP}, a_{CP}, e_{BP}, e_{CP}\}=\{$ `r c(max(sim_main_result$a_bp), min(sim_main_result$a_cp), unique(sim_main_result$e_bp)[3], min(sim_main_result$e_cp))` $\}$. To simplify simulation setup, we fixed the following parameters: $e_{BC}=$ `r unique(sim_main_result$e_bc)` , $a_{BC}=$ `r unique(sim_main_result$a_bc)`, and $h_{ij}=$ `r unique(sim_main_result$h_bc)`.
 
 \pagebreak
 
