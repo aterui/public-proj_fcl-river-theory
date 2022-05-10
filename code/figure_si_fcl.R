@@ -76,7 +76,8 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
                switch = "y") +
     labs(x = "Ecosystem size (number of patches)",
          y = "",
-         linetype = "Omnivory") +
+         color = "Omnivory",
+         fill = "Omnivory") +
     MetBrewer::scale_color_met_d("Hiroshige") +
     MetBrewer::scale_fill_met_d("Hiroshige") +
     theme(strip.placement = "outside")
@@ -104,7 +105,8 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
                switch = "y") +
     labs(x = "Ecosystem complexity (branching prob.)",
          y = "",
-         linetype = "Omnivory") +
+         color = "Omnivory",
+         fill = "Omnivory") +
     MetBrewer::scale_color_met_d("Hiroshige") +
     MetBrewer::scale_fill_met_d("Hiroshige") +
     theme(strip.placement = "outside")
