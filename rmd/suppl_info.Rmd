@@ -85,15 +85,16 @@ table_stvy_chunk <- knit_chunk <- NULL
 
 for(i in 1:length(table_stvy)) {
   
-  table_legend <- paste0("Sensitivity analysis of the ", c_text[i]," effect on food chain length. Parameter estimates of linear regression models are shown. The response variable is the Spearman's rank correlation between food chain length and ", c_text[i],". Response and explanatory variables (i.e., simulation parameters) were standardized (mean = 0, SD = 1) before the analysis.")
+  table_legend <- paste0("Sensitivity analysis of the ", c_text[i]," effect on food chain length. Parameter estimates of linear regression models are shown. The response variable is the Spearman's rank correlation between food chain length and ", c_text[i],". Response and explanatory variables (i.e., simulation parameters) were standardized (mean = 0, SD = 1) before the analysis.\n")
   
-  knit_chunk <- paste0("## Table S", i + j, " Sensitivity analysis for ", c_text[i]," \n",
+  knit_chunk <- paste0("## Table S", i + j, " Sensitivity analysis for ", c_text[i],
+                       "\n\n",
                        table_legend,
-                       "\n```{r table_s", i + j,", results='asis'}
+                       "```{r table_s", i + j,", results='asis'}
                        \n\n
                        table_stvy[[", i,"]]
-                       \n\n
-                       ```\n",
+                       \n\n",
+                       "```",
                        "\n\\pagebreak\n")
   
   table_stvy_chunk <- c(table_stvy_chunk, knit_chunk)  
@@ -128,12 +129,14 @@ for(i in 1:length(list_g_fcl)) {
     
       figure_legend <- paste0(str_to_sentence(c_text[i])," effect on food chain length and occupancies of constituent species (proportion of habitat patches occupied). Rows are different response variables, and columns are different simulation scenarios. Lines and shades represent loess curves fitted to the simulated data and associated 95% confidence intervals. In this simulation, the following values of parameters were used: $\\theta$ = ", df_param$theta[k], ", $\\sigma_l$ = ", df_param$sd_disturb_lon[k], ", and $\\sigma_h$ = ", df_param$sd_disturb_source[k], ".")
   
-  knit_chunk <- paste0("## Figure S", K * (i - 1) + k + j, " ", str_to_sentence(c_text[i]), " effect on food chain length", " \n",
-                       "\n```{r figure_s", K * (i - 1) + k + j,", fig.height = 10, fig.width = 11.5}
-                       \n\n
+  knit_chunk <- paste0("## Figure S", K * (i - 1) + k + j, " ", str_to_sentence(c_text[i]), " effect on food chain length",
+                       "\n\n",
+                       "```{r figure_s", K * (i - 1) + k + j,", fig.height = 10, fig.width = 11.5}",
+                       "\n\n
                        list_g_fcl[[", i, "]][[", k, "]]
-                       \n\n
-                       ```\n",
+                       \n\n",
+                       "```",
+                       "\n\n",
                        figure_legend,
                        "\n\\pagebreak\n")
   
