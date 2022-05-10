@@ -21,7 +21,9 @@ knitr::opts_chunk$set(echo = FALSE,
 options(knitr.kable.NA = '')
 
 # Sensitivity data
+source(here::here("code/analysis_stvy.R"))
 load(file = here::here("output/result_stvy.RData"))
+
 sim_sv <- sim_stvy_result
 n_sim_stvy <- unique(sim_sv$n_warmup) + unique(sim_sv$n_burnin) + unique(sim_sv$n_timestep)
 
@@ -35,7 +37,7 @@ n_sim_stvy <- unique(sim_sv$n_warmup) + unique(sim_sv$n_burnin) + unique(sim_sv$
 
 ## Sensitivity analysis
 
-We performed a sensitivity analysis of the trophic community simulation to identify key simulation parameters that strongly affect the relationships between food chain length and ecosystem properties (the number of habitat patches $N_{p}$ and branching probability $P_{b}$. We generated 500 sets of parameter combinations by randomly drawing values of 16 simulation parameters from uniform distributions (**Table S1**). For each parameter combination, we generated `r max(sim_stvy_result$n_rep)` branching networks with the gradients of ecosystem size ($N_p \sim Unif(10, 150)$) and complexity ($P_b \sim Unif(0.01, 0.99)$). This results in a total of `r nrow(sim_stvy_result)` simulation replicates. We ran `r n_sim_stvy` time steps of trophic community dynamics in each simulation replicate. We obtained temporal means of food chain length for the last `r unique(sim_sv$n_timestep)` time steps. The first `r n_sim_stvy - unique(sim_sv$n_timestep)` time steps were discarded as initialization and burn-in periods.
+We performed a sensitivity analysis of the trophic community simulation to identify key simulation parameters that strongly affect the relationships between food chain length and ecosystem properties (the number of habitat patches $N_{p}$ and branching probability $P_{b}$. We generated 500 sets of parameter combinations by randomly drawing values of `r length(attributes(fit_sense$fit[[1]]$terms)$term.label)` simulation parameters from uniform distributions (**Table S1**). For each parameter combination, we generated `r max(sim_sv$n_rep)` branching networks with the gradients of ecosystem size ($N_p \sim Unif(10, 150)$) and complexity ($P_b \sim Unif(0.01, 0.99)$). This results in a total of `r nrow(sim_sv)` simulation replicates. We ran `r n_sim_stvy` time steps of trophic community dynamics in each simulation replicate. We obtained temporal means of food chain length for the last `r unique(sim_sv$n_timestep)` time steps. The first `r n_sim_stvy - unique(sim_sv$n_timestep)` time steps were discarded as initialization and burn-in periods.
 
 For each parameter combination, we estimated the Spearman's rank correlation between food chain length and ecosystem properties ($\psi_1$ for $N_{p}$ and $\psi_2$ for $P_{b}$). To examine influences of simulation parameters (**Table S1**), we developed the following regression model taking $\psi_1$ or $\psi_2$ as a response variable $u_n$ (parameter combination $n$):
 
@@ -45,7 +47,7 @@ For each parameter combination, we estimated the Spearman's rank correlation bet
   \mu_n &= \zeta_0 + \sum_{k}{\zeta_k x_{k, n}}
 \end{align}
 ```
-where $\zeta_k~(k = 0...14)$ are the intercept and regression coefficients, and $x_{k,n}$ are the simulation parameters drawn from uniform distributions (**Table S1**). Explanatory variables were standardized to a mean of zero and a standard deviation of one, so that regression coefficients are comparable.
+where $\zeta_k$ are the intercept and regression coefficients, and $x_{k,n}$ are the simulation parameters drawn from uniform distributions (**Table S1**). Response and explanatory variables were standardized to a mean of zero and a standard deviation of one so that regression coefficients are comparable.
 
 The sensitivity analysis revealed key simulation parameters. For ecosystem size, dispersal distance $\theta$, local disturbance variation $\sigma_{l}$, and the reproductive rate of basal species $r_b$ were influential. However, parameters that influence food web structure were less influential (attack rate, conversion efficiency, and handling time). For ecosystem complexity, dispersal distance $\theta$ and probability $p_d$, local disturbance variation $\sigma_{l}$, and the reproductive rate of basal species $r_b$ were influential. Food web parameters were also important (attack rate, conversion efficiency, and handling time).
 
@@ -123,7 +125,7 @@ for(i in 1:length(list_g_fcl)) {
   
   for(k in 1:K) {
     
-      figure_legend <- paste0(str_to_sentence(c_text[i])," effect on food chain length and occupancies of constituent species. Rows are different response variables, and columns are different simulation scenarios. Lines and shades represent loess curves fitted to the simulated data and associated 95% confidence intervals. In this simulation, the following values of parameters were used: $\\theta$ = ", df_param$theta[k], ", $\\sigma_l$ = ", df_param$sd_disturb_lon[k], ", and $\\sigma_h$ = ", df_param$sd_disturb_source[k], ".")
+      figure_legend <- paste0(str_to_sentence(c_text[i])," effect on food chain length and occupancies of constituent species (proportion of habitat patches occupied). Rows are different response variables, and columns are different simulation scenarios. Lines and shades represent loess curves fitted to the simulated data and associated 95% confidence intervals. In this simulation, the following values of parameters were used: $\\theta$ = ", df_param$theta[k], ", $\\sigma_l$ = ", df_param$sd_disturb_lon[k], ", and $\\sigma_h$ = ", df_param$sd_disturb_source[k], ".")
   
   knit_chunk <- paste0("## Figure S", K * (i - 1) + k + j, " ", str_to_sentence(c_text[i]), " effect on food chain length", " \n",
                        "\n```{r figure_s", K * (i - 1) + k + j,", fig.height = 10, fig.width = 11.5}

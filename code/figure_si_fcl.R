@@ -36,14 +36,14 @@ df_sim <- sim_main_result %>%
                names_to = "y",
                values_to = "value") %>% 
   mutate(y = case_when(y == "fcl" ~ "Food~chain~length",
-                       y == "p_basal" ~ "Basal~species~occupancy",
-                       y == "p_igprey" ~ "IG-prey~occupancy",
-                       y == "p_igpred" ~ "IG-predator~occupancy"),
+                       y == "p_basal" ~ "Basal~occupancy~(B)",
+                       y == "p_igprey" ~ "Consumer~occupancy~(C)",
+                       y == "p_igpred" ~ "Predator~occupancy~(P)"),
          y = factor(y,
                     levels = c("Food~chain~length",
-                               "Basal~species~occupancy",
-                               "IG-prey~occupancy",
-                               "IG-predator~occupancy")))
+                               "Basal~occupancy~(B)",
+                               "Consumer~occupancy~(C)",
+                               "Predator~occupancy~(P)")))
 
 df_param <- expand.grid(theta = c(0.1, 1),
                         sd_disturb_source = c(0.1, 3),
@@ -72,12 +72,14 @@ list_g_np <- foreach(i = seq_len(nrow(df_param))) %do% {
     facet_grid(rows = vars(y),
                cols = vars(disturb, productivity),
                labeller = label_parsed,
-               scales = "free_y") +
+               scales = "free_y",
+               switch = "y") +
     labs(x = "Ecosystem size (number of patches)",
-         y = "Value",
+         y = "",
          linetype = "Omnivory") +
     MetBrewer::scale_color_met_d("Hiroshige") +
-    MetBrewer::scale_fill_met_d("Hiroshige")
+    MetBrewer::scale_fill_met_d("Hiroshige") +
+    theme(strip.placement = "outside")
   
   return(g_np)
 }
@@ -98,12 +100,14 @@ list_g_pb <- foreach(i = seq_len(nrow(df_param))) %do% {
     facet_grid(rows = vars(y),
                cols = vars(disturb, productivity),
                labeller = label_parsed,
-               scales = "free_y") +
+               scales = "free_y",
+               switch = "y") +
     labs(x = "Ecosystem complexity (branching prob.)",
-         y = "Value",
+         y = "",
          linetype = "Omnivory") +
     MetBrewer::scale_color_met_d("Hiroshige") +
-    MetBrewer::scale_fill_met_d("Hiroshige")
+    MetBrewer::scale_fill_met_d("Hiroshige") +
+    theme(strip.placement = "outside")
   
   return(g_pb)
 }
