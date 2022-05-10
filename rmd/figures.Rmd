@@ -34,4 +34,4 @@ source(here::here("code/figure_main_sim.R"))
 print(g_hd)
 ```
 
-**Figure 3** Ecosystem size (A) and complexity (B) influence food chain length under high disturbance regime. Lines are loess curves fitted to simulated data and are colored based on omnivory. Shaded ribbons are 95% confidence intervals. Parameters for high disturbance regime: disturbance probability $p_{m} = 0.01$ and mean proportional mortality at headwaters $\mu_{m}=0.8$.
+**Figure 3** Ecosystem size (A) and complexity (B) influence food chain length under high disturbance regime. Lines are loess curves fitted to simulated data and are colored based on omnivory. Shaded ribbons are 95% confidence intervals. Parameters for high disturbance regime: disturbance probability $p_{m} = 0.1$ and mean proportional mortality at headwaters $\mu_{m}=0.8$.
