@@ -15,8 +15,6 @@ pacman::p_load(tidyverse)
 
 Title: Ecosystem size and complexity are extrinsic drivers of food chain length in branching networks
 
-Author: Justin P.F. Pomeranz, Jacques C. Finlay, Akira Terui
-
 ## File descriptions
 
 `code/` includes all R codes to reproduce findings from this research:

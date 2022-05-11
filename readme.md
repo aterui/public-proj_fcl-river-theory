@@ -6,28 +6,26 @@ README
 Title: Ecosystem size and complexity are extrinsic drivers of food chain
 length in branching networks
 
-Author: Justin P.F. Pomeranz, Jacques C. Finlay, Akira Terui
-
 ## File descriptions
 
 `code/` includes all R codes to reproduce findings from this research:
 
-| Name                | Description                             |
-|:--------------------|:----------------------------------------|
-| analysis\_stvy.R    | code for sensitivity analysis           |
-| figure\_concept.R   | code for figure 1                       |
-| figure\_delta.R     | code for figure 1D                      |
-| figure\_food\_web.R | code for figure 1C                      |
-| figure\_main\_sim.R | code for figure 2, 3                    |
-| figure\_network.R   | code for figure 1A, 1B                  |
-| figure\_si\_fcl.R   | code for figure S1-S4                   |
-| figure\_stvy.R      | code for figure of sensitivity analysis |
-| figure\_theme.R     | code for figure theme                   |
-| library.R           | package list                            |
-| run\_sim.R          | run main simulations                    |
-| run\_sim\_stvy.R    | run sensitivity simulations             |
-| table\_param.R      | table for parameter values              |
-| table\_stvy.R       | table for sensitivity analysis          |
+| Name              | Description                             |
+|:------------------|:----------------------------------------|
+| analysis_stvy.R   | code for sensitivity analysis           |
+| figure_concept.R  | code for figure 1                       |
+| figure_delta.R    | code for figure 1D                      |
+| figure_food_web.R | code for figure 1C                      |
+| figure_main_sim.R | code for figure 2, 3                    |
+| figure_network.R  | code for figure 1A, 1B                  |
+| figure_si_fcl.R   | code for figure S1-S4                   |
+| figure_stvy.R     | code for figure of sensitivity analysis |
+| figure_theme.R    | code for figure theme                   |
+| library.R         | package list                            |
+| run_sim.R         | run main simulations                    |
+| run_sim_stvy.R    | run sensitivity simulations             |
+| table_param.R     | table for parameter values              |
+| table_stvy.R      | table for sensitivity analysis          |
 
 ## Session Information
 
