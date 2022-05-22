@@ -34,25 +34,3 @@ Sincerely,
 Justin Pomeranz, Jacques Finlay, Akira Terui
 
 University of North Carolina Greensboro
-
-\pagebreak
-
-# Author information
-
-Author: Justin P.F. Pomeranz^1,2^, Jacques C. Finlay^3^, Akira Terui^1^
-
-1 Department of Biology, University of North Carolina at Greensboro; 2 Department of Environmental Sciences, Colorado Mesa University; 3 Department of Ecology, Evolution and Behavior, University of Minnesota
-
-\*Corresponding Author: JPF Pomeranz, [jfpomeranz\@gmail.com](mailto:jfpomeranz@gmail.com){.email}; A Terui, [hanabi0111\@gmail.com](mailto:hanabi0111@gmail.com){.email}
-
-## Acknowledgements
-
-We thank C Perovich for thoughtful discussions in the early stages of this project. This material is based upon work supported by the National Science Foundation through the Division of Environmental Biology (DEB 2015634).
-
-## Author contributions
-
-JP developed the theoretical model of trophic dynamics with input from AT. JP and AT ran the simulations, and made the figures. JP wrote the first draft, while AT and JF contributed significantly to the final version.
-
-## Data availability
-
-No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.

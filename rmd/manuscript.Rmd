@@ -9,7 +9,7 @@ knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
 bibliography: references.bib
-csl: the-american-naturalist.csl
+csl: ecosystems.csl
 header-includes:
   \usepackage{textgreek}
 ---
@@ -36,6 +36,12 @@ n_sim <- sim_main_result %>%
   pull() %>% 
   unique()
 ```
+
+Author: Justin P.F. Pomeranz^1,2^, Jacques C. Finlay^3^, Akira Terui^1^
+
+1 Department of Biology, University of North Carolina at Greensboro; 2 Department of Environmental Sciences, Colorado Mesa University; 3 Department of Ecology, Evolution and Behavior, University of Minnesota
+
+\*Corresponding Author: JPF Pomeranz, [jfpomeranz\@gmail.com](mailto:jfpomeranz@gmail.com){.email}; A Terui, [hanabi0111\@gmail.com](mailto:hanabi0111@gmail.com){.email}
 
 # Abstract
 
@@ -212,5 +218,17 @@ It is not surprising that FCL declined with increasing omnivory because it effec
 Our findings add an important distinction to work to assess and prioritize protection or conservation status within human impacted regions. Classical conservation schemes emphasize ecosystem size, aiming to protect the largest areas possible [@diamondIslandDilemmaLessons1975]. While this is certainly a useful attribute generally, designating networks with a high degree of variability, or many small patches, can be more beneficial than a large, homogeneous area [@fahrigWhySeveralSmall2020]. Accounting for ecosystem complexity is particularly suited to ecosystem architectures in which branches have variable environmental conditions [@koningNetworkGrassrootsReserves2020; @teruiEmergentDualScaling2021]. As suggested by modern conservation initiatives, conservation and management activities should focus on activities that increase the habitat heterogeneity and connectivity of suitable habitat patches to increase resilience to predicted increases in disturbance frequency and magnitude [@schindlerPopulationDiversityPortfolio2010; @schindlerPortfolioConceptEcology2015a; @andersonPortfolioConservationMetapopulations2015].
 
 It is abundantly clear that ecosystem complexity in natural systems is the rule, not the exception. Early theoretical and empirical work has assumed simple habitat structure as a necessity. However, habitat heterogeneity, such as prey refugia, and dispersal between connected habitat patches allow communities to stabilize and persist through space and time [@pedersenNonhierarchicalDispersalPromotes2016; @mougiFoodwebComplexityMetacommunity2016]. Complex ecosystem structure is an extrinsic factor that can affect FCL in communities. Incorporating a realistic understanding of ecosystem structural complexity may improve our perception of communities in naturally complex systems.
+
+## Acknowledgements
+
+We thank C Perovich for thoughtful discussions in the early stages of this project. This material is based upon work supported by the National Science Foundation through the Division of Environmental Biology (DEB 2015634).
+
+## Author contributions
+
+JP developed the theoretical model of trophic dynamics with input from AT. JP and AT ran the simulations, and made the figures. JP wrote the first draft, while AT and JF contributed significantly to the final version.
+
+## Data availability
+
+No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at [<https://github.com/aterui/mcbrnet>](https://github.com/aterui/mcbrnet){.uri}). Codes for simulations, statistical analysis, figures, and tables are available at [<https://github.com/aterui/public-proj_fcl-river-theory>](https://github.com/aterui/public-proj_fcl-river-theory){.uri}.
 
 # References
