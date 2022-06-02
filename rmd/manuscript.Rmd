@@ -229,6 +229,6 @@ JP developed the theoretical model of trophic dynamics with input from AT. JP an
 
 ## Data availability
 
-No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at [<https://github.com/aterui/mcbrnet>](https://github.com/aterui/mcbrnet){.uri}). Codes for simulations, statistical analysis, figures, and tables are available at [<https://github.com/aterui/public-proj_fcl-river-theory>](https://github.com/aterui/public-proj_fcl-river-theory){.uri}.
+No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at [\<https://github.com/aterui/mcbrnet\>](https://github.com/aterui/mcbrnet){.uri}). Codes for simulations, statistical analysis, figures, and tables are available at [\<https://github.com/aterui/public-proj_fcl-river-theory\>](https://github.com/aterui/public-proj_fcl-river-theory){.uri}.
 
 # References
