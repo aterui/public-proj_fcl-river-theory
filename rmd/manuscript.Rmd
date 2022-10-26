@@ -67,21 +67,21 @@ We simulate trophic community dynamics within branching habitats to investigate 
 
 ## **Network generation**
 
-We generated branching networks as connected habitat patches (**Figure 1A**). The geometric arrangement of networks was controlled by two parameters: ecosystem size, the number of patches ($N_{p}$); and ecosystem complexity, branching probability ($P_{b}$). Habitat patches were assigned to be a confluence (or upstream terminal patch) with probability $P_{b}$, or an in-branch patch with probability $1-P_{b}$. Branches (tributaries) are a series of connected patches between confluences (or upstream terminal patches). The number of patches within branch $q$, $n_{p,q}$, is a random variable drawn from a geometric distribution $n_{p,q} \sim Ge(P_{b})$ but conditional on $N_{p} = \sum_{q}^{N_{b}} n_{p,q}$ ($N_{b}$ is the number of branches in a network). Full details of the network generation process is described in @teruiEmergentDualScaling2021.
+We generated branching networks as connected habitat patches (**Figure 1A**). The geometric arrangement of networks was controlled by two parameters: ecosystem size, the number of patches ($N_{p}$); and ecosystem complexity, branching probability ($P_{b}$). Habitat patches were assigned to be a confluence (or upstream terminal patch) with probability $P_{b}$, or an in-branch patch with probability $1-P_{b}$. Branches (tributaries) are a series of connected patches between confluences (or upstream terminal patches). The number of patches within branch $q$, $n_{p,q}$, is a random variable drawn from a geometric distribution $n_{p,q} \sim \text{Ge}(P_{b})$ but conditional on $N_{p} = \sum_{q}^{N_{b}} n_{p,q}$ ($N_{b}$ is the number of branches in a network). Full details of the network generation process is described in @teruiEmergentDualScaling2021.
 
-In our simulation, disturbance occurs simultaneously with probability $p_m$ but habitat patches vary in their vulnerability. We simulated the spatial distribution of disturbance intensity (i.e., proportional mortality in the event of stochastic regional disturbance) as follows. A disturbance value, $m_{h}$, was assigned randomly to upstream terminal patch $h$ as $logit~m_{h} \sim Normal(logit~\mu_m, \sigma_{h}^2)$, where $\mu_m$ is the average of disturbance intensity at headwaters in an ordinary scale. The disturbance values propagate downstream through a spatial autoregressive process as:
-
-$$
-logit~m_{down} = logit~m_{up}+ \epsilon
-$$
-
-where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\epsilon$ was drawn from $Normal(0, \sigma_{l}^2)$. This autoregressive process resembles a natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel [@nakamuraDisturbanceRegimesStream2000]. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches + 1):
+In our simulation, disturbance occurs simultaneously with probability $p_m$ but habitat patches vary in their vulnerability. We simulated the spatial distribution of disturbance intensity (i.e., proportional mortality in the event of stochastic regional disturbance) as follows. A disturbance value, $m_{h}$, was assigned randomly to upstream terminal patch $h$ as $\text{logit}~m_{h} \sim \text{Normal}(\text{logit}~\mu_m, \sigma_{h}^2)$, where $\mu_m$ is the average of disturbance intensity at headwaters in an ordinary scale. The disturbance values propagate downstream through a spatial autoregressive process as:
 
 $$
-logit~m_{down} = \omega~(logit~m_{1,up} +\epsilon_1)+(1-\omega)~(logit~m_{2,up} +\epsilon_2)
+\text{logit}~m_{down} = \text{logit}~m_{up}+ \varepsilon
 $$
 
-$m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, $\epsilon_1$ and $\epsilon_2$ are independent local noises, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $\mu_m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
+where $m_{down}$ and $m_{up}$ are the disturbance values at down- and upstream patches, and the local environmental noise at the downstream patch $\varepsilon$ was drawn from $\text{Normal}(0, \sigma_{l}^2)$. This autoregressive process resembles a natural disturbance regime, where flood or drought disturbance cascades downstream with some local variation along the channel [@nakamuraDisturbanceRegimesStream2000]. At confluence patches, the disturbance value takes a weighted mean based on the relative size of the two contributing branches, $Q$ (the number of upstream contributing patches + 1):
+
+$$
+\text{logit}~m_{down} = \omega~(\text{logit}~m_{1,up} +\varepsilon_1)+(1-\omega)~(\text{logit}~m_{2,up} +\varepsilon_2)
+$$
+
+$m_{1,up}$ and $m_{2,up}$ are the disturbance values of upstream contributing tributaries, $\varepsilon_1$ and $\varepsilon_2$ are independent local noises, and $\omega$ the relative size of one tributary over another defined as $\omega = \frac{Q_{1}}{Q_{1} + Q_{2}}$. Thus, the larger tributary has a greater influence on the downstream environment, as observed in natural river networks [@bendaNetworkDynamicsHypothesis2004]. Disturbance value distributions had medians close to $\mu_m$ with long tails (**Figure 1B**). The low-magnitude patches can be viewed as refugia, which supply individuals to impacted sites in subsequent time steps.
 
 We also mimicked the downstream increase of local carrying capacity reflecting downstream increases in algal resource availability [@teruiThreeEcologicalFactors2016; @carraraComplexInteractionDendritic2014; @rahelFishAssemblagesHabitat1991]. Carrying capacity in patch $x$, $K_x$, was assumed to increase as a power function of ecosystem area (i.e., watershed area) [@finlayStreamSizeHuman2011; @koenigEmergentProductivityRegimes2019]: 
 
@@ -96,7 +96,7 @@ where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z
 We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch. A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species communities; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{i,x}(t+1)$ for species i (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
 
 $$
-A_{i,x}(t+1) \sim Poisson(\bar{A}_{i,x}(t) + I_{i,x}(t) - E_{i,x}(t))
+A_{i,x}(t+1) \sim \text{Poisson}(\bar{A}_{i,x}(t) + I_{i,x}(t) - E_{i,x}(t))
 $$
 
 where $\bar{A}_{i,x}(t+1)$ is the expected species abundance after within-patch trophic interactions, $I_{i,x}(t)$ the expected number of immigrants into patch $x$, and $E_{i,x}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
@@ -164,7 +164,7 @@ The binary random variable $\psi(t)$ expresses the occurrence of regional distur
 ***Dispersal.*** We simulated distance-dependent dispersal along with a network. The number of emigrants from patch $x$ at time $t$, $E_{i,x}(t)$, is estimated as the product of dispersal probability $p_{d}$ and species abundance after internal dynamics $\bar{A}_{i,x}(t)$. The dispersal probability was assumed to be constant for all three species. We calculated the relative immigration potential $\xi_{i,x}(t)$ considering network structure and species dispersal capability as follows: 
 
 $$
-\xi_{i,x}(t)=\frac{\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})}
+\xi_{i,x}(t)=\frac{\sum_{y, y \ne x}E_{i,y}(t)\exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}\text{E}_{i,y}(t)\exp(-\theta d_{xy})}
 $$
 
 where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
