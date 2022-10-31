@@ -1,10 +1,10 @@
 ---
 title: "Ecosystem size and complexity are extrinsic drivers of food chain length in branching networks"
 output:
-  #pdf_document:
-  #  latex_engine: xelatex
-  word_document:
-    reference_docx: word_format.docx
+  pdf_document:
+    latex_engine: xelatex
+  #word_document:
+  #  reference_docx: word_format.docx
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
@@ -93,30 +93,34 @@ where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z
 
 ## **Tri-trophic dynamic simulation model**
 
-We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch. A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species communities; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{i,x}(t+1)$ for species i (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
+We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch. A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{i,x}(t+1)$ for species i (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
 
 $$
 A_{i,x}(t+1) \sim \text{Poisson}(\bar{A}_{i,x}(t) + I_{i,x}(t) - E_{i,x}(t))
 $$
 
-where $\bar{A}_{i,x}(t+1)$ is the expected species abundance after within-patch trophic interactions, $I_{i,x}(t)$ the expected number of immigrants into patch $x$, and $E_{i,x}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
+where $\bar{A}_{i,x}(t)$ is the expected species abundance after within-patch trophic interactions, $I_{i,x}(t)$ the expected number of immigrants into patch $x$, and $E_{i,x}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
 
-***Internal dynamics.*** Each time step starts with internal dynamics. The basal species is exposed to predation as well as other sources of mortality:
-
-$$
-A_{B,x}'(t) = s_{0,B}[1-z_{B,x}(t)]A_{B,x}(t)
-$$
-
-where $s_{0,i}$ is the background survival probability (density independent) and $z_{B,x}(t)$ the proportional mortality caused by predation. Let $W_{B,x}(t)$ be the total number of basal species consumed by $C$ and $P$. The predator-induced mortality $z_{B,x}(t)$, the sum of proportional predation by $C$ ($z_{BC,x}(t)$) and $P$ ($z_{BP,x}(t)$), is then:
+***Internal dynamics.*** Each time step starts with internal dynamics. We accounted for background mortality, predator-induced mortality, and disturbance-induced mortality before the density-dependent growth occurs:
 
 $$
-z_{B,x}(t) = z_{BC,x}(t) + z_{BP,x}(t) =\left\{\begin{aligned}&\frac{W_{B,x}(t)}{A_{B,x}(t)} &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\&1 &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+\begin{aligned}
+A'_{i,x} &= s_{0,i}~\beta_{i,x}(t)~A_{i,x}(t)\\
+\bar{A}_{i,x}(t) &= g_i(A'_{i,x})~A'_{i,x}~\gamma_{x}(t)
+\end{aligned}
 $$
 
-and
+where $s_{0,i}$ is the background survival probability (density independent), $\beta_{i,x}(t)$ the survival probability after predation, and $\gamma_{x}(t)$ the survival probability after stochastic disturbance. The function $g_i(\centerdot)$ defines the form of the density-dependent recruitment for species $i$.
+
+For the basal species, we considered the predation impacts by consumer and predator species:
 
 $$
-W_{B,x}(t) = W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)
+\beta_{B,x}(t) = 1 - [z_{BC,x}(t) + z_{BP,x}(t)]
+$$
+where $z_{BC,x}(t)$ and $z_{BP,x}(t)$ are the proportional mortality of basal species caused by consumer and predator species, respectively. The total mortality is calculated as the proportion of total individuals consumed ($W_{B,x}(t)=W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)$) relative to the current abundance of the basal species ($A_{B,x}(t)$):
+
+$$
+z_{BC,x}(t) + z_{BP,x}(t) =\left\{\begin{aligned}&\frac{W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)}{A_{B,x}(t)} &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\&1 &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
 $$
 
 where $W_{ij,x}(t)$ is the population-wide consumption of consumer $j$ on prey $i$ (number of individuals), and the parameter $\delta_{x}(t)$ is the relative preference of predator to basal species over consumer. We assume the Holling Type-II functional response for predator-prey interactions:
@@ -134,29 +138,45 @@ $$
 where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}(t)) = \frac{a_{ij}A_{i,x}(t)}{1 + a_{ij}h_{ij}A_{i,x}(t)}$. An analogous approach has been applied to a model with multiple prey choices [@nishijimaRolesAlternativePrey2014]. Subsequently, a density-dependent recruitment occurs:
 
 $$
-\hat{A}_{B,x}(t) = \frac{r_{b} A_{B,x}'(t)}{1 + \frac{r_b - 1}{K_{x}}A_{B,x}'(t)}
+g_B(A'_{B,x}) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}A_{B,x}'}
 $$
 
 $r_b$ is the reproductive rate for survived individuals.
 
-The population growth of the consumer is controlled by conversion efficiency, number of prey captured, background mortality, and predation:
+For the consumer species, the predation-induced mortality is the proportion of individuals consumed by the predator species:
 
 $$
-\hat{A}_{C,x}(t) =\left\{\begin{aligned}&s_{0,C} (1 - z_{CP,x}) e_{BC}W_{BC,x}(t) &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\&s_{0,C} (1 - z_{CP,x}) e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x} \right) &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+\beta_{CP,x}(t) = 1 - z_{CP,x} = 1 - \frac{W_{CP,x}}{A_{C,x}(t)}
+$$
+
+The population growth of the consumer is controlled by conversion efficiency and the number of prey captured:
+
+$$
+g_C(A'_{C,x}) =
+\left\{
+\begin{aligned}
+&e_{BC}W_{BC,x}(t) &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
+&e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x} \right) &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
 $$
 
 The above equation assumes competition between $C$ and $P$ when their total consumption $W_{B,x}(t)$ exceeds the abundance of basal species $A_{B,x}(t)$, and the relative consumption $\frac{W_{BC,x}(t)}{W_{B,x}(t)}$ rests on $a_{ij}$, $h_{ij}$, and $A_{j,x}(t)$.
 
-The population of the predator is fueled by two prey species:
+The predator species is not exposed to predation, thus $\beta_{P,x}(t) = 1$. The population growth of the predator considers two prey species:
 
 $$
-\hat{A}_{P,x}(t) =\left\{\begin{aligned}&s_{0,P} \left[e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) < A_{B,x}(t)$}\\&s_{0,P} \left[e_{BP} \delta_{x}(t)\left(\frac{W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x}\right) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) \right] &&\text{if~$W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+g_P(A'_{P,x}) =
+\left\{
+\begin{aligned}
+&e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
+&e_{BP} \delta_{x}(t)\left(\frac{W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x}\right) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\
+\end{aligned}
+\right.
 $$
 
 After recruitment, the constituent species experience stochastic regional disturbance, which causes proportional loss of $m$ to populations:
 
 $$
-\bar{A}_{i,x}(t) = [1 - \psi(t) m_{x}] \hat{A}_{i,x}(t)
+\gamma_{i,x}(t) = [1 - \psi(t) m_{x}]
 $$
 
 The binary random variable $\psi(t)$ expresses the occurrence of regional disturbance (disturbance occurs if $\psi(t)=1$ otherwise $0$), and $m_x$ is the disturbance intensity at patch $x$ as determined by the network generation process. $\psi(t)$ is drawn from a Bernoulli distribution with disturbance probability $p_m$.
@@ -167,7 +187,7 @@ $$
 \xi_{i,x}(t)=\frac{\sum_{y, y \ne x}E_{i,y}(t)\exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}\text{E}_{i,y}(t)\exp(-\theta d_{xy})}
 $$
 
-where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
+where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)\exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
 
 ***Food chain length.*** At each patch and time step, we determined FCL as the highest trophic position ($TP_{x}(t)$) of the existing species. When the predator exists, the trophic position is determined as follows:
 
