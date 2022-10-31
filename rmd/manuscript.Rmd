@@ -107,7 +107,7 @@ where $\bar{A}_{i,x}(t)$ is the expected species abundance after within-patch tr
 $$
 \begin{aligned}
 A'_{i,x} &= s_{0,i}~\beta_{i,x}(t)~A_{i,x}(t)\\
-\bar{A}_{i,x}(t) &= g_i(A'_{i,x})~A'_{i,x}~\gamma_{x}(t)
+\bar{A}_{i,x}(t) &= g_i(A)~A'_{i,x}~\gamma_{x}(t)
 \end{aligned}
 $$
 
@@ -118,13 +118,24 @@ For the basal species, we considered the predation impacts of consumer and preda
 $$
 \beta_{B,x}(t) = 1 - [z_{BC,x}(t) + z_{BP,x}(t)]
 $$
-where $z_{BC,x}(t)$ and $z_{BP,x}(t)$ are the proportional mortality of basal species caused by consumer and predator species, respectively. The total mortality is calculated as the proportion of total individuals consumed ($W_{B,x}(t)=W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)$) relative to the current abundance of the basal species ($A_{B,x}(t)$):
+where $z_{BC,x}(t)$ and $z_{BP,x}(t)$ are the proportional mortality of basal species caused by consumer and predator species, respectively. The total mortality is calculated as the proportion of total individuals consumed ($W_{B,x}(t)$) relative to the current abundance of the basal species ($A_{B,x}(t)$):
 
 $$
-z_{BC,x}(t) + z_{BP,x}(t) =\left\{\begin{aligned}&\frac{W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)}{A_{B,x}(t)} &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\&1 &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+z_{BC,x}(t) + z_{BP,x}(t) =
+\left\{
+\begin{aligned}
+&\frac{W_{B,x}(t)}{A_{B,x}(t)} &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
+&1 &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\
+\end{aligned}
+\right.
 $$
 
-where $W_{ij,x}(t)$ is the population-wide consumption of consumer $j$ on prey $i$ (number of individuals), and the parameter $\delta_{x}(t)$ is the relative preference of predator to basal species over consumer. We assume the Holling Type-II functional response for predator-prey interactions:
+where
+
+$$
+W_{B,x}(t)=W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t)
+$$\
+$W_{ij,x}(t)$ is the population-wide consumption of consumer $j$ on prey $i$ (number of individuals), and the parameter $\delta_{x}(t)$ is the relative preference of predator to basal species over consumer. We assume the Holling Type-II functional response for predator-prey interactions:
 
 $$
 W_{ij,x}(t) = \frac{a_{ij}A_{i,x}(t)A_{j,x}(t)}{A_{j,x}(t) + a_{ij}h_{ij}A_{i,x}(t)}
@@ -139,7 +150,7 @@ $$
 where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}(t)) = \frac{a_{ij}A_{i,x}(t)}{1 + a_{ij}h_{ij}A_{i,x}(t)}$. An analogous approach has been applied to a model with multiple prey choices [@nishijimaRolesAlternativePrey2014]. Subsequently, a density-dependent recruitment occurs:
 
 $$
-g_B(A'_{B,x}) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}A_{B,x}'}
+g_B(A) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}A_{B,x}'}
 $$
 
 where $r_b$ is the reproductive rate for survived individuals.
@@ -153,11 +164,11 @@ $$
 The population growth of the consumer is controlled by conversion efficiency and the number of prey captured:
 
 $$
-g_C(A'_{C,x}) =
+g_C(A) =
 \left\{
 \begin{aligned}
 &e_{BC}W_{BC,x}(t) &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
-&e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x} \right) &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
+&e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x}(t) \right) &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\\end{aligned}\right.
 $$
 
 The above equation assumes competition between $C$ and $P$ when their total consumption $W_{B,x}(t)$ exceeds the abundance of basal species $A_{B,x}(t)$, and the relative consumption $\frac{W_{BC,x}(t)}{W_{B,x}(t)}$ rests on $a_{ij}$, $h_{ij}$, and $A_{j,x}(t)$.
@@ -165,7 +176,7 @@ The above equation assumes competition between $C$ and $P$ when their total cons
 The predator species is not exposed to predation, thus $\beta_{P,x}(t) = 1$. The population growth of the predator considers two prey species:
 
 $$
-g_P(A'_{P,x}) =
+g_P(A) =
 \left\{
 \begin{aligned}
 &e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
