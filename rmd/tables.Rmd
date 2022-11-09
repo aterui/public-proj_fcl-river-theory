@@ -6,29 +6,16 @@ knit: (function(inputFile, encoding) {
       })
 ---
 
-| Model    | Parameter  | Interpretation                                                        |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Network  | $N_p$      | Number of patches                                                     |
-|          | $P_b$      | Branching probability                                                 |
-|          | $n_p$      | Number of patches in a branch                                         |
-|          | $\mu_m$    | Average disturbance-induced mortality at headwaters                   |
-|          | $\sigma_h$ | Variation in disturbance-induced mortality at headwaters              |
-|          | $\sigma_l$ | Degree of local environmental noise                                   |
-|          | $K_{base}$ | Carrying capacity of the basal species at the upstream terminal patch |
-| Food web | $s_0$      | Background survival                                                   |
-|          | $\beta$    | Survival after pradation                                              |
-|          | $g(\cdot)$ | Density dependent growth function                                     |
-|          | $\gamma$   | Survival after stochastic disturbance                                 |
-|          | $z_{ij}$   | Predation-induced mortality of species $i$ caused by species $j$      |
-|          | $W_{ij}$   | Number of individuals of species $i$ consumed by species $j$          |
-|          | $\delta$   | Degree of omnivory for predator $P$                                   |
-|          | $a_{ij}$   | Attack rate of species $j$ to species $i$                             |
-|          | $h_{ij}$   | Handling time of species $j$ to species $i$                           |
-|          | $e_{ij}$   | Energetic conversion efficiency from species $i$ to species $j$       |
-|          | $r_b$      | Intrinsic growth rate of the basal species                            |
-|          | $K$        | Carrying capacity of the basal species                                |
-|          | $\theta$   | Rate parameter describing a species dispersal kernel                  |
-|          | $p_m$      | Probability of stochastic regional disturbance                        |
-|          | $p_d$      | Probability of dispersal                                              |
+```{r table_param, echo = FALSE}
 
-: Parameters used in our simulations
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE)
+
+options(knitr.kable.NA = '')
+
+source(here::here("code/table_param.R"))
+knitr::kable(df_value,
+             format = "markdown",
+             caption = "Parameter values used for the main and sensitivity analysis.")
+
+```

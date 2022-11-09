@@ -59,24 +59,11 @@ Based on the results, we considered ecological scenarios relevant for putative c
 
 # Tables
 
-## Table S1 Parameter values
-
-Parameter values used for the main and sensitivity analysis.
-
-```{r table_param}
-
-source(here::here("code/table_param.R"))
-knitr::kable(df_value, format = "markdown")
-
-```
-
-\pagebreak
-
 ```{r table_sensitivity}
 
 source(here::here("code/table_stvy.R"))
 
-j <- 1
+j <- 0
 
 ## conditional text
 c_text <- c("ecosystem size",

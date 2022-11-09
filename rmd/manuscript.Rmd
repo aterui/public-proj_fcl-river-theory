@@ -3,8 +3,6 @@ title: "Ecosystem size and complexity as extrinsic drivers of food chain length 
 output:
   pdf_document:
     latex_engine: xelatex
-  #word_document:
-  #  reference_docx: word_format.docx
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
@@ -12,7 +10,8 @@ bibliography: references.bib
 csl: https://www.zotero.org/styles/ecosphere
 mainfont: Times New Roman
 header-includes:
-  \usepackage{textgreek}
+  \usepackage{lineno, textgreek}
+  \linenumbers
 ---
 
 ```{r setup, include=FALSE}
@@ -253,7 +252,7 @@ This definition accounts for the influence of omnivory.
 
 ## Simulation
 
-Before the main simulation, we performed an extensive sensitivity analysis to identify influential parameters (see **Supplementary Text** and **Table S1 -- S3**). Our sensitivity analysis revealed that ecosystem size and/or complexity effects were sensitive to disturbance, productivity, dispersal, and omnivory. Therefore, we ran the main simulation with `r n_scenario` parameter sets differing in these ecological contexts (two levels of disturbance, two levels of productivity, two levels of dispersal distance, and three levels of omnivory) and parameter values were summarized in **Table S1**.
+Before the main simulation, we performed an extensive sensitivity analysis to identify influential parameters (see **Table1**, **Supplementary Text,** and **Table S1 -- S2**). Our sensitivity analysis revealed that ecosystem size and/or complexity effects were sensitive to disturbance, productivity, dispersal, and omnivory. Therefore, we ran the main simulation with `r n_scenario` parameter sets differing in these ecological contexts (two levels of disturbance, two levels of productivity, two levels of dispersal distance, and three levels of omnivory) and parameter values were summarized in **Table 1**.
 
 We controlled disturbance level with disturbance probability $p_{m}$ (low disturbance, `r min(sim_main_result$p_disturb)`; high disturbance, `r max(sim_main_result$p_disturb)`). We used the identical value of mean disturbance intensity at headwaters ($\mu_{m}=$ `r max(sim_main_result$mean_disturb_source)`), spatial variation in disturbance intensity at headwaters ($\sigma_{h}=$ `r max(sim_main_result$sd_disturb_source)`), and local disturbance variation ($\sigma_{l}=$ `r min(sim_main_result$sd_disturb_lon)`) regardless of disturbance scenario. This setup ($\sigma_h > \sigma_l$) produces high spatial variation among tributaries with strong within-tributary downstream correlation, a typical pattern in real river networks [@nakamuraDisturbanceRegimesStream2000; @bendaNetworkDynamicsHypothesis2004]. Productivity was varied by setting different values of basal species' growth rate ($r_{b}=$ `r unique(sim_main_result$r_b)`). For dispersal, we examined short- and long-distance dispersal scenarios (short-distance dispersal $\theta=$ `r max(sim_main_result$theta)`; long-distance dispersal $\theta=$ `r min(sim_main_result$theta)`) with constant dispersal probability ($p_{d}=$ `r unique(sim_main_result$p_dispersal)`).
 

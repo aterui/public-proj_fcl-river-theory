@@ -7,7 +7,7 @@ knit: (function(inputFile, encoding) {
 
 Dear Editor,
 
-We are excited to submit our manuscript entitled "Ecosystem size and complexity are extrinsic drivers of food chain length in branching networks" for consideration for publication in The American Naturalist.
+We are excited to submit our manuscript entitled "*Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems*" for consideration.
 
 The structure of food webs in natural communities has inspired ecological research for generations, and much attention has been paid to understanding the determinants of food chain length. Generally, ecosystem size is thought to be a universal control of food chain length. In spatially complex ecosystems, however, there may be an overlooked effect of 'scale-invariant' complexity in fractal ecosystem structures. Branching river networks are an outstanding example of such complex ecosystems, where the geometric structure (e.g., branching pattern) remains constant across size gradients.
 
