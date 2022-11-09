@@ -5,6 +5,7 @@ output:
     latex_engine: xelatex
     includes:
       before_body: title.tex
+mainfont: Times New Roman
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
@@ -38,13 +39,13 @@ n_sim_stvy <- unique(sim_sv$n_warmup) + unique(sim_sv$n_burnin) + unique(sim_sv$
 
 ## Sensitivity analysis
 
-We performed a sensitivity analysis of the trophic community simulation to identify key simulation parameters that strongly affect the relationships between food chain length and ecosystem properties (the number of habitat patches $N_{p}$ and branching probability $P_{b}$. We generated 500 sets of parameter combinations by randomly drawing values of `r length(attributes(fit_sense$fit[[1]]$terms)$term.label)` simulation parameters from uniform distributions (**Table S1**). For each parameter combination, we generated `r max(sim_sv$n_rep)` branching networks with the gradients of ecosystem size ($N_p \sim Unif(10, 150)$) and complexity ($P_b \sim Unif(0.01, 0.99)$). This results in a total of `r nrow(sim_sv)` simulation replicates. We ran `r n_sim_stvy` time steps of trophic community dynamics in each simulation replicate. We obtained temporal means of food chain length for the last `r unique(sim_sv$n_timestep)` time steps. The first `r n_sim_stvy - unique(sim_sv$n_timestep)` time steps were discarded as initialization and burn-in periods.
+We performed a sensitivity analysis of the trophic community simulation to identify key simulation parameters that strongly affect the relationships between food chain length and ecosystem properties (the number of habitat patches $N_{p}$ and branching probability $P_{b}$. We generated 500 sets of parameter combinations by randomly drawing values of `r length(attributes(fit_sense$fit[[1]]$terms)$term.label)` simulation parameters from uniform distributions (**Table S1**). For each parameter combination, we generated `r max(sim_sv$n_rep)` branching networks with the gradients of ecosystem size ($N_p \sim \text{Unif}(10, 150)$) and complexity ($P_b \sim \text{Unif}(0.01, 0.99)$). This results in a total of `r nrow(sim_sv)` simulation replicates. We ran `r n_sim_stvy` time steps of trophic community dynamics in each simulation replicate. We obtained temporal means of food chain length for the last `r unique(sim_sv$n_timestep)` time steps. The first `r n_sim_stvy - unique(sim_sv$n_timestep)` time steps were discarded as initialization and burn-in periods.
 
 For each parameter combination, we estimated the Spearman's rank correlation between food chain length and ecosystem properties ($\psi_1$ for $N_{p}$ and $\psi_2$ for $P_{b}$). To examine influences of simulation parameters (**Table S1**), we developed the following regression model taking $\psi_1$ or $\psi_2$ as a response variable $u_n$ (parameter combination $n$):
 
 ```{=tex}
 \begin{align}
-  u_{n} &\sim Normal(\mu_n, \sigma^2)\\
+  u_{n} &\sim \text{Normal}(\mu_n, \sigma^2)\\
   \mu_n &= \zeta_0 + \sum_{k}{\zeta_k x_{k, n}}
 \end{align}
 ```
