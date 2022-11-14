@@ -49,6 +49,12 @@ Understanding the drivers of food chain length in natural communities has intrig
 
 **Keywords:** Food chain length, omnivory, branching networks, fractals, intraguild predation, complex network architecture
 
+## Data availability
+
+No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
+
+\clearpage
+
 # Introduction
 
 The origin of variation in food chain length (FCL), the number of feeding links from the basal species to top predators, has intrigued ecologists for decades due to its importance in regulating top-down effects [@paceTrophicCascadesRevealed1999], energy flow [@wangBiodiversityEcosystemFunctioning2018], and contaminant concentrations in top predators [@kiddEffectsTrophicPosition1998]. Hypotheses regarding controls of FCL can be organized into three broad categories. First, the resource availability hypothesis states that basal productivity controls FCL because imperfect energy conversion through predator-prey interactions restricts energy available to higher trophic levels [@oksanenExploitationEcosystemsGradients1981]. Second, the disturbance hypothesis (or the dynamical stability hypothesis) predicts longer food chains are vulnerable to environmental perturbations (i.e., the dynamical constraint). Thus, habitats with frequent and/or severe disturbance should support fewer trophic levels [@pimmNumberTrophicLevels1977]. Lastly, the ecosystem size hypothesis posits that larger ecosystems should harbor longer food chains [@takimotoEffectsProductivityDisturbance2012; @teruiSpatialDisturbanceSynchrony2019; @postEcosystemSizeDetermines2000].
@@ -301,9 +307,5 @@ We thank C Perovich for thoughtful discussions in the early stages of this proje
 ## Author contributions
 
 JP developed the theoretical model of trophic dynamics with input from AT. JP and AT ran the simulations, and made the figures. JP wrote the first draft, while AT and JF contributed significantly to the final version.
-
-## Data availability
-
-No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at [\<https://github.com/aterui/mcbrnet\>](https://github.com/aterui/mcbrnet){.uri}). Codes for simulations, statistical analysis, figures, and tables are available at [\<https://github.com/aterui/public-proj_fcl-river-theory\>](https://github.com/aterui/public-proj_fcl-river-theory){.uri}.
 
 # References
