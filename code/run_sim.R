@@ -1,10 +1,11 @@
 
 # setup -------------------------------------------------------------------
 
-rm(list = ls(all.names = TRUE))
+rm(list = ls())
 source(here::here("code/library.R"))
 
-cl <- makeCluster(detectCores())
+ncore <- detectCores() - 2
+cl <- makeCluster(ncore)
 registerDoSNOW(cl)
 
 # set parameters ----------------------------------------------------------
@@ -21,30 +22,22 @@ df_param <- expand.grid(mean_disturb_source = 0.8,
                         n_timestep = 1000,
                         n_warmup = 200,
                         n_burnin = 400,
-                        r_b = c(4, 8),
-                        e_bc = 4, # to conv_eff[1]
-                        e_bp = c(0, 2, 4), # to conv_eff[2]
-                        e_cp = c(2, 4), # to conv_eff[3]
-                        a_bc = 0.5, # to attack_rate[1]
-                        a_bp = c(0.1, 0.5), # to attack_rate[2]
-                        a_cp = c(0.1, 0.5), # to attack_rate[3]
-                        h_bc = 0.5, # to handling_time[1]
-                        h_bp = 0.5, # to handling_time[2]
-                        h_cp = 0.5, # to handling_time[3]
-                        s0 = 0.8,
+                        r_b = c(5, 10),
+                        e_bc = 0.8, # to conv_eff[1]
+                        e_bp = 0.8, # to conv_eff[2]
+                        e_cp = 0.8, # to conv_eff[3]
+                        a_bc = c(0.01, 0.1), # to attack_rate[1]
+                        a_bp = c(0, 0.01, 0.1), # to attack_rate[2]
+                        a_cp = c(0.01, 0.1), # to attack_rate[3]
+                        h = c(0.5, 1.25), # to handling_time[3]
+                        s = c(0.5, 1),
                         p_disturb = c(0.01, 0.1),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
   filter(sd_disturb_source != sd_disturb_lon) %>% 
-  filter(e_bp == 0 & a_bp == 0.1 &
-         e_cp == 4 & a_cp == 0.5 |
-           
-         e_bp == 2 & a_bp == 0.1 &
-         e_cp == 4 & a_cp == 0.5 |
-         
-         e_bp == 4 & a_bp == 0.5 &
-         e_cp == 2 & a_cp == 0.1) %>% 
+  filter(a_bp == 0 & a_bc == a_cp |
+           a_bp == a_bc & a_bc == a_cp) %>% 
   arrange(p_disturb,
           e_bp,
           theta) %>% 
@@ -103,10 +96,8 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                                       attack_rate = c(x$a_bc,
                                                                       x$a_bp,
                                                                       x$a_cp),
-                                                      handling_time = c(x$h_bc,
-                                                                        x$h_bp,
-                                                                        x$h_cp),
-                                                      s0 = rep(x$s0, 3),
+                                                      handling_time = x$h,
+                                                      s = x$s,
                                                       carrying_capacity = v_k,
                                                       p_disturb = x$p_disturb,
                                                       m_disturb = v_m_disturb,
@@ -136,6 +127,5 @@ result <- foreach(x = iter(df_param, by = 'row'),
 # return ------------------------------------------------------------------
 
 stopCluster(cl)
-
-sim_main_result <- result
-save(sim_main_result, file = here::here("output/result_main.RData"))
+saveRDS(result,
+        file = here::here("output/sim_main.rds"))
