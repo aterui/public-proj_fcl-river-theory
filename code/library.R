@@ -13,4 +13,5 @@ pacman::p_load(mcbrnet,
                patchwork,
                igraph,
                tidyverse,
-               MetBrewer)
+               MetBrewer,
+               tictoc)
