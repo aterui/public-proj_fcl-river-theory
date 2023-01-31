@@ -11,45 +11,40 @@ registerDoSNOW(cl)
 # set parameters ----------------------------------------------------------
 
 # igpsim parameters
-df_param <- expand.grid(mean_disturb_source = 0.8,
-                        sd_disturb_source = c(0.1, 3),
-                        sd_disturb_lon = c(3, 0.1),
+df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
+                        sd_disturb_source = c(0.01, 1),
+                        sd_disturb_lon = c(1, 0.01),
                         
                         # carring capacity
-                        base_k = 100,
+                        base_k = 500,
                         z = 0.54, # Finlay 2011 Ecosphere
                         
                         n_timestep = 1000,
                         n_warmup = 200,
                         n_burnin = 400,
                         r_b = c(5, 10),
-                        e_bc = 0.8, # to conv_eff[1]
-                        e_bp = 0.8, # to conv_eff[2]
-                        e_cp = 0.8, # to conv_eff[3]
-                        a_bc = c(0.01, 0.1), # to attack_rate[1]
-                        a_bp = c(0, 0.01, 0.1), # to attack_rate[2]
-                        a_cp = c(0.01, 0.1), # to attack_rate[3]
-                        h = c(0.5, 1.25), # to handling_time[3]
-                        s = c(0.5, 1),
-                        p_disturb = c(0.01, 0.1),
+                        e = 1, # to conv_eff[3]
+                        a_bc = c(0.025), # to attack_rate[1]
+                        a_bp = c(0, 0.025, 0.5), # to attack_rate[2]
+                        a_cp = c(0.025), # to attack_rate[3]
+                        h = c(0.75, 1.5), # to handling_time[3]
+                        s = c(0, 1),
+                        p_disturb = seq(0, 0.1, length = 5),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
-  filter(sd_disturb_source != sd_disturb_lon) %>% 
-  filter(a_bp == 0 & a_bc == a_cp |
-           a_bp == a_bc & a_bc == a_cp) %>% 
+  filter(sd_disturb_source > sd_disturb_lon,
+         !(p_disturb == 0 & mean_disturb_source == 0.2)) %>% 
   arrange(p_disturb,
-          e_bp,
           theta) %>% 
   mutate(param_set = seq_len(nrow(.))) %>% 
   relocate(param_set,
            p_disturb,
-           e_bp,
            theta)
 
 
 # geometry parameters
-n_rep <- 1000
+n_rep <- 250
 repeat {
   n_patch <- round(runif(n_rep, 10, 150))
   p_branch <- runif(n_rep, 0.01, 0.99)
@@ -90,9 +85,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                                       n_burnin = x$n_burnin,
                                                       n_timestep = x$n_timestep,
                                                       r_b = x$r_b,
-                                                      conv_eff = c(x$e_bc,
-                                                                   x$e_bp,
-                                                                   x$e_cp),
+                                                      conv_eff = x$e,
                                                       attack_rate = c(x$a_bc,
                                                                       x$a_bp,
                                                                       x$a_cp),
