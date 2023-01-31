@@ -20,6 +20,6 @@ g_concept <-  wrap_plots(g_net) + g_disturb + ggtitle("B") +
   plot_layout(design = layout)
 
 ggsave(g_concept,
-       filename = here::here("output/figure_concept.pdf"),
+       filename = here::here("figure/figure_concept.pdf"),
        width = 12,
        height = 6)

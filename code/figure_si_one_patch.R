@@ -12,9 +12,10 @@ lab1 <- c(`0` = "No~switching~(s==0)",
           `1` = "Strong~switching~(s==1)")
 
 lab2 <- c(`5` = "r[B]==5",
-          `10` = "r[B]==10",
-          `20` = "r[B]==20",
-          `40` = "r[B]==40")
+          `10` = "r[B]==10")
+
+lab3 <- c(`500` = "K==500",
+          `1000` = "K==1000")
 
 g_one <- readRDS(here::here("output/sim_one_patch.rds")) %>% 
   group_by(param_set) %>% 
@@ -24,9 +25,15 @@ g_one <- readRDS(here::here("output/sim_one_patch.rds")) %>%
              y = h,
              fill = fcl)) +
   geom_raster(alpha = 0.8) +
+  geom_point(data = expand.grid(a = c(0.025, 0.5),
+                                h = c(0.5, 1.25),
+                                fcl = 0) %>% 
+               filter(!(a == 0.5 & h == 0.5)),
+             color = "black") +
   facet_grid(rows = vars(r_b),
-             cols = vars(s), labeller = labeller(s = as_labeller(lab1, label_parsed),
-                                                 r_b = as_labeller(lab2, label_parsed))) +
+             cols = vars(s, k), labeller = labeller(s = as_labeller(lab1, label_parsed),
+                                                    r_b = as_labeller(lab2, label_parsed),
+                                                    k = as_labeller(lab3, label_parsed))) +
   MetBrewer::scale_fill_met_c("Hiroshige",
                               direction = -1) +
   labs(x = "Attack rate (a)",
@@ -43,5 +50,5 @@ g_one <- readRDS(here::here("output/sim_one_patch.rds")) %>%
 
 ggsave(g_one, 
        filename = here::here("figure/figure_one_patch.pdf"),
-       width = 7.5,
-       height = 10)
+       width = 12,
+       height = 6)

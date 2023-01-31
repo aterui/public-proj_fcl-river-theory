@@ -14,28 +14,16 @@ m_x <- rbind(seq(0, 100, length = 100),
              rep(10, 100))
 
 ## simulation scenarios
-df_param <- expand.grid(e_bc = 4, # to conv_eff[1]
-                        e_bp = c(0, 2, 4), # to conv_eff[2]
-                        e_cp = c(2, 4), # to conv_eff[3]
-                        a_bc = 0.5, # to attack_rate[1]
-                        a_bp = c(0.1, 0.5), # to attack_rate[2]
-                        a_cp = c(0.1, 0.5), # to attack_rate[3]
-                        h_bc = 0.5, # to handling_time[1]
-                        h_bp = 0.5, # to handling_time[2]
-                        h_cp = 0.5 # to handling_time[3]
-) %>% 
+df_param <- expand.grid(e = 0.8, # to conv_eff
+                        a_bc = 0.01, # to attack_rate
+                        a_bp = c(0, 0.01, 0.5), # to attack_rate
+                        a_cp = c(0.01), # to attack_rate
+                        h = 0.5, # to handling_time
+                        s = 1) %>% 
   as_tibble() %>% 
-  filter(e_bp == 0 & a_bp == 0.1 &
-           e_cp == 4 & a_cp == 0.5 |
-           
-           e_bp == 2 & a_bp == 0.1 &
-           e_cp == 4 & a_cp == 0.5 |
-           
-           e_bp == 4 & a_bp == 0.5 &
-           e_cp == 2 & a_cp == 0.1) %>% 
-  mutate(omn = case_when(e_bp == 0 ~ "Chain",
-                         e_bp == 2 ~ "Weak",
-                         e_bp == 4 ~ "Strong"),
+  mutate(omn = case_when(a_bp == 0 ~ "Chain",
+                         a_bp == 0.01 ~ "Weak",
+                         a_bp == 0.5 ~ "Strong"),
          omn = factor(omn,
                       levels = c("Chain",
                                  "Weak",
@@ -46,15 +34,12 @@ df_m <- foreach(i = seq_len(nrow(df_param)),
                 .combine = bind_rows) %do% {
                   
                   list_igp <- fun_igp(m_x,
-                                      e = c(df_param$e_bc[i],
-                                            df_param$e_bp[i],
-                                            df_param$e_cp[i]),
+                                      e = rep(df_param$e[i], 3),
                                       a = c(df_param$a_bc[i],
                                             df_param$a_bp[i],
                                             df_param$a_cp[i]),
-                                      h = c(df_param$h_bc[i],
-                                            df_param$h_bp[i],
-                                            df_param$h_cp[i]))
+                                      h = rep(df_param$h[i], 3),
+                                      s = df_param$s[i])
                   
                   df_delta <- list_igp$delta %>% 
                     as_tibble() %>% 
@@ -67,7 +52,6 @@ df_m <- foreach(i = seq_len(nrow(df_param)),
                 }
 
 
-
 # figure ------------------------------------------------------------------
 
 theme_set(plt_theme)
@@ -78,5 +62,5 @@ g_delta <- df_m %>%
              linetype = omn)) +
   geom_line(color = grey(0.4)) +
   labs(x = "Basal species density",
-       y = expression("Preference to B over C"~~(delta)),
+       y = expression("Proportional contribution to predator"~~(delta)),
        linetype = "Omnivory")
