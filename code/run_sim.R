@@ -42,17 +42,11 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
            p_disturb,
            theta)
 
-
 # geometry parameters
 n_rep <- 250
-repeat {
-  n_patch <- round(runif(n_rep, 10, 150))
-  p_branch <- runif(n_rep, 0.01, 0.99)
-  if(min(n_patch) < 15 & 
-     max(n_patch) > 145 &
-     min(p_branch) < 0.05 &
-     max(p_branch) > 0.95) break    
-}
+n_patch <- seq(10, 150, length = n_rep) %>% round()
+p_branch <- seq(0.01, 0.99, length = n_rep)
+
 
 # run simulation ----------------------------------------------------------
 
