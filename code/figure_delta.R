@@ -14,15 +14,15 @@ m_x <- rbind(seq(0, 100, length = 100),
              rep(10, 100))
 
 ## simulation scenarios
-df_param <- expand.grid(e = 0.8, # to conv_eff
-                        a_bc = 0.01, # to attack_rate
-                        a_bp = c(0, 0.01, 0.5), # to attack_rate
-                        a_cp = c(0.01), # to attack_rate
+df_param <- expand.grid(e = 1, # to conv_eff
+                        a_bc = 0.025, # to attack_rate
+                        a_bp = c(0, 0.025, 0.5), # to attack_rate
+                        a_cp = 0.025, # to attack_rate
                         h = 0.5, # to handling_time
                         s = 1) %>% 
   as_tibble() %>% 
   mutate(omn = case_when(a_bp == 0 ~ "Chain",
-                         a_bp == 0.01 ~ "Weak",
+                         a_bp == 0.025 ~ "Weak",
                          a_bp == 0.5 ~ "Strong"),
          omn = factor(omn,
                       levels = c("Chain",

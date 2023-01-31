@@ -26,9 +26,9 @@ g_one <- readRDS(here::here("output/sim_one_patch.rds")) %>%
              fill = fcl)) +
   geom_raster(alpha = 0.8) +
   geom_point(data = expand.grid(a = c(0.025, 0.5),
-                                h = c(0.5, 1.25),
+                                h = c(0.75, 1.5),
                                 fcl = 0) %>% 
-               filter(!(a == 0.5 & h == 0.5)),
+               filter(!(a == 0.5 & h == 0.75)),
              color = "black") +
   facet_grid(rows = vars(r_b),
              cols = vars(s, k), labeller = labeller(s = as_labeller(lab1, label_parsed),
