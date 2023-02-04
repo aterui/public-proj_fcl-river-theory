@@ -8,99 +8,98 @@ source(here::here("code/figure_theme.R"))
 
 # analysis ----------------------------------------------------------------
 
-load(file = here::here("output/result_main.RData"))
+df_sim <- readRDS(file = here::here("output/sim_main.rds"))
 
-df_sim <- sim_main_result %>% 
+df_param <- df_sim %>% 
+  select(-c(fcl,
+            p_basal,
+            p_igprey,
+            p_igpred,
+            mc_capacity,
+            p_branch,
+            n_patch,
+            n_rep)) %>% 
+  distinct()
+
+df_coef <- df_sim %>% 
   group_by(param_set) %>% 
-  filter(sd_disturb_source == 3,
-         sd_disturb_lon == 0.1) %>% 
-  mutate(omn = case_when(e_bp == 0 ~ "Chain",
-                         e_bp == 2 ~ "Weak",
-                         e_bp == 4 ~ "Strong"),
-         omn = factor(omn, levels = c("Chain",
-                                      "Weak",
-                                      "Strong")),
-         productivity = recode(r_b,
-                               `4` = sprintf('"Low productivity"~(r[b]=="%.2f")',
-                                             r_b),
-                               `8` = sprintf('"High productivity"~(r[b]=="%.2f")',
-                                             r_b)),
-         productivity = factor(productivity,
-                               levels = rev(levels(factor(productivity)))),
-         disturb = recode(p_disturb,
-                          `0.01` = sprintf('"Low disturbance"~(p[m]=="%.2f")',
-                                           p_disturb),
-                          `0.1` = sprintf('"High disturbance"~(p[m]=="%.2f")',
-                                          p_disturb)),
-         disturb = factor(disturb,
-                          levels = rev(levels(factor(disturb)))),
-         dispersal = recode(theta,
-                            `0.1` = sprintf('"Long dispersal"~(theta=="%.2f")',
-                                            theta),
-                            `1` = sprintf('"Short dispersal"~(theta=="%.2f")',
-                                          theta)),
-         
-  )
+  do(param_set = unique(.$param_set),
+     rho1 = cor(.$fcl, .$n_patch, method = "spearman"),
+     rho2 = cor(.$fcl, .$p_branch, method = "spearman")) %>% 
+  summarize(param_set = param_set,
+            rho1 = unlist(rho1),
+            rho2 = unlist(rho2))
+
+# h, s, theta, a_bp, mean_disturb_source
+df0 <- df_param %>% 
+  left_join(df_coef,
+            by = "param_set") %>% 
+  filter(!(s == 0 & a_bp != 0),
+         h == 1.25,
+         mean_disturb_source == 0.8) %>% 
+  mutate(omn = case_when(a_bp == 0 ~ "Chain",
+                         a_bp == 0.025 ~ "Weak",
+                         a_bp == 0.25 ~ "Strong"),
+         omn = fct_relevel(omn, c("Chain", "Weak", "Strong")),
+         disp = case_when(theta == 1 ~ "Short dispersal",
+                          theta == 0.1 ~ "Long dispersal"))
 
 
 # figure ------------------------------------------------------------------
 
 theme_set(plt_theme)
-param <- c(0.01, 0.1)
 
 ## Ecosystem size
-g_np_list <- foreach(i = seq_len(length(param))) %do% {
-  df_sim %>% 
-    filter(p_disturb == param[i]) %>% 
-    ggplot(aes(x = n_patch,
-               y = fcl,
-               color = omn,
-               fill = omn)) +
-    geom_smooth(method = "loess",
-                size = 0.5) +
-    facet_grid(rows = vars(dispersal),
-               cols = vars(productivity),
-               labeller = label_parsed) +
-    labs(x = "Ecosystem size (number of patches)",
-         y = "Food chain length",
-         color = "Omnivory",
-         fill = "Omnivory") +
-    MetBrewer::scale_color_met_d("Hiroshige") +
-    MetBrewer::scale_fill_met_d("Hiroshige")
-}
+g_size <- df0 %>% 
+  ggplot(aes(x = r_b,
+             y = p_disturb,
+             fill = rho1)) +
+  geom_raster() +
+  facet_grid(cols = vars(omn),
+             rows = vars(disp)) +
+  scale_fill_gradient2(mid = 0,
+                       limits = c(min(df0$rho1, df0$rho2, na.rm = T),
+                                  max(df0$rho1, df0$rho2, na.rm = T))
+                       ) + 
+  theme_classic() +
+  theme(strip.background = element_blank())
 
 ## Ecosystem complexity
-g_pb_list <- foreach(i = seq_len(length(param))) %do% {
-  df_sim %>% 
-    filter(p_disturb == param[i]) %>% 
-    ggplot(aes(x = p_branch,
-               y = fcl,
-               color = omn,
-               fill = omn)) +
-    geom_smooth(method = "loess",
-                size = 0.5) +
-    facet_grid(rows = vars(dispersal),
-               cols = vars(productivity),
-               labeller = label_parsed) +
-    labs(x = "Ecosystem complexity (branching prob.)",
-         y = "Food chain length",
-         color = "Omnivory",
-         fill = "Omnivory") +
-    MetBrewer::scale_color_met_d("Hiroshige") +
-    MetBrewer::scale_fill_met_d("Hiroshige")
-}
+g_branch <- df0 %>% 
+  ggplot(aes(x = r_b,
+             y = p_disturb,
+             fill = rho2)) +
+  geom_raster() +
+  facet_grid(cols = vars(omn),
+             rows = vars(disp)) +
+  scale_fill_gradient2(mid = 0,
+                       limits = c(min(df0$rho1, df0$rho2, na.rm = T),
+                                  max(df0$rho1, df0$rho2, na.rm = T))
+  ) + 
+  theme_classic() +
+  theme(strip.background = element_blank())
 
-## merge
-g_ld <- g_np_list[[1]] + g_pb_list[[1]] + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
-g_hd <- g_np_list[[2]] + g_pb_list[[2]] + plot_annotation(tag_levels = "A") + plot_layout(guides = "collect")
+g_size / g_branch + plot_layout(guides = "collect")
 
-ggsave(g_ld,
-       filename = here::here("output/figure_ld_main.pdf"),
-       height = 7.5,
-       width = 12)
 
-ggsave(g_hd,
-       filename = here::here("output/figure_hd_main.pdf"),
-       height = 7.5,
-       width = 12)
 
+# test --------------------------------------------------------------------
+
+df_sim %>% 
+  filter(!(s == 0 & a_bp != 0),
+         h == 1.25,
+         mean_disturb_source == 0.8,
+         r_b == 20) %>% 
+  mutate(omn = case_when(a_bp == 0 ~ "Chain",
+                         a_bp == 0.025 ~ "Weak",
+                         a_bp == 0.25 ~ "Strong"),
+         omn = fct_relevel(omn, c("Chain", "Weak", "Strong")),
+         disp = case_when(theta == 1 ~ "Short dispersal",
+                          theta == 0.1 ~ "Long dispersal")) %>% 
+  ggplot(aes(x = p_branch,
+             y = fcl,
+             color = factor(p_disturb),
+             fill = factor(p_disturb))) +
+  geom_smooth(method = "loess") +
+  facet_grid(rows = vars(omn),
+             cols = vars(disp))

@@ -9,13 +9,13 @@ source(here::here("code/figure_theme.R"))
 # data --------------------------------------------------------------------
 
 lab1 <- c(`0` = "No~switching~(s==0)",
-          `1` = "Strong~switching~(s==1)")
+          `0.5` = "Strong~switching~(s==0.5)")
 
-lab2 <- c(`5` = "r[B]==5",
-          `10` = "r[B]==10")
+lab2 <- c(`2` = "r[B]==2",
+          `20` = "r[B]==20")
 
-lab3 <- c(`500` = "K==500",
-          `1000` = "K==1000")
+lab3 <- c(`100` = "K==100",
+          `500` = "K==500")
 
 g_one <- readRDS(here::here("output/sim_one_patch.rds")) %>% 
   group_by(param_set) %>% 
@@ -25,10 +25,10 @@ g_one <- readRDS(here::here("output/sim_one_patch.rds")) %>%
              y = h,
              fill = fcl)) +
   geom_raster(alpha = 0.8) +
-  geom_point(data = expand.grid(a = c(0.025, 0.5),
-                                h = c(0.75, 1.5),
+  geom_point(data = expand.grid(a = c(0.025, 0.25),
+                                h = c(0.5, 1.25),
                                 fcl = 0) %>% 
-               filter(!(a == 0.5 & h == 0.75)),
+               filter(!(a != 0.025 & h == 0.5)),
              color = "black") +
   facet_grid(rows = vars(r_b),
              cols = vars(s, k), labeller = labeller(s = as_labeller(lab1, label_parsed),
