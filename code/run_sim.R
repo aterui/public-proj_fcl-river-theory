@@ -11,7 +11,8 @@ registerDoSNOW(cl)
 # set parameters ----------------------------------------------------------
 
 # igpsim parameters
-df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
+df_param <- expand.grid(mean_disturb_source = c(0.4, 0.8),
+                        phi_disturb = 10000,
                         sd_disturb_source = c(0.01, 1),
                         sd_disturb_lon = c(0.01, 1),
                         
@@ -19,22 +20,26 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
                         base_k = 500,
                         z = 0.54, # Finlay 2011 Ecosphere
                         
+                        # timestep
                         n_timestep = 1000,
                         n_warmup = 200,
                         n_burnin = 400,
-                        r_b = c(5, 10),
-                        e = 1, # to conv_eff[3]
+                        
+                        # food web parameter
+                        r_b = seq(2, 20, length = 4),
+                        e = 1, # to conv_eff
                         a_bc = c(0.025), # to attack_rate[1]
-                        a_bp = c(0, 0.025, 0.5), # to attack_rate[2]
+                        a_bp = c(0, 0.025, 0.25), # to attack_rate[2]
                         a_cp = c(0.025), # to attack_rate[3]
-                        h = c(0.75, 1.5), # to handling_time[3]
-                        s = c(0, 1),
-                        p_disturb = seq(0, 0.1, length = 5),
+                        h = c(0.5, 1.25), # to handling_time
+                        s = c(0, 0.5),
+                        p_disturb = seq(0, 0.15, length = 4),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
   filter(sd_disturb_source > sd_disturb_lon,
-         !(p_disturb == 0 & mean_disturb_source == 0.2)) %>% 
+         !(p_disturb == 0 & mean_disturb_source == 0.2),
+         !(a_bp == 0 & s != 0)) %>% 
   arrange(p_disturb,
           theta) %>% 
   mutate(param_set = seq_len(nrow(.))) %>% 
@@ -43,10 +48,17 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
            theta)
 
 # geometry parameters
-n_rep <- 250
-n_patch <- seq(10, 150, length = n_rep) %>% round()
-p_branch <- seq(0.01, 0.99, length = n_rep)
+n_rep <- 500
 
+repeat {
+  n_patch <- round(runif(n_rep, 10, 150))
+  p_branch <- runif(n_rep, 0.01, 0.99)
+  
+  if(min(n_patch) < 15 & 
+     max(n_patch) > 145 &
+     min(p_branch) < 0.05 &
+     max(p_branch) > 0.95) break    
+}
 
 # run simulation ----------------------------------------------------------
 
@@ -88,6 +100,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                                       carrying_capacity = v_k,
                                                       p_disturb = x$p_disturb,
                                                       m_disturb = v_m_disturb,
+                                                      phi_disturb = x$phi_disturb,
                                                       p_dispersal = x$p_dispersal,
                                                       theta = x$theta,
                                                       distance_matrix = net$distance_matrix)
