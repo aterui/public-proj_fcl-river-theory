@@ -12,7 +12,7 @@ registerDoSNOW(cl)
 
 # igpsim parameters
 df_param <- expand.grid(mean_disturb_source = c(0.4, 0.8),
-                        phi_disturb = 10000,
+                        phi_disturb = 1000,
                         sd_disturb_source = c(0.01, 1),
                         sd_disturb_lon = c(0.01, 1),
                         
@@ -28,18 +28,17 @@ df_param <- expand.grid(mean_disturb_source = c(0.4, 0.8),
                         # food web parameter
                         r_b = seq(2, 20, length = 4),
                         e = 1, # to conv_eff
-                        a_bc = c(0.025), # to attack_rate[1]
-                        a_bp = c(0, 0.025, 0.25), # to attack_rate[2]
-                        a_cp = c(0.025), # to attack_rate[3]
-                        h = c(0.5, 1.25), # to handling_time
+                        a_bc = c(0.1), # to attack_rate[1]
+                        a_bp = c(0, 0.01, 0.05), # to attack_rate[2]
+                        a_cp = c(0.1), # to attack_rate[3]
+                        h = 0.75, # to handling_time
                         s = c(0, 0.5),
                         p_disturb = seq(0, 0.15, length = 4),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
   filter(sd_disturb_source > sd_disturb_lon,
-         !(p_disturb == 0 & mean_disturb_source == 0.2),
-         !(a_bp == 0 & s != 0)) %>% 
+         !(p_disturb == 0 & mean_disturb_source == 0.2)) %>% 
   arrange(p_disturb,
           theta) %>% 
   mutate(param_set = seq_len(nrow(.))) %>% 
@@ -66,6 +65,7 @@ pb <- txtProgressBar(max = nrow(df_param), style = 3)
 fun_progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress = fun_progress)
 
+tic()
 result <- foreach(x = iter(df_param, by = 'row'),
                   .combine = "bind_rows",
                   .packages = c("foreach", "dplyr", "mcbrnet"),
@@ -84,7 +84,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                         
                                         # patch attributes
                                         v_k <- x$base_k * net$df_patch$n_patch_upstream^x$z
-                                        v_m_disturb <- net$df_patch$disturbance
+                                        v_i_disturb <- net$df_patch$disturbance
                                         
                                         dyn <- igpsim(n_patch = n_patch[j],
                                                       n_warmup = x$n_warmup,
@@ -99,7 +99,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                                       s = x$s,
                                                       carrying_capacity = v_k,
                                                       p_disturb = x$p_disturb,
-                                                      m_disturb = v_m_disturb,
+                                                      i_disturb = v_i_disturb,
                                                       phi_disturb = x$phi_disturb,
                                                       p_dispersal = x$p_dispersal,
                                                       theta = x$theta,
@@ -123,6 +123,7 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                       }
                     return(df_set)
                   }
+toc()
 
 # return ------------------------------------------------------------------
 
