@@ -3,7 +3,7 @@
 
 rm(list = ls(all.names = TRUE))
 source(here::here("code/library.R"))
-source(here::here("code/figure_theme.R"))
+source(here::here("code/set_figure_theme.R"))
 
 
 # figure ------------------------------------------------------------------
@@ -62,7 +62,7 @@ g_delta <- df_m %>%
              linetype = omn)) +
   geom_line(color = grey(0.4)) +
   labs(x = "Basal species density",
-       y = expression("Proportional contribution to predator"~~(delta)),
+       y = expression("Contribution to predator"~~(delta)),
        linetype = "Omnivory")
 
 print(g_delta)

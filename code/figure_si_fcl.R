@@ -3,7 +3,7 @@
 
 rm(list = ls(all.names = TRUE))
 source(here::here("code/library.R"))
-source(here::here("code/figure_theme.R"))
+source(here::here("code/set_figure_theme.R"))
 
 
 # analysis ----------------------------------------------------------------

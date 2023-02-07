@@ -10,7 +10,7 @@ lapply(list("code/library.R",
 
 ## filter s & mean_disturb_source for visualization
 s_set <- 0.5
-mu_disturb <- 0.8
+mu_disturb <- 0.4
 
 ## df for heatmap
 df_heat <- df_param %>% 
@@ -27,7 +27,6 @@ df_plot <- df_sim %>%
 
 # heatmap -----------------------------------------------------------------
 
-theme_set(plt_theme)
 r_set <- c(8, 20)
 df_point <- expand.grid(r_b = r_set,
                         p_disturb = unique(df_sim$p_disturb),
@@ -96,7 +95,6 @@ g_gam_np <- foreach(i = 1:length(r_set)) %do% {
     ggtitle(ifelse(r_set[i] == min(r_set),
                    expression("Low productivity ("*r[b]~"= 8)"),
                    expression("High productivity ("*r[b]~"= 20)")))
-  
 }
 
 g_np <- (g_gam_np[[1]] + g_gam_np[[2]]) + 
@@ -126,7 +124,6 @@ g_gam_pb <- foreach(i = 1:length(r_set)) %do% {
     ggtitle(ifelse(r_set[i] == min(r_set),
                    expression("Low productivity ("*r[b]~"= 8)"),
                    expression("High productivity ("*r[b]~"= 20)")))
-  
 }
 
 g_pb <- (g_gam_pb[[1]] + g_gam_pb[[2]]) + 
@@ -138,19 +135,19 @@ g_pb <- (g_gam_pb[[1]] + g_gam_pb[[2]]) +
 
 ## heatmap
 ggsave(g_m,
-       filename = here::here("figure/figure_main_heatmap.pdf"),
+       filename = here::here("figure/figure_si_heatmap.pdf"),
        height = 7,
        width = 14)
 
 ## ecosystem size with low productivity
 ggsave(g_np,
-       filename = here::here("figure/figure_main_n_patch.pdf"),
+       filename = here::here("figure/figure_si_n_patch.pdf"),
        height = 9,
        width = 15)
 
 ## ecosystem size with low productivity
 ggsave(g_pb,
-       filename = here::here("figure/figure_main_p_branch.pdf"),
+       filename = here::here("figure/figure_si_p_branch.pdf"),
        height = 9,
        width = 15)
 
