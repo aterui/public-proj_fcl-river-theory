@@ -15,15 +15,15 @@ m_x <- rbind(seq(0, 100, length = 100),
 
 ## simulation scenarios
 df_param <- expand.grid(e = 1, # to conv_eff
-                        a_bc = 0.025, # to attack_rate
-                        a_bp = c(0, 0.025, 0.25), # to attack_rate
-                        a_cp = 0.025, # to attack_rate
+                        a_bc = 0.1, # to attack_rate
+                        a_bp = c(0, 0.01, 0.05), # to attack_rate
+                        a_cp = 0.1, # to attack_rate
                         h = 0.75, # to handling_time
-                        s = 0.5) %>% 
+                        s = 0) %>% 
   as_tibble() %>% 
   mutate(omn = case_when(a_bp == 0 ~ "Chain",
-                         a_bp == 0.025 ~ "Weak",
-                         a_bp == 0.25 ~ "Strong"),
+                         a_bp == 0.01 ~ "Weak",
+                         a_bp == 0.05 ~ "Strong"),
          omn = factor(omn,
                       levels = c("Chain",
                                  "Weak",
@@ -64,3 +64,5 @@ g_delta <- df_m %>%
   labs(x = "Basal species density",
        y = expression("Proportional contribution to predator"~~(delta)),
        linetype = "Omnivory")
+
+print(g_delta)

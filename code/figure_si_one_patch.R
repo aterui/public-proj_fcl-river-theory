@@ -3,7 +3,7 @@
 
 rm(list = ls())
 source(here::here("code/library.R"))
-source(here::here("code/figure_theme.R"))
+source(here::here("code/set_figure_theme.R"))
 
 
 # data --------------------------------------------------------------------
@@ -53,7 +53,7 @@ foreach(i = 1:length(h_set)) %do% {
   # export ------------------------------------------------------------------
   
   ggsave(g_one, 
-         filename = here::here(paste0("figure/figure_one_patch_h",
+         filename = here::here(paste0("figure/si_figure_one_patch_h",
                                       h_set[i] * 100,
                                       ".pdf")),
          width = 12,
