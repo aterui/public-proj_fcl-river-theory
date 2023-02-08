@@ -109,15 +109,56 @@ result <- foreach(x = iter(df_param, by = 'row'),
                                           group_by(species) %>% 
                                           summarize(p = mean(abundance > 0))
                                         
+                                        df_state <- dyn$df_dynamics %>% 
+                                          mutate(one = as.numeric(abundance > 0)) %>% 
+                                          pivot_wider(id_cols = c(patch_id, timestep),
+                                                      values_from = one,
+                                                      names_from = species) %>% 
+                                          mutate(state = case_when(basal == 1 & `ig-prey` == 1 & `ig-predator` == 1 ~ 4,
+                                                                   basal == 1 & `ig-prey` == 0 & `ig-predator` == 1 ~ 3,
+                                                                   basal == 1 & `ig-prey` == 1 & `ig-predator` == 0 ~ 2,
+                                                                   basal == 1 & `ig-prey` == 0 & `ig-predator` == 0 ~ 1,
+                                                                   basal == 0 & `ig-prey` == 0 & `ig-predator` == 0 ~ 0)) %>% 
+                                          drop_na(state) %>% 
+                                          group_by(state) %>% 
+                                          tally() %>% 
+                                          mutate(p = n / sum(n)) %>% 
+                                          full_join(tibble(state = 0:4),
+                                                    by = "state") %>% 
+                                          mutate(n = replace_na(n, 0),
+                                                 p = replace_na(p, 0)) %>% 
+                                          arrange(state)
+                                        
                                         df <- tibble(n_rep = j,
                                                      mc_capacity = sum(v_k),
                                                      n_patch = n_patch[j],
                                                      p_branch = p_branch[j],
                                                      x,
                                                      fcl = mean(dyn$df_patch$fcl),
-                                                     p_basal = df_occ$p[1],
-                                                     p_igprey = df_occ$p[2],
-                                                     p_igpred = df_occ$p[3])
+                                                     p_basal = df_occ %>%
+                                                       filter(species == "basal") %>% 
+                                                       pull(p),
+                                                     p_igprey = df_occ %>%
+                                                       filter(species == "ig-prey") %>% 
+                                                       pull(p),
+                                                     p_igpred = df_occ %>%
+                                                       filter(species == "ig-predator") %>% 
+                                                       pull(p),
+                                                     s0 = df_state %>% 
+                                                       filter(state == 0) %>% 
+                                                       pull(p),
+                                                     s1 = df_state %>% 
+                                                       filter(state == 1) %>% 
+                                                       pull(p),
+                                                     s2 = df_state %>% 
+                                                       filter(state == 2) %>% 
+                                                       pull(p),
+                                                     s3 = df_state %>% 
+                                                       filter(state == 3) %>% 
+                                                       pull(p),
+                                                     s4 = df_state %>% 
+                                                       filter(state == 4) %>% 
+                                                       pull(p))
                                         
                                         return(df)
                                       }
