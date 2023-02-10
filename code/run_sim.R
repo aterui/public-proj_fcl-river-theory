@@ -68,7 +68,7 @@ opts <- list(progress = fun_progress)
 tic()
 result <- foreach(x = iter(df_param, by = 'row'),
                   .combine = "bind_rows",
-                  .packages = c("foreach", "dplyr", "mcbrnet"),
+                  .packages = c("foreach", "dplyr", "mcbrnet", "tidyr"),
                   .options.snow = opts) %dopar% {
                     
                     df_set <- foreach(j = seq_len(n_rep),
