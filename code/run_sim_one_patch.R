@@ -14,12 +14,13 @@ df_param <- expand.grid(n_timestep = 1000,
                         n_warmup = 200,
                         n_burnin = 400,
                         r_b = seq(2, 20, length = 4),
-                        k = c(100, 500),
+                        k = c(100, 1000),
                         e = 1, # to conv_eff[1]
-                        a1 = seq(0, 0.5, length = 20),
-                        a2 = seq(0, 0.25, length = 20),
+                        a1 = 0.5,
+                        a2 = seq(0, 0.1, length = 20),
+                        a3 = seq(0, 0.05, length = 20),
                         h = seq(0, 1, by = 0.25),
-                        s = c(0, 0.5)) %>%
+                        s = c(0, 1)) %>%
   mutate(param_set = seq_len(nrow(.))) %>% 
   as_tibble()
 
@@ -38,7 +39,7 @@ df_fcl <- foreach(i = 1:nrow(df_param),
                                                             conv_eff = x$e,
                                                             attack_rate = c(x$a1,
                                                                             x$a2,
-                                                                            x$a1),
+                                                                            x$a3),
                                                             handling_time = x$h,
                                                             s = x$s,
                                                             carrying_capacity = x$k,
