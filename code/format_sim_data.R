@@ -9,10 +9,10 @@ source(here::here("code/set_figure_theme.R"))
 # format ------------------------------------------------------------------
 
 df_sim <- readRDS(file = here::here("output/sim_main.rds")) %>% 
-  filter(!(a_bp == 0 & s != 0)) %>% 
+  #filter(!(a_bp == 0 & s != 0)) %>% 
   mutate(omn = case_when(a_bp == 0 ~ "Chain",
-                         a_bp == 0.01 ~ "Weak",
-                         a_bp == 0.05 ~ "Strong"),
+                         a_bp == 0.02 ~ "Weak",
+                         a_bp == 0.04 ~ "Strong"),
          omn = fct_relevel(omn, c("Chain", "Weak", "Strong")),
          disp = case_when(theta == 1 ~ "Short dispersal",
                           theta == 0.1 ~ "Long dispersal"))
@@ -31,7 +31,8 @@ df_param <- df_sim %>%
 df_coef <- df_sim %>% 
   group_by(param_set) %>% 
   do(param_set = unique(.$param_set),
-     mod = lm(log(fcl + 1) ~ log(n_patch) + log(p_branch), data = .)) %>% 
+     rho1 = cor(.$fcl, .$n_patch, method = "spearman"),
+     rho2 = cor(.$fcl, .$p_branch, method = "spearman")) %>% 
   summarize(param_set = param_set,
-            rho1 = coef(mod)[2],
-            rho2 = coef(mod)[3])
+            rho1 = unlist(rho1),
+            rho2 = unlist(rho2))
