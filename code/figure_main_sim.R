@@ -9,7 +9,7 @@ lapply(list("code/library.R",
        source)
 
 ## filter s & mean_disturb_source for visualization
-s_set <- 0.5
+s_set <- 1
 mu_disturb <- 0.8
 r_set <- c(8, 20)
 
@@ -30,7 +30,6 @@ df_plot <- df_sim %>%
 # heatmap -----------------------------------------------------------------
 
 theme_set(plt_theme)
-r_set <- c(8, 20)
 df_point <- expand.grid(r_b = r_set,
                         p_disturb = unique(df_sim$p_disturb),
                         rho1 = 0,
@@ -85,10 +84,11 @@ g_np <-  df_plot %>%
                y = fcl,
                color = factor(p_disturb),
                fill = factor(p_disturb))) +
-    geom_smooth(method = "gam") +
+    #geom_point(alpha = 0.1) +
+    geom_smooth(method = "loess") +
     facet_grid(rows = vars(omn),
                cols = vars(disp, r_b),
-               scales = "free",
+               #scales = "free",
                labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
     labs(y = "Food chain length",
          x = "Ecosystem size (number of habitat patches)",
@@ -103,10 +103,11 @@ g_pb <-  df_plot %>%
              y = fcl,
              color = factor(p_disturb),
              fill = factor(p_disturb))) +
-  geom_smooth(method = "gam") +
+  #geom_point(alpha = 0.1) +
+  geom_smooth(method = "loess") +
   facet_grid(rows = vars(omn),
              cols = vars(disp, r_b),
-             scales = "free",
+             #scales = "free",
              labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
   labs(y = "Food chain length",
        x = "Ecosystem complexity (branching probability)",

@@ -19,10 +19,10 @@ lab <- list(c(`0` = "h==0.0",
               `20` = "r[B]==20"))
 
 df_fcl <- readRDS(here::here("output/sim_one_patch.rds"))
-s_set <- unique(df_fcl$s)
 k_set <- unique(df_fcl$k)
+a1_set <- unique(df_fcl$a1)
 
-foreach(i = 1:length(s_set)) %do% {
+foreach(i = 1:length(a1_set)) %do% {
   
   list_g_one <- foreach(j = 1:length(k_set)) %do% {
     
@@ -30,16 +30,12 @@ foreach(i = 1:length(s_set)) %do% {
       group_by(param_set) %>% 
       summarize(across(.fns = unique, .cols = -c(fcl, state)),
                 state = max(state)) %>% 
-      filter(s == s_set[i],
+      filter(a1 == a1_set[i],
              k == k_set[j]) %>% 
       ggplot(aes(x = a2,
                  y = a3,
                  fill = factor(state))) +
       geom_raster(alpha = 0.8) +
-      geom_point(data = expand.grid(a2 = 0.05,
-                                    a3 = 0.005,
-                                    h = 0.75,
-                                    state = 0)) +
       facet_grid(rows = vars(r_b),
                  cols = vars(h), labeller = labeller(h = as_labeller(lab[[1]], label_parsed),
                                                         r_b = as_labeller(lab[[2]], label_parsed))) +
@@ -53,8 +49,13 @@ foreach(i = 1:length(s_set)) %do% {
             strip.text = element_text(size = 12), 
             axis.title = element_text(size = 14),
             axis.text = element_text(size = 10)) +
-      ggtitle(paste0("K = ", k_set[j]))
+      ggtitle(paste0("K = ", k_set[j])) +
+      geom_point(data = expand.grid(a2 = c(0, 0.02, 0.04),
+                                    a3 = 0.02,
+                                    h = 0.5,
+                                    state = 0))
     
+    return(g_one)
   }
   
   g_one_joint <- list_g_one[[1]] / list_g_one[[2]] + 
@@ -64,8 +65,8 @@ foreach(i = 1:length(s_set)) %do% {
   # export ------------------------------------------------------------------
   
   ggsave(g_one_joint, 
-         filename = here::here(paste0("figure/si_figure_one_patch_s",
-                                      s_set[i] * 100,
+         filename = here::here(paste0("figure/si_figure_one_patch_a1_",
+                                      a1_set[i] * 100,
                                       ".pdf")),
          width = 10,
          height = 15)

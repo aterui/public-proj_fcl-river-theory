@@ -9,20 +9,20 @@ lapply(list("code/library.R",
        source)
 
 ## filter s & mean_disturb_source for visualization
-s_set <- 0.5
-mu_disturb <- 0.4
+s_set <- 1
+mu_disturb <- 0.2
 r_set <- c(8, 20)
 
 ## df for heatmap
 df_heat <- df_param %>% 
   left_join(df_coef,
             by = "param_set") %>% 
-  filter(mean_disturb_source == mu_disturb,
+  filter(mean_disturb_source == mu_disturb | p_disturb == 0,
          (s == 0 & a_bp == 0) | s == s_set)
 
 ## df for gam plot
 df_plot <- df_sim %>% 
-  filter(mean_disturb_source == mu_disturb,
+  filter(mean_disturb_source == mu_disturb | p_disturb == 0,
          (s == 0 & a_bp == 0) | s == s_set,
          r_b %in% r_set)
 
@@ -30,7 +30,6 @@ df_plot <- df_sim %>%
 # heatmap -----------------------------------------------------------------
 
 theme_set(plt_theme)
-r_set <- c(8, 20)
 df_point <- expand.grid(r_b = r_set,
                         p_disturb = unique(df_sim$p_disturb),
                         rho1 = 0,
@@ -76,7 +75,7 @@ g_m <- (g_size + g_branch) + plot_annotation(tag_levels = "A")
 
 # gam plot ----------------------------------------------------------------
 
-lab <- c(`8` = "Low~productivity~(r[b]==8)",
+lab <- c(`2` = "Low~productivity~(r[b]==8)",
          `20` = "High~productivity~(r[b]==20)")
 
 ## ecosystem size effect
@@ -85,7 +84,8 @@ g_np <-  df_plot %>%
              y = fcl,
              color = factor(p_disturb),
              fill = factor(p_disturb))) +
-  geom_smooth(method = "gam") +
+  #geom_point(alpha = 0.1) +
+  geom_smooth(method = "loess") +
   facet_grid(rows = vars(omn),
              cols = vars(disp, r_b),
              scales = "free",
@@ -103,7 +103,8 @@ g_pb <-  df_plot %>%
              y = fcl,
              color = factor(p_disturb),
              fill = factor(p_disturb))) +
-  geom_smooth(method = "gam") +
+  #geom_point(alpha = 0.1) +
+  geom_smooth(method = "loess") +
   facet_grid(rows = vars(omn),
              cols = vars(disp, r_b),
              scales = "free",
