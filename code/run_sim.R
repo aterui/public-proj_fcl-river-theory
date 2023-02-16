@@ -11,13 +11,13 @@ registerDoSNOW(cl)
 # set parameters ----------------------------------------------------------
 
 # igpsim parameters
-df_param <- expand.grid(mean_disturb_source = c(0.4, 0.8),
+df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
                         phi_disturb = 1000,
                         sd_disturb_source = c(0.01, 1),
                         sd_disturb_lon = c(0.01, 1),
                         
                         # carring capacity
-                        base_k = 500,
+                        base_k = 100,
                         z = 0.54, # Finlay 2011 Ecosphere
                         
                         # timestep
@@ -28,16 +28,18 @@ df_param <- expand.grid(mean_disturb_source = c(0.4, 0.8),
                         # food web parameter
                         r_b = seq(2, 20, length = 4),
                         e = 1, # to conv_eff
-                        a_bc = c(0.1), # to attack_rate[1]
-                        a_bp = c(0, 0.01, 0.05), # to attack_rate[2]
-                        a_cp = c(0.1), # to attack_rate[3]
-                        h = 0.75, # to handling_time
-                        s = c(0, 0.5),
+                        a_bc = 0.5, # to attack_rate[1]
+                        a_bp = c(0, 0.02, 0.04), # to attack_rate[2]
+                        a_cp = c(0.02), # to attack_rate[3]
+                        h = 0.5, # to handling_time
+                        s = c(0, 1),
                         p_disturb = seq(0, 0.15, length = 4),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
   filter(sd_disturb_source > sd_disturb_lon,
+         !(s == 1 & a_bp == 0), # remove s = 1 for chain scenario
+         !(s == 0 & a_bp != 0), # remove s = 0 for omnivory scenarios
          !(p_disturb == 0 & mean_disturb_source == 0.2)) %>% 
   arrange(p_disturb,
           theta) %>% 

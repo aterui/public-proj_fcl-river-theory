@@ -16,11 +16,11 @@ df_param <- expand.grid(n_timestep = 1000,
                         r_b = seq(2, 20, length = 4),
                         k = c(100, 1000),
                         e = 1, # to conv_eff[1]
-                        a1 = 0.5,
+                        a1 = c(0.25, 0.5),
                         a2 = seq(0, 0.1, length = 20),
                         a3 = seq(0, 0.05, length = 20),
                         h = seq(0, 1, by = 0.25),
-                        s = c(0, 1)) %>%
+                        s = 1) %>%
   mutate(param_set = seq_len(nrow(.))) %>% 
   as_tibble()
 
