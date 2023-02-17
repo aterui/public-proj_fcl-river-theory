@@ -18,6 +18,8 @@ lab <- list(c(`0` = "h==0.0",
               `14` = "r[B]==14",
               `20` = "r[B]==20"))
 
+state_lab <- c("No species", "B", "B + C", "B + P", "B + C + P")
+
 df_fcl <- readRDS(here::here("output/sim_one_patch.rds"))
 k_set <- unique(df_fcl$k)
 a1_set <- unique(df_fcl$a1)
@@ -39,7 +41,7 @@ foreach(i = 1:length(a1_set)) %do% {
       facet_grid(rows = vars(r_b),
                  cols = vars(h), labeller = labeller(h = as_labeller(lab[[1]], label_parsed),
                                                         r_b = as_labeller(lab[[2]], label_parsed))) +
-      scale_fill_viridis_d(limits = factor(0:4)) +
+      scale_fill_viridis_d(limits = factor(0:4), labels = state_lab) +
       scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
       labs(x = expression("Attack rate ("*a[BP]*")"),
            y = expression("Attack rate ("*a[CP]*")"),

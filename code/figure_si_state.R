@@ -27,76 +27,104 @@ df_plot <- df_sim %>%
 
 theme_set(plt_theme)
 
-lab <- c(`8` = "Low~productivity~(r[b]==8)",
-         `20` = "High~productivity~(r[b]==20)")
+lab <- c(`8` = "Low~productivity",
+         `20` = "High~productivity")
+
+state_lab <- c(`s0` = "No species",
+               `s1` = "B",
+               `s2` = "B + C",
+               `s3` = "B + P",
+               `s4` = "B + C + P")
 
 ## ecosystem size effect
-list_g_np <- foreach(x = c(0, 0.15)) %do% {
+list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
 
   g_np <-  df_plot %>% 
-    filter(p_disturb == x) %>% 
+    filter(omn == x) %>% 
     ggplot(aes(x = n_patch,
                y = p_state,
-               color = factor(state),
-               fill = factor(state))) +
+               color = factor(p_disturb),
+               fill = factor(p_disturb))) +
     #geom_point(alpha = 0.1) +
     geom_smooth(method = "loess") +
-    facet_grid(rows = vars(omn),
+    facet_grid(rows = vars(state),
                cols = vars(disp, r_b),
                #scales = "free",
-               labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
-    labs(y = "Food chain length",
+               labeller = labeller(r_b = as_labeller(lab, label_parsed),
+                                   state = state_lab)) +
+    labs(y = "Occupancy",
          x = "Ecosystem size (number of habitat patches)",
-         color = "State",
-         fill = "State") +
-    scale_color_viridis_d() +
-    scale_fill_viridis_d()
-  
+         color = "Disturbance prob.",
+         fill = "Disturbance prob.") +
+    scale_color_met_d("Hiroshige", direction = -1) +
+    scale_fill_met_d("Hiroshige", direction = -1) +
+    ggtitle(x)
 }
 
+g_np_all <- list_g_np[[1]] + list_g_np[[2]] + 
+  list_g_np[[3]] + guide_area() +
+  plot_annotation(tag_levels = "A") +
+  plot_layout(guides = "collect", design = "AC
+                                            BD")
+
+
 ## ecosystem complexity effect
-list_g_bp <- foreach(x = c(0, 0.15)) %do% {
+list_g_bp <- foreach(x = unique(df_plot$omn)) %do% {
   
   g_bp <-  df_plot %>% 
-    filter(p_disturb == x) %>% 
+    filter(omn == x) %>% 
     ggplot(aes(x = p_branch,
                y = p_state,
-               color = factor(state),
-               fill = factor(state))) +
+               color = factor(p_disturb),
+               fill = factor(p_disturb))) +
     #geom_point(alpha = 0.1) +
     geom_smooth(method = "loess") +
-    facet_grid(rows = vars(omn),
+    facet_grid(rows = vars(state),
                cols = vars(disp, r_b),
                #scales = "free",
-               labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
-    labs(y = "Food chain length",
+               labeller = labeller(r_b = as_labeller(lab, label_parsed),
+                                   state = state_lab)) +
+    labs(y = "Occupancy",
          x = "Ecosystem complexity (branching prob.)",
-         color = "State",
-         fill = "State") +
-    scale_color_viridis_d() +
-    scale_fill_viridis_d()
-  
+         color = "Disturbance prob.",
+         fill = "Disturbance prob.") +
+    scale_x_continuous(breaks = c(0.1, 0.4, 0.7, 1.0)) +
+    scale_color_met_d("Hiroshige", direction = -1) +
+    scale_fill_met_d("Hiroshige", direction = -1) +
+    ggtitle(x)
 }
+
+g_bp_all <- list_g_bp[[1]] + list_g_bp[[2]] + 
+  list_g_bp[[3]] + guide_area() +
+  plot_annotation(tag_levels = "A") +
+  plot_layout(guides = "collect", design = "AC
+                                            BD")
 
 
 # export ------------------------------------------------------------------
 
-# ## heatmap
-# ggsave(g_m,
-#        filename = here::here("figure/figure_main_heatmap.pdf"),
-#        height = 7,
-#        width = 14)
+ggsave(g_np_all,
+       filename = here::here(paste0("figure/si_figure_state_n_patch.pdf")),
+       height = 14,
+       width = 14)
+
+ggsave(g_bp_all,
+       filename = here::here(paste0("figure/si_figure_state_p_branch.pdf")),
+       height = 14,
+       width = 14)
+
+# omn_lab <- c("chain", "weak", "strong")
 # 
-# ## ecosystem size with low productivity
-# ggsave(g_np,
-#        filename = here::here("figure/figure_main_n_patch.pdf"),
-#        height = 9,
-#        width = 15)
-# 
-# ## ecosystem size with low productivity
-# ggsave(g_pb,
-#        filename = here::here("figure/figure_main_p_branch.pdf"),
-#        height = 9,
-#        width = 15)
-# 
-# 
+# lapply(1:length(omn_lab), function(i) {
+#   
+#   ggsave(list_g_np[[i]],
+#          filename = here::here(paste0("figure/si_figure_state_n_patch_", omn_lab[i], ".pdf")),
+#          height = 7,
+#          width = 14)
+#   
+#   ggsave(list_g_bp[[i]],
+#          filename = here::here(paste0("figure/si_figure_state_p_branch_", omn_lab[i], ".pdf")),
+#          height = 7,
+#          width = 14)
+#   
+# })

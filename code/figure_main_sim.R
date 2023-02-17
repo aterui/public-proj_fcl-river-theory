@@ -27,7 +27,7 @@ df_plot <- df_sim %>%
          r_b %in% r_set)
 
 
-# heatmap -----------------------------------------------------------------
+# plot: heatmap -----------------------------------------------------------
 
 theme_set(plt_theme)
 df_point <- expand.grid(r_b = r_set,
@@ -73,7 +73,8 @@ g_branch <- df_heat %>%
 
 g_m <- (g_size + g_branch) + plot_annotation(tag_levels = "A")
 
-# gam plot ----------------------------------------------------------------
+
+# plot: geometry effect ---------------------------------------------------
 
 lab <- c(`8` = "Low~productivity~(r[b]==8)",
          `20` = "High~productivity~(r[b]==20)")
@@ -116,6 +117,39 @@ g_pb <-  df_plot %>%
   scale_x_continuous(breaks = c(0.1, 0.4, 0.7, 1)) +
   scale_color_met_d("Hiroshige", direction = -1) +
   scale_fill_met_d("Hiroshige", direction = -1)
+
+
+# plot: dispersal ---------------------------------------------------------
+
+g_disp <-  df_plot %>% 
+  ggplot(aes(x = factor(r_b),
+             y = fcl,
+             color = factor(theta),
+             fill = factor(theta))) +
+  geom_violin() +
+  facet_grid(rows = vars(omn),
+             cols = vars(r_b),
+             #scales = "free",
+             labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
+  labs(y = "Food chain length",
+       x = "Dispersal rate",
+       color = "Disturbance prob.",
+       fill = "Disturbance prob.") +
+  scale_color_met_d("Hiroshige", direction = -1) +
+  scale_fill_met_d("Hiroshige", direction = -1)
+
+
+# plot: productivity ------------------------------------------------------
+
+df_sim %>% 
+  filter(mean_disturb_source == mu_disturb) %>% 
+  ggplot(aes(x = factor(r_b),
+             y = fcl,
+             color = factor(p_disturb),
+             fill = factor(p_disturb))) +
+  geom_violin() +
+  facet_grid(rows = vars(omn),
+             cols = vars(theta))
 
 # export ------------------------------------------------------------------
 
