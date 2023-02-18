@@ -26,7 +26,7 @@ df_param <- expand.grid(mean_disturb_source = 0.8,
                         n_burnin = 400,
                         
                         # food web parameter
-                        r_b = 20,
+                        r_b = 8,
                         e = 1, # to conv_eff
                         a_bc = 0.5, # to attack_rate[1]
                         a_bp = c(0, 0.02, 0.04), # to attack_rate[2]
