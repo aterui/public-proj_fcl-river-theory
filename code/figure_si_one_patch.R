@@ -53,8 +53,8 @@ foreach(i = 1:length(a1_set)) %do% {
             axis.text = element_text(size = 10)) +
       ggtitle(paste0("K = ", k_set[j])) +
       geom_point(data = expand.grid(a2 = c(0, 0.02, 0.04),
-                                    a3 = 0.02,
-                                    h = 0.5,
+                                    a3 = 0.005,
+                                    h = 0.75,
                                     state = 0))
     
     return(g_one)
