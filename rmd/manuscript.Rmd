@@ -101,21 +101,31 @@ K_{x} &= K_{base}Q_{x}^z &&\text{(3)}
 \end{aligned}
 $$
 
-where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z$ the scaling exponent. In this formulation, the most upstream patch, at which $Q_x = 1$ (the number of upstream patches + 1), has the carrying capacity of $K_{base}$. We used $K_{base} = 100$ and $z = 0.54$ based on an empirical relationship of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
+where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z$ the scaling exponent. In this formulation, the most upstream patch, at which $Q_x = 1$ (the number of upstream patches + 1), has the carrying capacity of $K_{base}$. We used $K_{base} = 500$ and $z = 0.54$ based on an empirical relationship of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
 
 ## **Tri-trophic dynamic simulation model**
 
-We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch (see **Table 1** for parameter notations). A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). In our model, the realized species abundance $A_{i,x}(t+1)$ for species $i$ (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
+We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch (see **Table 1** for parameter notations). A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). The realized species abundance $A_{ix,t+1}$ for species $i$ (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
 
 $$
 \begin{aligned}
-A_{i,x}(t+1) &\sim \text{Poisson}(\bar{A}_{i,x}(t) + I_{i,x}(t) - E_{i,x}(t)) &&\text{(4)}
+A_{ix,t+1} &\sim \text{Poisson}(\bar{A}_{ix,t} + I_{ix,t} - E_{ix,t}) &&\text{(4)}
 \end{aligned}
 $$
 
-where $\bar{A}_{i,x}(t)$ is the expected species abundance after within-patch trophic interactions, $I_{i,x}(t)$ the expected number of immigrants into patch $x$, and $E_{i,x}(t)$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
+where $\bar{A}_{ix,t}$ is the expected species abundance after within-patch trophic interactions, $I_{ix,t}$ the expected number of immigrants into patch $x$, and $E_{ix,t}$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
 
-***Internal dynamics.*** Each time step starts with internal dynamics. We modeled density-dependent growth after accounting for background and predator-induced mortality:
+***Internal dynamics.*** Each time step starts with internal dynamics. The general formula is as follows:
+
+$$
+\begin{aligned}
+B_{x,t+1} &= B_{x,t}g(B_{x,t})f_1(B_{x,t}, C_{x,t})f_2(B_{x,t}, C_{x,t})\\
+C_{x,t+1} &= e_{BC}B_{x,t}[1 - f_1(B_{x,t}, C_{x,t})]f_3(C_{x,t}, P_{x,t})\\
+P_{x,t+1} &= e_{BP}B_{x,t}f_1(B_{x,t}, C_{x,t})[1 - f_2(B_{x,t}, P_{x,t})] + e_{CP}C_{x,t}[1 - f_3(C_{x,t}, P_{x,t})]
+\end{aligned}
+$$
+
+We modeled density-dependent growth after accounting for background and predator-induced mortality:
 
 $$
 \begin{aligned}
