@@ -115,48 +115,14 @@ $$
 
 where $\bar{A}_{ix,t}$ is the expected species abundance after within-patch trophic interactions, $I_{ix,t}$ the expected number of immigrants into patch $x$, and $E_{ix,t}$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
 
-***Internal dynamics.*** Each time step starts with internal dynamics. The general formula is as follows:
+***Internal dynamics.*** Each time step starts with internal dynamics. The general formula is given as follows:
 
 $$
 \begin{aligned}
-B_{x,t+1} &= B_{x,t}g(B_{x,t})f_1(B_{x,t}, C_{x,t})f_2(B_{x,t}, C_{x,t})\\
-C_{x,t+1} &= e_{BC}B_{x,t}[1 - f_1(B_{x,t}, C_{x,t})]f_3(C_{x,t}, P_{x,t})\\
-P_{x,t+1} &= e_{BP}B_{x,t}f_1(B_{x,t}, C_{x,t})[1 - f_2(B_{x,t}, P_{x,t})] + e_{CP}C_{x,t}[1 - f_3(C_{x,t}, P_{x,t})]
-\end{aligned}
-$$
-
-We modeled density-dependent growth after accounting for background and predator-induced mortality:
-
-$$
-\begin{aligned}
-\begin{aligned}
-A'_{i,x} &= s_{0,i} \beta_{i,x}(t) A_{i,x}(t)\\
-\bar{A}_{i,x}(t) &= g_i(A) A'_{i,x}
-\end{aligned}
-&&\text{(5)}
-\end{aligned}
-$$
-
-where $s_{0,i}$ is the background survival probability (density independent) and $\beta_{i,x}(t)$ the survival probability after predation. The function $g_i(\cdot)$ defines the form of the density-dependent recruitment for species $i$. Below, we explain how we described predation and recruitment processes for each species.
-
-*Basal species* -- We considered the predation impacts of consumer and predator species:
-
-$$
-\begin{aligned}
-\beta_{B,x}(t) &= 1 - [z_{BC,x}(t) + z_{BP,x}(t)] &&\text{(6)}
-\end{aligned}
-$$ where $z_{BC,x}(t)$ and $z_{BP,x}(t)$ are the proportional mortality of basal species caused by consumer and predator species, respectively. The total mortality is calculated as the proportion of total individuals consumed ($W_{B,x}(t)$) relative to the current abundance of the basal species ($A_{B,x}(t)$):
-
-$$
-\begin{aligned}
-z_{BC,x}(t) + z_{BP,x}(t) =
-\left\{
-\begin{aligned}
-&\frac{W_{B,x}(t)}{A_{B,x}(t)} &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
-&1 &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\
-\end{aligned}
-\right.
-&&\text{(7)}
+B^+_{x,t} &= B_{x,t}g(B_{x,t})f_1(B'_{x,t}, C_{x,t})f_2(B'_{x,t}, P_{x,t})\\
+C^+_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})]f_3(C'_{x,t}, P_{x,t})\\
+P^+_{x,t} &= e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})] + e_{CP}C_{x,t}[1 - f_3(C'_{x,t}, P_{x,t})]
+~~\text{(5)}
 \end{aligned}
 $$
 
@@ -164,85 +130,47 @@ where
 
 $$
 \begin{aligned}
-W_{B,x}(t) &= W_{BC,x}(t) + \delta_{x}(t) W_{BP,x}(t) &&\text{(8)}
+B'_{x,t} &= B_{x,t}g(B_{x,t}) &&\text{after B's recruitment}\\
+B''_{x,t} &= B'_{x,t}f_1(B'_{x,t}, C_{x,t}) &&\text{after C's predation on B}\\
+C'_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})] &&\text{after C's recruitment}
 \end{aligned}
-$$\
-$W_{ij,x}(t)$ is the population-wide consumption of consumer $j$ on prey $i$ (number of individuals), and the parameter $\delta_{x}(t)$ is the relative preference of predator to basal species over consumer. We assume the Holling Type-II functional response for predator-prey interactions:
+$$
+
+The function $g(\cdot)$ defines the density-dependent recruitment for the basal species, and the function $f_k(\cdot)$ dictates the proportion of survived prey individuals after predation. We used the Beverton-Holt function to describe the density-dependent growth of the basal species:
 
 $$
 \begin{aligned}
-W_{ij,x}(t) &= \frac{a_{ij}A_{i,x}(t)A_{j,x}(t)}{A_{j,x}(t) + a_{ij}h_{ij}A_{i,x}(t)} &&\text{(9)}
+g(B_{x,t}) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}B_{x,t}} &&\text{(11)}
 \end{aligned}
 $$
 
-$a_{ij}$ is the attack rate and $h_{ij}$ the handling time. To be realistic, the preference parameter is assumed to depend on the relative potential amount of energy obtained from each prey:
+where $r_{B}$ is the intrinsic growth rate and $K_x$ is the carrying capacity at patch $x$. We assumed the Type-II function response in the survival function $f_k(\cdot)$ as follows:
 
 $$
 \begin{aligned}
-\delta_{x}(t) = \frac{e_{BP} f_{BP}(A_{B,x}(t))}{e_{BP} f_{BP}(A_{B,x}(t)) + e_{CP} f_{CP}(A_{C,x}(t))}
-&&\text{(10)}
+f_1(B'_{x,t}, C_{x,t}) &= \exp \left(-\frac{a_{BC} C_{x,t}} {1 + a_{BC} h_{BC} B'_{x,t}} \right) &&\text{C on B}\\
+f_2(B''_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 + \phi) a_{BP} P_{x,t}} {1 + a_{BP} h_{BP} B''_{x,t}} \right) &&\text{P on B}\\
+f_3(C'_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 - \phi) a_{CP} P_{x,t}} {1 + a_{CP} h_{CP} C'_{x,t}} \right) &&\text{P on C}
 \end{aligned}
 $$
 
-where $e_{ij}$ is the conversion efficiency from prey $i$ to consumer $j$, and $f_{ij}(A_{i,x}(t)) = \frac{a_{ij}A_{i,x}(t)}{1 + a_{ij}h_{ij}A_{i,x}(t)}$. An analogous approach has been applied to a model with multiple prey choices [@nishijimaRolesAlternativePrey2014]. Subsequently, a density-dependent recruitment occurs:
+The parameter $a_{ij}$ defines the encounter rate between $j$ and $i$, $h_{ij}$ the handling time, and $\phi$ the switching function for the intraguild predator. We assumed that the degree of omnivory is dependent on the relative abundance of $B''_{x,t}$ and $C'_{x,t}$:
+
+$$
+\phi = \frac{s(B''_x(x,t) - C'_{x,t})}{B''_x(x,t) + C'_{x,t}}
+$$
+
+where the parameter $s$ determines the strength of switching ($0 \le s \le 1$). In this expression, the intraguild predator increases its attack rate to the basal species if $\phi > 0$, properly representing the switching behavior of the intraguild prey.
+
+***Disturbance.*** After recruitment, all species experience proportional loss if stochastic regional disturbance occurs:
 
 $$
 \begin{aligned}
-g_B(A) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}A_{B,x}'} &&\text{(11)}
+\bar{A}_{ix,t}(t) &= A^+_{ix,t} (1 - \nu_t m'_{x,t}) &&\text{(15)}
 \end{aligned}
 $$
 
-where $r_b$ is the reproductive rate for survived individuals.
-
-*Consumer species* -- We modeled the predation-induced mortality as the proportion of individuals consumed by the predator species:
-
-$$
-\begin{aligned}
-\beta_{CP,x}(t) = 1 - z_{CP,x} = 1 - \frac{W_{CP,x}}{A_{C,x}(t)} &&\text{(12)}
-\end{aligned}
-$$
-
-The population growth of the consumer is controlled by conversion efficiency and the number of prey captured:
-
-$$
-\begin{aligned}
-g_C(A) =
-\left\{
-\begin{aligned}
-&e_{BC}W_{BC,x}(t) &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
-&e_{BC} \left( \frac{W_{BC,x}(t)}{W_{B,x}(t)} A_{B,x}(t) \right) &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}
-\end{aligned}
-\right.
-&&\text{(13)}
-\end{aligned}
-$$
-
-The above equation assumes competition between $C$ and $P$ when their total consumption $W_{B,x}(t)$ exceeds the abundance of basal species $A_{B,x}(t)$, and the relative consumption $\frac{W_{BC,x}(t)}{W_{B,x}(t)}$ rests on $a_{ij}$, $h_{ij}$, and $A_{j,x}(t)$.
-
-*Predator species* -- The predator species is not exposed to predation, thus $\beta_{P,x}(t) = 1$. The population growth of the predator considers two prey species:
-
-$$
-\begin{aligned}
-g_P(A) =
-\left\{
-\begin{aligned}
-&e_{BP} \delta_{x}(t) W_{BP,x}(t) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) &&\text{if $W_{B,x}(t) < A_{B,x}(t)$}\\
-&e_{BP} \delta_{x}(t)\left(\frac{W_{BP,x}(t)}{W_{B,x}(t)}A_{B,x}\right) + e_{CP} (1 - \delta_{x}(t)) W_{CP,x}(t) &&\text{if $W_{B,x}(t) > A_{B,x}(t)$}\\
-\end{aligned}
-\right.
-&&\text{(14)}
-\end{aligned}
-$$
-
-***Disturbance.*** After recruitment, all species experience proportional loss of $m$ if stochastic regional disturbance occurs, modifying equation (5) as:
-
-$$
-\begin{aligned}
-\bar{A}_{i,x}(t) &= g_i(A) A'_{i,x} (1 - m_{x}) &&\text{(15)}
-\end{aligned}
-$$
-
-where $m_x$ is the disturbance intensity at patch $x$ as determined by the network generation process. Regional disturbance occurs with probability $p_m$.
+where $m'_{x,t}$ is the disturbance intensity at patch $x$ and time $t$, which was drawn from a Beta distribution with mean $m_x$ and precision $1000$. The mean disturbance intensity $m_x$ is determined by the network generation process. The random variable $\nu_t$ represents the incidence of regional disturbance ($\nu_t = 1$ if disturbance occurs, otherwise zero), which is drawn from a Bernoulli distribution as $\nu_t \sim \text{Bernouilli}(p_m)$.
 
 ***Dispersal.*** We simulated distance-dependent dispersal along with a network. The number of emigrants from patch $x$ at time $t$, $E_{i,x}(t)$, is estimated as the product of dispersal probability $p_{d}$ and species abundance after internal dynamics $\bar{A}_{i,x}(t)$. The dispersal probability was assumed to be constant for all three species. We calculated the relative immigration potential $\xi_{i,x}(t)$ considering network structure and species dispersal capability as follows: 
 
