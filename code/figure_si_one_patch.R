@@ -52,10 +52,11 @@ foreach(i = 1:length(a1_set)) %do% {
             axis.title = element_text(size = 14),
             axis.text = element_text(size = 10)) +
       ggtitle(paste0("K = ", k_set[j])) +
-      geom_point(data = expand.grid(a2 = c(0, 0.02, 0.04),
-                                    a3 = 0.0025,
-                                    h = 0.75,
-                                    state = 0))
+      geom_point(data = tibble(a2 = c(0, 0.02, 0.04),
+                               a3 = c(0.0025, 0.025, 0.0025),
+                               h = c(0.5, 0.5, 0.75),
+                               state = 0),
+                 color = "salmon")
     
     return(g_one)
   }
