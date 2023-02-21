@@ -11,7 +11,7 @@ lapply(list("code/library.R",
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(8, 20)
+r_set <- c(4, 16)
 
 ## df for gam plot
 df_plot <- df_sim %>% 
@@ -27,8 +27,8 @@ df_plot <- df_sim %>%
 
 theme_set(plt_theme)
 
-lab <- c(`8` = "Low~productivity",
-         `20` = "High~productivity")
+lab <- c(`4` = "Low~productivity",
+         `16` = "High~productivity")
 
 state_lab <- c(`s0` = "No species",
                `s1` = "B",

@@ -11,7 +11,7 @@ lapply(list("code/library.R",
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(8, 20)
+r_set <- c(4, 16)
 
 ## df for heatmap
 df_heat <- df_param %>% 
@@ -76,8 +76,8 @@ g_m <- (g_size + g_branch) + plot_annotation(tag_levels = "A")
 
 # plot: geometry effect ---------------------------------------------------
 
-lab <- c(`8` = "Low~productivity~(r[b]==8)",
-         `20` = "High~productivity~(r[b]==20)")
+lab <- c(`4` = "Low~productivity~(r[b]==4)",
+         `16` = "High~productivity~(r[b]==16)")
 
 ## ecosystem size effect
 g_np <-  df_plot %>% 
@@ -89,7 +89,7 @@ g_np <-  df_plot %>%
     geom_smooth(method = "loess") +
     facet_grid(rows = vars(omn),
                cols = vars(disp, r_b),
-               #scales = "free",
+               scales = "free",
                labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
     labs(y = "Food chain length",
          x = "Ecosystem size (number of habitat patches)",
@@ -108,7 +108,7 @@ g_pb <-  df_plot %>%
   geom_smooth(method = "loess") +
   facet_grid(rows = vars(omn),
              cols = vars(disp, r_b),
-             #scales = "free",
+             scales = "free",
              labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
   labs(y = "Food chain length",
        x = "Ecosystem complexity (branching probability)",
