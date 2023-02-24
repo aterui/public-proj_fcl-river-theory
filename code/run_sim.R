@@ -28,16 +28,19 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
                         # food web parameter
                         r_b = seq(4, 16, length = 4),
                         e = 1, # to conv_eff
-                        a_bc = 0.25, # to attack_rate[1]
+                        a_bc = 0.5, # to attack_rate[1]
                         a_bp = c(0, 0.02, 0.04), # to attack_rate[2]
-                        a_cp = 0.0025, # to attack_rate[3]
-                        h = 0.75, # to handling_time
+                        a_cp = c(0.0025, 0.025, 0.0025), # to attack_rate[3]
+                        h = c(0.5, 0.75), # to handling_time
                         s = c(0, 1),
                         p_disturb = seq(0, 0.15, length = 4),
                         p_dispersal = 0.01,
                         theta = c(0.1, 1)) %>% 
   as_tibble() %>% 
   filter(sd_disturb_source > sd_disturb_lon,
+         (a_bp == 0 & a_cp == 0.0025 & h == 0.5) | # chain
+         (a_bp == 0.02 & a_cp == 0.025 & h == 0.5) | # weak omnivory
+         (a_bp == 0.04 & a_cp == 0.0025 & h == 0.75), # strong omnivory
          !(s == 1 & a_bp == 0), # remove s = 1 for chain scenario
          !(s == 0 & a_bp != 0), # remove s = 0 for omnivory scenarios
          !(p_disturb == 0 & mean_disturb_source == 0.2)) %>% 

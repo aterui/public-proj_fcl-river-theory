@@ -28,11 +28,19 @@ df_param <- df_sim %>%
             n_rep)) %>% 
   distinct()
 
-df_coef <- df_sim %>% 
-  group_by(param_set) %>% 
-  do(param_set = unique(.$param_set),
-     rho1 = cor(.$fcl, .$n_patch, method = "spearman"),
-     rho2 = cor(.$fcl, .$p_branch, method = "spearman")) %>% 
-  summarize(param_set = param_set,
-            rho1 = unlist(rho1),
-            rho2 = unlist(rho2))
+# df_coef <- df_sim %>% 
+#   group_by(param_set) %>% 
+#   do(param_set = unique(.$param_set),
+#      rho1 = ppcor::pcor(tibble(.$fcl, .$n_patch, .$p_branch),
+#                         method = "spearman")$estimate[1, 2],
+#      rho2 = ppcor::pcor(tibble(.$fcl, .$n_patch, .$p_branch),
+#                         method = "spearman")$estimate[1, 3]) %>% 
+#   summarize(param_set = param_set,
+#             rho1 = unlist(rho1),
+#             rho2 = unlist(rho2))
+# 
+# 
+# # export ------------------------------------------------------------------
+# 
+# saveRDS(df_coef,
+#         "output/df_coef.rds")

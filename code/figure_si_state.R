@@ -11,7 +11,7 @@ lapply(list("code/library.R",
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(8, 20)
+r_set <- c(8, 16)
 
 ## df for gam plot
 df_plot <- df_sim %>% 
@@ -23,12 +23,12 @@ df_plot <- df_sim %>%
                names_to = "state")
 
 
-# heatmap -----------------------------------------------------------------
+# plot: state transition --------------------------------------------------
 
 theme_set(plt_theme)
 
 lab <- c(`8` = "Low~productivity",
-         `20` = "High~productivity")
+         `16` = "High~productivity")
 
 state_lab <- c(`s0` = "No species",
                `s1` = "B",
@@ -112,19 +112,3 @@ ggsave(g_bp_all,
        filename = here::here(paste0("figure/si_figure_state_p_branch.pdf")),
        height = 14,
        width = 14)
-
-# omn_lab <- c("chain", "weak", "strong")
-# 
-# lapply(1:length(omn_lab), function(i) {
-#   
-#   ggsave(list_g_np[[i]],
-#          filename = here::here(paste0("figure/si_figure_state_n_patch_", omn_lab[i], ".pdf")),
-#          height = 7,
-#          width = 14)
-#   
-#   ggsave(list_g_bp[[i]],
-#          filename = here::here(paste0("figure/si_figure_state_p_branch_", omn_lab[i], ".pdf")),
-#          height = 7,
-#          width = 14)
-#   
-# })
