@@ -8,10 +8,12 @@ lapply(list("code/library.R",
             "code/format_sim_data.R"),
        source)
 
+df_coef <- readRDS("output/df_coef.rds")
+
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(4, 16)
+r_set <- c(8, 16)
 
 ## df for heatmap
 df_heat <- df_param %>% 
@@ -20,7 +22,7 @@ df_heat <- df_param %>%
   filter(mean_disturb_source == mu_disturb,
          (s == 0 & a_bp == 0) | s == s_set)
 
-## df for gam plot
+## df for loess plot
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb,
          (s == 0 & a_bp == 0) | s == s_set,
@@ -48,7 +50,8 @@ g_size <- df_heat %>%
        x = expression("Productivity ("*r[b]*")"),
        fill = "Slope") +
   scale_x_continuous(breaks = sort(unique(df_sim$r_b))) +
-  scale_fill_gradient2(mid = 0) +
+  scale_fill_gradient2(mid = 0,
+                       limits = range(c(df_heat$rho1, df_heat$rho2))) +
   theme_classic() +
   theme(strip.background = element_blank()) +
   ggtitle("Ecosystem size")
@@ -66,7 +69,8 @@ g_branch <- df_heat %>%
        x = expression("Productivity ("*r[b]*")"),
        fill = "Slope") +
   scale_x_continuous(breaks = sort(unique(df_sim$r_b))) +
-  scale_fill_gradient2(mid = 0) +
+  scale_fill_gradient2(mid = 0,
+                       limits = range(c(df_heat$rho1, df_heat$rho2))) +
   theme_classic() +
   theme(strip.background = element_blank()) +
   ggtitle("Ecosystem complexity")
@@ -76,27 +80,27 @@ g_m <- (g_size + g_branch) + plot_annotation(tag_levels = "A")
 
 # plot: geometry effect ---------------------------------------------------
 
-lab <- c(`4` = "Low~productivity~(r[b]==4)",
+lab <- c(`8` = "Low~productivity~(r[b]==8)",
          `16` = "High~productivity~(r[b]==16)")
 
 ## ecosystem size effect
 g_np <-  df_plot %>% 
-    ggplot(aes(x = n_patch,
-               y = fcl,
-               color = factor(p_disturb),
-               fill = factor(p_disturb))) +
-    #geom_point(alpha = 0.1) +
-    geom_smooth(method = "loess") +
-    facet_grid(rows = vars(omn),
-               cols = vars(disp, r_b),
-               scales = "free",
-               labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
-    labs(y = "Food chain length",
-         x = "Ecosystem size (number of habitat patches)",
-         color = "Disturbance prob.",
-         fill = "Disturbance prob.") +
-    scale_color_met_d("Hiroshige", direction = -1) +
-    scale_fill_met_d("Hiroshige", direction = -1)
+  ggplot(aes(x = n_patch,
+             y = fcl,
+             color = factor(p_disturb),
+             fill = factor(p_disturb))) +
+  #geom_point(alpha = 0.1) +
+  geom_smooth(method = "loess") +
+  facet_grid(rows = vars(omn),
+             cols = vars(disp, r_b),
+             #scales = "free",
+             labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
+  labs(y = "Food chain length",
+       x = "Ecosystem size (number of habitat patches)",
+       color = "Disturbance prob.",
+       fill = "Disturbance prob.") +
+  scale_color_met_d("Hiroshige", direction = -1) +
+  scale_fill_met_d("Hiroshige", direction = -1)
 
 ## ecosystem complexity effect
 g_pb <-  df_plot %>% 
@@ -108,7 +112,7 @@ g_pb <-  df_plot %>%
   geom_smooth(method = "loess") +
   facet_grid(rows = vars(omn),
              cols = vars(disp, r_b),
-             scales = "free",
+             #scales = "free",
              labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
   labs(y = "Food chain length",
        x = "Ecosystem complexity (branching probability)",
@@ -118,38 +122,6 @@ g_pb <-  df_plot %>%
   scale_color_met_d("Hiroshige", direction = -1) +
   scale_fill_met_d("Hiroshige", direction = -1)
 
-
-# plot: dispersal ---------------------------------------------------------
-
-g_disp <-  df_plot %>% 
-  ggplot(aes(x = factor(r_b),
-             y = fcl,
-             color = factor(theta),
-             fill = factor(theta))) +
-  geom_violin() +
-  facet_grid(rows = vars(omn),
-             cols = vars(r_b),
-             #scales = "free",
-             labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
-  labs(y = "Food chain length",
-       x = "Dispersal rate",
-       color = "Disturbance prob.",
-       fill = "Disturbance prob.") +
-  scale_color_met_d("Hiroshige", direction = -1) +
-  scale_fill_met_d("Hiroshige", direction = -1)
-
-
-# plot: productivity ------------------------------------------------------
-
-df_sim %>% 
-  filter(mean_disturb_source == mu_disturb) %>% 
-  ggplot(aes(x = factor(r_b),
-             y = fcl,
-             color = factor(p_disturb),
-             fill = factor(p_disturb))) +
-  geom_violin() +
-  facet_grid(rows = vars(omn),
-             cols = vars(theta))
 
 # export ------------------------------------------------------------------
 
