@@ -22,16 +22,17 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE)
 
 # Sensitivity data
-load(file = here::here("output/result_main.RData"))
+df_sim <- readRDS(here::here("output/sim_main.rds")) %>% 
+  filter(r_b %in% c(8, 16))
 
-n_rep <- max(sim_main_result$n_rep)
+n_rep <- max(df_sim$n_rep)
 
-n_scenario <- sim_main_result %>% 
+n_scenario <- df_sim %>% 
   filter(sd_disturb_source > sd_disturb_lon) %>% 
   summarize(n = n_distinct(param_set)) %>% 
   pull(n)
 
-n_sim <- sim_main_result %>% 
+n_sim <- df_sim %>% 
   mutate(n_sim = n_timestep + n_burnin + n_warmup) %>% 
   pull() %>% 
   unique()
@@ -51,7 +52,7 @@ Understanding the drivers of food chain length in natural communities has intrig
 
 ## Data availability
 
-No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.2.3 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
+No data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.3.0 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
 
 \clearpage
 
@@ -103,7 +104,7 @@ $$
 
 where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z$ the scaling exponent. In this formulation, the most upstream patch, at which $Q_x = 1$ (the number of upstream patches + 1), has the carrying capacity of $K_{base}$. We used $K_{base} = 500$ and $z = 0.54$ based on an empirical relationship of gross primary production and watershed area [@finlayStreamSizeHuman2011]. 
 
-## **Tri-trophic dynamic simulation model**
+## **Tri-trophic model**
 
 We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch (see **Table 1** for parameter notations). A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). The realized species abundance $A_{ix,t+1}$ for species $i$ (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
 
@@ -115,7 +116,7 @@ $$
 
 where $\bar{A}_{ix,t}$ is the expected species abundance after within-patch trophic interactions, $I_{ix,t}$ the expected number of immigrants into patch $x$, and $E_{ix,t}$ the expected number of emigrants from patch $x$. The realized discrete number of individuals is drawn from a Poisson distribution to account for stochasticity in demographic and dispersal processes.
 
-***Internal dynamics.*** Each time step starts with internal dynamics. The general formula is given as follows:
+***Internal dynamics.*** Each time step starts with internal dynamics. The general formula is the extension of the Nicholson-Bailey model, which is given as follows:
 
 $$
 \begin{aligned}
@@ -126,7 +127,7 @@ P^+_{x,t} &= e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})] +
 \end{aligned}
 $$
 
-where
+where $e_{ij}$ is the energetic conversion efficiency from $i$ to $j$. The function $g(\cdot)$ defines the density-dependent recruitment for the basal species, and the function $f_k(\cdot)$ dictates the proportion of survived prey individuals after predation. In the above equations, we re-defined variables as follows to simplify the expression:
 
 $$
 \begin{aligned}
@@ -136,7 +137,9 @@ C'_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})] &&\text{after C's recruit
 \end{aligned}
 $$
 
-The parameter $e_{ij}$ is the energetic conversion efficiency from $i$ to $j$. The function $g(\cdot)$ defines the density-dependent recruitment for the basal species, and the function $f_k(\cdot)$ dictates the proportion of survived prey individuals after predation. We used the Beverton-Holt function to describe the density-dependent growth of the basal species:
+The model assumes that ecological events occur in the following order: (1) $B$'s recruitment, (2) $C$'s predation on $B$ followed by its recruitment, and (3) $P$'s predation on $B$ and $C$ followed by its recruitment. We assumed that the intraguild prey $C$ consumes the basal species $B$ first because the species is specialized to prey on $B$.
+
+We used the Beverton-Holt function to describe the density-dependent growth of the basal species:
 
 $$
 \begin{aligned}
@@ -154,10 +157,10 @@ f_3(C'_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 - \phi) a_{CP} P_{x,t}} {1 + a_{C
 \end{aligned}
 $$
 
-The parameter $a_{ij}$ defines the encounter rate between $j$ and $i$, $h_{ij}$ the handling time, and $\phi$ the switching function for the intraguild predator. We assumed that the degree of omnivory is dependent on the relative abundance of $B''_{x,t}$ and $C'_{x,t}$:
+The parameter $a_{ij}$ defines $j$'s attack rate to $i$, $h_{ij}$ the handling time, and $\phi$ the switching function for the intraguild predator. We assumed that switching is dependent on the relative abundance of $B''_{x,t}$ and $C'_{x,t}$:
 
 $$
-\phi = \frac{s(B''_x(x,t) - C'_{x,t})}{B''_x(x,t) + C'_{x,t}}
+\phi = \frac{s(B''_{x,t} - C'_{x,t})}{B''_{x,t} + C'_{x,t}}
 $$
 
 where the parameter $s$ determines the strength of switching ($0 \le s \le 1$). In this expression, the intraguild predator increases its attack rate to the basal species if $\phi > 0$, properly representing the switching behavior of the intraguild prey.
@@ -172,35 +175,41 @@ $$
 
 where $m'_{x,t}$ is the disturbance intensity at patch $x$ and time $t$, which was drawn from a Beta distribution with mean $m_x$ and precision $1000$. The mean disturbance intensity $m_x$ is determined by the network generation process. The random variable $\nu_t$ represents the incidence of regional disturbance ($\nu_t = 1$ if disturbance occurs, otherwise zero), which is drawn from a Bernoulli distribution as $\nu_t \sim \text{Bernouilli}(p_m)$.
 
-***Dispersal.*** We simulated distance-dependent dispersal along with a network. The number of emigrants from patch $x$ at time $t$, $E_{i,x}(t)$, is estimated as the product of dispersal probability $p_{d}$ and species abundance after internal dynamics $\bar{A}_{i,x}(t)$. The dispersal probability was assumed to be constant for all three species. We calculated the relative immigration potential $\xi_{i,x}(t)$ considering network structure and species dispersal capability as follows: 
+***Dispersal.*** We simulated distance-dependent dispersal along with a network. The number of emigrants from patch $x$ at time $t$, $E_{ix,t}$, is estimated as the product of dispersal probability $p_{d}$ and species abundance after internal dynamics $\bar{A}_{ix,t}$. The dispersal probability was assumed to be constant for all three species. We calculated the relative immigration potential $\xi_{ix,t}$ considering network structure and species dispersal capability as follows: 
 
 $$
 \begin{aligned}
-\xi_{i,x}(t) &= \frac{\sum_{y, y \ne x}E_{i,y}(t)\exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}\text{E}_{i,y}(t)\exp(-\theta d_{xy})}
+\xi_{ix,t} &= \frac{\sum_{y, y \ne x}E_{iy,t}\exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}E_{iy,t}\exp(-\theta d_{xy})}
 &&\text{(16)}
 \end{aligned}
 $$
 
-where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{i,y}(t)\exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{i,x}(t)=\xi_{i,x}(t) \sum_{x}E_{i,x}(t)$.
+where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{iy,t}\exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{i,x}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{ix,t}=\xi_{ix,t} \sum_{x}E_{ix,t}$.
 
-***Food chain length.*** At each patch and time step, we determined FCL as the highest trophic position ($TP_{x}(t)$) of the existing species. When the predator exists, the trophic position is determined as follows:
+***Food chain length.*** At each patch and time step, we determined local FCL as the highest trophic position ($\tau_{x,t}$) of the existing species. When the predator exists, the trophic position is determined as follows:
 
 $$
 \begin{aligned}
-TP_{P,x}(t) &= \delta_{x}(t) + 2(1 - \delta_{x}(t)) + 1
+\tau_{x,t} &= \delta_{x,t} + 2(1 - \delta_{x,t}) + 1
 &&\text{(17)}
 \end{aligned}
 $$
 
-This definition accounts for the influence of omnivory.
+where $\delta_{x,t}$ is the derived parameter that represents the degree of omnivory and is defined as:
+
+$$
+\delta_{x,t} = \frac{e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})]}{P^+_{x,t}}
+$$
+
+Thus, our definition accounts for the influence of omnivory. We defined the global FCL $\bar{\tau}$ across patches $N_p$ and time $T$ as $\bar{\tau} = \frac{\sum_x \sum_t \tau_{x,t}}{N_p T}$ (i.e., average over space and time).
 
 ## Simulation
 
-Prior to the main simulation, we performed a one-patch simulation to explore the predation parameter space ($a_{ij}$ and $h_{ij}$) that allows stable coexistence of the three species in the absence of disturbance. In this simulation, we assumed $h_{ij} = h$ to reduce the dimension of parameter space. This analysis revealed that the stable coexistence of the three species is possible with a certain combinations of predation parameters. Within this parameter space, we explored the three scenarios of food web structure: "chain" ($(a_{BC}, a_{BP}, a_{CP}, h) = (X, X, X, X)$), "weak omnivory" ($(a_{BC}, a_{BP}, a_{CP}, h) = (X, X, X)$), and "strong omnivory" ($(a_{BC}, a_{BP}, a_{CP}, h) = (X, X, X)$). We used $s = 1$ except for the chain scenario with $s = 0$. Without the loss of generality, we assumed $e_{ij} = e = 1$.
+Prior to the main simulation, we performed a one-patch simulation to explore the predation parameter space ($a_{ij}$ and $h_{ij}$) that allows stable coexistence of the three species without disturbance. In this simulation, we assumed $h_{ij} = h$ to reduce the dimension of parameter space. This analysis revealed that the stable coexistence of the three species is possible with a certain combinations of predation parameters. Within this parameter space, we used three parameter combinations to represent distinctive food webs with varied levels of omnivory: "chain (no omnivory)" [$(a_{BC}, a_{BP}, a_{CP}, h) = (0.5, 0, 0.0025, 0.5)$], "weak omnivory" ($0.5, 0.02, 0.025, 0.5$), and "strong omnivory" ($0.5, 0.04, 0.0025, 0.75$). We used $s = 1$ except for the chain scenario with $s = 0$. Without the loss of generality, we assumed $e_{ij} = e = 1$.
 
-We controlled disturbance level with disturbance probability $p_{m}$ (low disturbance, `r min(sim_main_result$p_disturb)`; high disturbance, `r max(sim_main_result$p_disturb)`). We used the identical value of mean disturbance intensity at headwaters ($\mu_{m}=$ `r max(sim_main_result$mean_disturb_source)`), spatial variation in disturbance intensity at headwaters ($\sigma_{h}=$ `r max(sim_main_result$sd_disturb_source)`), and local disturbance variation ($\sigma_{l}=$ `r min(sim_main_result$sd_disturb_lon)`) regardless of disturbance scenario. This setup ($\sigma_h > \sigma_l$) produces high spatial variation among tributaries with strong within-tributary downstream correlation, a typical pattern in real river networks [@nakamuraDisturbanceRegimesStream2000; @bendaNetworkDynamicsHypothesis2004]. Productivity was varied by setting different values of basal species' growth rate ($r_{b}=$ `r unique(sim_main_result$r_b)`). For dispersal, we examined short- and long-distance dispersal scenarios (short-distance dispersal $\theta=$ `r max(sim_main_result$theta)`; long-distance dispersal $\theta=$ `r min(sim_main_result$theta)`) with constant dispersal probability ($p_{d}=$ `r unique(sim_main_result$p_dispersal)`).
+Under each scenario of omnivory, we crossed disturbance (frequency and intensity), productivity, and dispersal. Disturbance frequency and intensity were controlled via $p_m$ ( `r unique(df_sim$p_disturb) %>% sort()`) and $\mu_m$ (`r unique(df_sim$mean_disturb_source) %>% sort()`), respectively. Spatial variation in disturbance intensity at headwaters ($\sigma_{h}=$ `r max(df_sim$sd_disturb_source)`), and local disturbance variation ($\sigma_{l}=$ `r min(df_sim$sd_disturb_lon)`). This setup ($\sigma_h > \sigma_l$) produces high spatial variation among tributaries while allowing strong within-tributary downstream correlation, a typical pattern in real river networks [@nakamuraDisturbanceRegimesStream2000; @bendaNetworkDynamicsHypothesis2004]. We used the basal species' growth rate $r_b$ (`r unique(df_sim$r_b)`) as a proxy for resource availability as it resembles the gross primary production. For dispersal, we examined short- and long-distance dispersal scenarios (short-distance dispersal $\theta=$ `r max(df_sim$theta)`; long-distance dispersal $\theta=$ `r min(df_sim$theta)`) with constant dispersal probability ($p_{d}=$ `r unique(df_sim$p_dispersal)`).
 
-Under each scenario, we ran `r max(sim_main_result$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(sim_main_result$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(sim_main_result$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $\text{Poisson}(0.5)$. Subsequently, we ran a burn-in period with no propagules for `r unique(sim_main_result$n_burnin)` time steps to remove the effects of initial conditions. We obtained the mean FCL across all habitat patches for the last `r unique(sim_main_result$n_timestep)` time steps. Note that simulation replicates are differ in ecosystem size ($N_{p}\sim \text{Unif}(10,150)$) and ecosystem complexity ($P_{b} \sim \text{Unif}(0.01, 0.99)$) so we can estimate their effects on FCL. All analysis was performed in R 4.1.0 [@rcoreteamLanguageEnvironmentStatistical2021]
+We ran `r max(df_sim$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(df_sim$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(df_sim$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $\text{Poisson}(\lambda)$ ($\lambda=100, 10,~\text{and}~1$ for $B$, $C$, and $P$, respectively). Subsequently, we ran a burn-in period with no propagules for `r unique(df_sim$n_burnin)` time steps to remove the effects of initial conditions. We obtained the global FCL $\bar{\tau}$ for the last `r unique(df_sim$n_timestep)` time steps. Note that simulation replicates are differ in ecosystem size ($N_{p}\sim \text{Unif}(10,150)$) and ecosystem complexity ($P_{b} \sim \text{Unif}(0.01, 0.99)$) so we can estimate their effects on FCL. All analysis was performed in R 4.1.0 [@rcoreteamLanguageEnvironmentStatistical2021]
 
 # Results
 
