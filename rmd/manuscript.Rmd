@@ -131,9 +131,9 @@ where $e_{ij}$ is the energetic conversion efficiency from $i$ to $j$. The funct
 
 $$
 \begin{aligned}
-B'_{x,t} &= B_{x,t}g(B_{x,t}) &&\text{after B's recruitment}\\
-B''_{x,t} &= B'_{x,t}f_1(B'_{x,t}, C_{x,t}) &&\text{after C's predation on B}\\
-C'_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})] &&\text{after C's recruitment}
+B'_{x,t} &= B_{x,t}g(B_{x,t}) &&\text{B's recruitment}\\
+B''_{x,t} &= B'_{x,t}f_1(B'_{x,t}, C_{x,t}) &&\text{C's predation on B}\\
+C'_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})] &&\text{C's recruitment}
 \end{aligned}
 $$
 
@@ -215,29 +215,15 @@ We ran `r max(df_sim$n_rep)` simulation replicates with `r n_sim` timesteps of t
 
 ## Overall effects of ecosystem geometry
 
-There were three consistent patterns in the relationship between FCL and ecosystem geometry (size and complexity). First, positive effects of ecosystem size and complexity were generally found when both disturbance frequency and intensity were high. Second, omnivory plays a central role in modulating the effects of ecosystem geometry on the FCL. Third, resource availability and dispersal did not change the qualitative relationship between the FCL and ecosystem geometry, although they had important direct effects on the FCL.
+There were three consistent patterns in the relationship between FCL and ecosystem geometry (size and complexity). First, the effects of ecosystem size and complexity were modulated by disturbance and omnivory. Second, resource availability and dispersal had limited influences on the qualitative relationship between FCL and ecosystem geometry, although they had important direct effects on the FCL. Below we describe these results in detail.
 
-## Ecosystem geometry interacts with disturbance
+## Interactive effects of ecosystem geometry, disturbance, and omnivory
 
-Ecosystem geometry interacted with disturbance to dictate FCL in branching ecosystems. With no disturbance, both geometric features (size and complexity) had limited influence on FCL. However, as disturbance frequency increases, the relationships between FCL and ecosystem geometry became positive. The exception is the "chain" scenario (i.e., no omnivory). When this food web structure was combined with no disturbance, ecosystem size had a clear positive effect on FCL while ecosystem complexity had a negative influence. These opposing influences of ecosystem size and complexity may reflect their contrasting impacts on the total carrying capacity within a network (i.e., carrying capacity summed across all patches): ecosystem size increases the total carrying capacity whereas ecosystem complexity decreases it.
+Ecosystem geometry interacted with disturbance to dictate FCL in branching ecosystems. With no disturbance, both geometric features (size and complexity) had limited influence on FCL. However, as disturbance frequency increases, the relationships between FCL and ecosystem geometry became positive. This interactive effect emerged because the sensitivity of FCL to disturbance depended on ecosystem geometry. Although increased disturbance frequency reduced overall FCL, smaller and/or simpler ecosystems exhibited the greater vulnerability. Therefore, disturbance interact with ecosystem geometry, producing the interdependency of these factors in determining FCL. The interactive effects, however, were not observed with low disturbance intensity (proportion of individuals removed per disturbance event); this suggests that disturbance intensity must be strong enough to be influential.
 
-In ecosystems with a low disturbance regime, omnivory largely determined FCL (colored lines in **Figure 2**), with no-omnivory food chains ($P$ only consumes $C$) having the longest FCL, and strong omnivory ($P$ consumes very little $C$) having the shortest FCL. The primary mechanism for the decreased FCL was different in low and high productivity scenarios. With low productivity, strong omnivory caused shorter FCL because it intensified competition between consumer and predator species. We can see this effect in the decreased occupancies of consumer and predator species in a low productivity scenario (most left column in **Figure S1 -- S4**). However, when productivity was high, the occupancies of both species were \~1.0, indicating that the structural constraint of strong omnivory made FCL shorter (second column from left in **Figure S1 -- S4**). Productivity played a secondary role in increasing FCL, particularly when omnivory was strong (compare left and right panels in **Figure 2A and 2B**). Dispersal had no apparent effects on FCL (compare top and bottom panels in **Figure 2A and 2B**).
-
-## Ecosystem geometry interacts with omnivory
+The exception is the "chain" scenario (i.e., no omnivory) with no disturbance. In this scenario, ecosystem size had a clear positive effect on FCL while ecosystem complexity had a negative influence. These opposing influences of ecosystem size and complexity may reflect their contrasting impacts on the total carrying capacity within a network (i.e., carrying capacity summed across all patches): ecosystem size increases the total carrying capacity whereas ecosystem complexity decreases it. However, these patterns characteristic to the "chain" scenario diminished when considering some levels of omnivory because food webs with omnivory were less reliant on the carrying capacity of the basal species. In addition, omnivory gave rise to more robustness/resilience to increased disturbance frequency.
 
 ## Productivity and dispersal
-
-## 
-
-Although the effects of ecosystem properties on FCL were minimal, there were noticeable effects on the occupancies of constituent species in some scenarios. For example, the occupancies of $C$ and $P$ increased with ecosystem size when omnivory was strong (see bottom two rows in left most column in **Figures S1 and S2**). However, these changes did not translate into FCL because $C$ and $P$ occupy a similar trophic position (**Figure 1D**). Meanwhile, the occupancy of $P$ decreased with ecosystem complexity when omnivory was strong, but FCL remained almost the same as the increase of $C$ could compensate for the loss of $P$ (**Figure S3 and S4**).
-
-## **High disturbance regime**
-
-On average, increased disturbance frequency decreased FCL, and omnivory had similar effects on FCL (**Figure 3**). More importantly, a high disturbance regime produced different responses of FCL to ecosystem properties. FCL increased across gradients of ecosystem size and complexity under all productivity, omnivory, and dispersal scenarios (**Figure 3**). The effect of ecosystem complexity was generally clearer than that of ecosystem size. It is important to note that the positive relationships emerged in a high disturbance regime because smaller and simpler ecosystems were disproportionately vulnerable to increased disturbance frequency (compare far left along the x-axis in each panel of **Figures 2 and 3**).
-
-Dispersal buffered the disturbance effects on FCL and the magnitude of buffering differed by ecosystem structure. Larger ecosystems benefited more from long dispersal (compare top and bottom panels in **Figure 3**) because greater dispersal capability is required to reach distant patches. In particular, this pattern is clearer in simple, less branched ecosystems because habitat patches are more isolated in linearly arranged networks (**Figure 3**). Productivity increased FCL as observed in a low disturbance regime, but it did not modulate the qualitative relationships between FCL and ecosystem properties (compare left and right panels in **Figure 3**).
-
-When strong omnivory exists in low-productivity systems, different processes drove the positive effects of ecosystem size and complexity on FCL. The positive effects of ecosystem size are mainly explained by the increased occupancy of $P$ (third column from left in **Figure S1 and S2**). In contrast, the increased occupancy of $C$ maintained the positive relationship between FCL and ecosystem complexity (third column from left in **Figure S3 and S4**).
 
 # Discussion
 
