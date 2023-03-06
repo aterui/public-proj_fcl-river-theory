@@ -1,0 +1,138 @@
+---
+title: "RE: Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems"
+output:
+  pdf_document:
+    latex_engine: xelatex
+knit: (function(inputFile, encoding) {
+        rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
+      })
+mainfont: Times New Roman
+---
+
+## Response to Reviewer #1:
+
+### Major comment
+
+This ms uses a simulation model to study how environmental variables affect food-chain length (FCL) in river networks. Environmental determinants of FCL are a classic topic in ecology. Productivity, disturbance and ecosystem size have been considered as major potential determinants. The ecosystem size effect of increasing FCL has received strongest support from empirical studies so far. Productivity has received less support, and the disturbance effect has been supported the least frequently. A novel contribution of the current ms is to consider another potential determinant of FCL, ecosystem complexity, in addition to the other three. The ms is focused on examining the following environmental variables: ecosystem size (the number of habitat patches in a whole river network), ecosystem complexity (the probability of branching, which is a model parameter controlling the proportion of habitat patches serving as confluences in a river network), disturbance frequency, and productivity (intrinsic growth rate of basal species).
+
+A significant finding of this ms is that ecosystem size and complexity can interact with the disturbance effect. This is because ecosystem size and complexity increase spatial heterogeneity in disturbance. In small or simple ecosystems, disturbance is spatially uniform, strongly limiting FCL. In large or complex ecosystems, heterogeneity in disturbance creates spatial refuges and weakens the negative effect of disturbance. The way that ecosystem size and complexity create disturbance heterogeneity is nicely modeled.
+
+> Thank you!
+
+The ms contains potentially important findings for FCL research but underlying modeling exercises are poor. I have two main concerns. First, more in depth analyses and interpretations are necessary about interacting effects between ecosystem size and complexity and disturbance. Second, the way that trophic interactions are modeled seems incorrect in some respects. A thorough reconstruction of a model may be necessary, although I feel that a correct modeling would not alter the basic conclusions of the current ms. Below, I illustrate major points. I will also list some minor points.
+
+> Thank you for your careful review - your review improved our manuscript substantially. We followed your advise -- please see our response below.
+
+(1-1) Based on the obtained results, the ms emphasizes that ecosystem size and complexity have positive effects on FCL but their effects depend on disturbance. This is an important message. Another important message is that the disturbance effect depends on ecosystem size and complexity. Although both messages mean the same literally, the latter could explain why empirical research has found variable disturbance effects on FCL. Since the present results may provide an answer, the ms could emphasize the latter message, too.
+
+> This is a nice comment! Yes, we have clarified this point in the revised manuscript by adding a paragraph in the discussion (XXX). Also, we changed the language in Results (XXX).
+
+(1-2) Given that a major finding is the interacting effects between disturbance and ecosystem size/complexity, more in depth analysis on the interacting effects would greatly improve the ms. In particular, it would be worthwhile to provide results illustrating how FCL responds along a disturbance gradient and how the responses differ between small vs. large ecosystems and between simple vs. complex ecosystems. In addition, while the current ms looks at disturbance frequencies (p_m), effects of disturbance intensities (mu_m) should also be explored because frequency and intensity are both important characteristics of disturbance. Because disturbance propagates through a river network, effects of frequency and intensity might be different, which could add interesting and useful insights.
+
+> Agreed. We simulated a wider range of $p_m$ values to see how disturbance frequency changes FCL-geometry relationships (please see revised figures). We also included a different level of disturbance intensity ($\mu_m = 0.2$) - the lower intensity weakened the interactive effect of disturbance frequency. We noted this result in the revised MS (XXX).
+
+(1-3) Mechanisms underlying the interacting effects should also be explored in some more detail. A potential mechanism, as discussed in the ms, is greater spatial heterogeneity in disturbance in larger or more complex ecosystems. Figure 1B is presented to show that spatial refuges from disturbance are more likely to occur in more complex ecosystems (i.e., with higher branching probabilities). To show that refuges are a potential mechanism, figures like fig. 1B must be compared between frequent and infrequent disturbance. I would expect that the occurrence of spatial refuges is more certain with more frequent disturbance (i.e., clearer longer tails on the low intensity side).
+
+> XXX
+
+(2-1) The way that trophic interactions are modeled is unnatural and probably wrong. One of the problems is that the amount of a species being consumed can exceed its abundance. When the consumed amount exceeds the abundance, surplus consumption vanishes (equations 7). There seems no biological justification for this peculiar assumption. Rather, it seems that the assumption was made up to keep the survival probability positive (equation 6). In general, it is not straightforward to formulate type II functional responses into discrete-time predator-prey population models. Detailed accounts are given in Hassell (1978, The dynamics of arthropod predator-prey systems, Chap. 2 and Appendix I) and in a recent work by Weide et al. (2019, <https://doi.org/10.1016/j.mbs.2018.12.010>). Another solution might be to model within-time step events (consumption and predation-induced death) as continuous time processes and between-time step events (reproduction and disturbance-induced death) as discrete time processes.
+
+> Thank you for this very important comment! We have completely rewrote the model as an extension of the Nicholson-Bailey model. Important results were similar, but there were some qualitative changes as well. We have fully re-structured the Method section based on this revision.
+
+(2-2) Although it is claimed that type II functional responses are assumed, the formulation having predator abundance in the denominator and numerator (equation 9) is incorrect. The formulation of f_ij (line 144) is a correct formulation of type II responses. Moreover, once this error is corrected, it should be checked if beta\_(CP, x) is positive (equation 12).
+
+> Thank you, we have corrected this point as well.
+
+(2-3) The preference function for predators is introduced (equation 10). The logic underlying this preference function (Nishijima et al. 2004) would be that relative preference reflects relative gains of predators feeding exclusively on resource and consumer species (e_BP*f_BP vs. e_CP*f_CP). However, these resource gains do not closely translate into predator's population growth rate (equation 14), breaking the logic underlying the preference function.
+
+> We appreciate your insights. We revisited the switching function to properly represent this in a discrete form.
+
+### Minor comment
+
+Line 39+: "the theoretical basis for the other two hypotheses (resource availability and disturbance hypotheses) rests on implicit assumptions of linear food chains." This seems incorrect. Classic literature on the two hypotheses have considered non-linear food webs.
+
+> The reviewer is correct. We have address this point.
+
+Line 49+: "a maximum length of three": FCL may be defined as the number of trophic links or trophic levels. Here the ms messes up the two definitions. Please be consistent.
+
+> Thank you, we have corrected.
+
+Line 59: Lakes and islands are not necessarily either simple or two-dimensional. They can be viewed as having complex vertical structures of water columns or vegetations.
+
+> Thank you, we have revised as follows: "...theoretical conceptualization has implicitly assumed two-dimensional systems, which may be a fair approximation of lakes."
+
+Lines 110+: What is the relationship between ecosystem size/complexity and the total carrying capacity of a whole ecosystem? It appears that total carrying capacity depends on ecosystem size and complexity. What parts of the ecosystem size/complexity effects are explained by total carrying capacity?
+
+> Thank you for raising this point. Ecosystem size increases the total carrying capacity, while ecosystem complexity decreases it (branching disproportionately increases the number of headwaters with low carrying capacities). Our additional analysis indicated that the "chain" motif is particularly influenced by local carrying capacity; in the meantime, omnivory scenarios were insensitive to local carrying capacity. We have clarified these points in Results and Discussion.
+
+Although both intrinsic growth rates and carrying capacities of basal species should affect local productivity, the ms considers only intrinsic growth rates as local productivity.
+
+> XXX
+
+Line 167+: The definition of food-chain length. FCL at the whole ecosystem level should be defined here (instead of line 194).
+
+> Thank you, we followed this.
+
+Line 184+: More explanations may be necessary about why both attack rates and conversion efficiencies are controlled to change omnivory.
+
+> After some rethinking, we decided to change only attack rates because it is enough to represent scenarios we are tying to create. Thank you for this comment!
+
+Line 184+: In case of "chain", it is wired that a_BP=0.1 despite basal resource does not contribute to predator abundance at all (e_BP=0).
+
+> True, we have corrected this.
+
+Line 184+: Since the model describes abundance dynamics, it does not seem to make biological sense that e_BP, e_CP, or e_BC (conversion efficiencies) are greater than 1 unless these predators and consumers are parasites.
+
+> Thank you, we have fixed the values as one for simplicity.
+
+Line 221: "similar", does it mean "similar to the case of low disturbance"? Please clarify.
+
+> We have restructured Results in light of the reanalysis. Your input is appreciated though!
+
+Line 247+: Here, the ms suggests implications beyond river networks. More elaborate inferences would be helpful. The current results obtained for river networks depend on how disturbance propagates through a network. Are there similar mechanisms in other types of "branching ecosystems" such as mountain ranges and caves? It seems that ecosystem complexity, but not branching structures, is an integral part of the mechanism that create spatial refuges from disturbance. Too much emphasis on branching structures might mislead implications of the current results.
+
+> This is a very thoughtful comment -- we have revised the first paragraph of Discussion following this advise. Thank you!
+
+Figure 1B: More detailed explanations are necessary about how the figure is created. The X axis should have a larger maximum value to show the whole range of the disturbance intensity distributions. What does the dashed line represent?
+
+> XXX
+
+------------------------------------------------------------------------
+
+## Response to Reviewer #2:
+
+Food chain length (FCL) is important in the movement of energy and material through ecosystems and is an indicator used in ecosystem management. I have read the manuscript "Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems". The manuscript takes a simulation approach to examining multiple drivers of food chain length related to branching ecosystems like river ecosystems. I enjoyed reading this manuscript and found that is generally well written. I think that the topic is of interest to general ecological audience. The manuscript is motivated by the claim that there is a need for a unified framework that includes multiple drivers of FCL, including that there is little research on the relationship between complexity (spatial complexity) and heterogeneity.
+
+The results that relate FCL to ecosystem complexity are interesting particularly as they are considered explicitly in a simulation with other factors that have received more attention (ecosystem size, productivity, disturbance). Some of the other result like the general importance of omnivory to FCL are not new but are treated reasonably and have value combined with other factors. However, note that previous research has addressed some of the spatial/heterogeneity effects of the availability of resources with omnivory and FCL (e.g., Holt 1996; McCann 2005; Tunney et al. 2012 as a few examples). Generally, the manuscript could benefit from a little more explaining and understanding of what was generating the observed patterns in FCL since this is possible with a simulation.
+
+In what follows my review focuses on questions and concerns related to concepts and discussion in the current version of the manuscript. I have added a couple editorial comments, but this is not exhaustive.
+
+Expectedly, omnivory is a major determinate of food chain length. I think it is reasonable to set parameters to show a few cases (chain, weak, strong) where the preference for omnivory by the predator in the model changes. But I wonder in interpreting how omnivory influences FCL - how the preference for omnivory (set in parameters) is related to the amount of prey eaten from different trophic levels? In addition to the parameter values, I expect omnivory should also depend on the availability of the prey populations at B,C and P? Can you discuss the degree of omnivory in the simulations (these would determine FCL) ? It is not clear to me that ominvory that is determined by the amount of material moving through the linkages reflects the kind of changes being referred to as structural constraints in the manuscript. Or if these refer to parameters.
+
+At low disturbance it is stated that the level of omnivory increased competition between P and C for B and reduce FCL. It seems this is because one trophic level went extinct. But at high productivity a different mechanism for changes in FCL is suggested. In this case the structural constraint of omnivory determined FCL. I think a little more explanation on what you are defining as competition and occupancy changes versus structural constraints could be helpful.
+
+I was expecting that high productivity you might also see some occupancy changes but maybe for different reasons than low productivity. I wondered if at high productivity you could get increased trophic control where P controls C because it gets biomass from C and B. Also, as P grows it reduces the amount of B consumed by C (which should be increasingly dynamically unstable)? Here I was wondering if the more structural change without occupancy at high productivity might be a parameter limitation based on the levels of r that were used, also the way that you use r as a surrogate of productivity. Often carrying capacity is implicated as a factor in productivity as it sets the level for the amount of material that moves around in the modelled system. I raise these questions because I am used to thinking about the dynamical implications of food webs in terms of the parameters but also the populations as these both determine the strength of interactions (in terms of flux of material in linkages between species). And K can limit the potential for population sizes and has known implications on stability etc..
+
+I think understanding these results associated with branching ecosystems would benefit from a clear description of results and discussion for non-branching networks and then connect the results to the branching complexity ideas. What is happening in the branching network model that governs the results and is providing a different (or similar) response as with the other factors explored here (size, productivity etc.) ?
+
+"The effect of ecosystem complexity was generally clearer than that of ecosystem size" I found that the idea that ecosystem complexity seemed to be more influential than ecosystem size was very subtle. I agree that in a few cases there is a larger initial effect for complexity, but it doesn't seem to be much different overall. Is there a metric that can be provided to show that there is a clearer effect of ecosystem complexity compared to ecosystem size across the different treatments? Is there an explanation that would help to justify the statement? Does this have to do with the dampening of the disturbance moving down stream? As presented it seems like this answer is better aligned with the motivation for doing the study rather than a clear result of the simulations.
+
+One of the results that wasn't discussed is that the changes in FCL in several cases occurred at low levels of ecosystem complexity. Does this mean that you need some complexity, but you don't need a lot of complexity to support longer food chains? Or that above a small amount of complexity it is not that important? Another aspect of this pattern to discuss is whether this is parameter dependent?
+
+"Productivity did not modulate the relationship between FCL and ecosystem size and ecosystem complexity." -- I see difference between high and low productivity simulations for the strong omnivory particularly in the low disturbance case. Perhaps the text ought to be changed to reflect that difference? Can you explain why these differences occur?
+
+Figure 1. a) For clarity, is there supposed to be a change in the darkness of the arrows between B and C for the (chain) and the omnivory cases. Since the caption suggests B-C is fixed? b) I am having a hard time understanding that the "strength of the B-C interaction is fixed". I see that it is the same in the Figure but does this happen in the simulations? I would expect that the strength of that link is influenced by changes in the other two linkages (P-B and P-C) and the densities of the populations (along the same lines as comment 1)?
+
+Line 255: "under high disturbance regimes, only large and complex networks could provide diverse and heterogenous habitats...and maintain long food chains". I am not sure that this is supported as written. In many cases the changes in FCL are at low or moderate levels of size and complexity. Also, it would be helpful to use model simulations to show where FCL these proposed mechanisms are operating i.e., that large and complex .
+
+Line 254: "Consequently food web structure largely controlled FCL." This is a strange way to describe what is happening in the low disturbance systems as FCL is food web structure. Can you provide a more specific mechanism here?
+
+Line 276: "An important result in our simulation is that omnivory does not change the qualitative relationships between FCL and ecosystem properties, as opposed to productivity effects." I find this sentence to
+
+Line 287 and the paragraph: How do the result of this study contribute to the ideas in this paragraph in particular that many small patches is better than large homogenous patches etc.? I find that this discussion is interesting but the text doesn't make a strong connection to the findings of this research.
+
+Ensure that terms are clearly defined. For example, ecosystem structure versus ecosystem feature versus ecosystem property versus food web structure. Ecosystem structure seems to not refer to food web maybe habitat? Anyway as a general comment it would be good to define terms so that the usage is understood.
+
+Line 45: Ecosystem Size?
+
+Line 194: "are differ". Suggest remove "are".
