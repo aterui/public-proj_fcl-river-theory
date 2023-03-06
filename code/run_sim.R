@@ -17,7 +17,7 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
                         sd_disturb_lon = c(0.01, 1),
                         
                         # carring capacity
-                        base_k = 100,
+                        base_k = c(100, 1000),
                         z = 0.54, # Finlay 2011 Ecosphere
                         
                         # timestep
@@ -26,7 +26,7 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
                         n_burnin = 400,
                         
                         # food web parameter
-                        r_b = seq(4, 16, length = 4),
+                        r_b = c(8, 16),
                         e = 1, # to conv_eff
                         a_bc = 0.5, # to attack_rate[1]
                         a_bp = c(0, 0.02, 0.04), # to attack_rate[2]
@@ -43,7 +43,9 @@ df_param <- expand.grid(mean_disturb_source = c(0.2, 0.8),
          (a_bp == 0.04 & a_cp == 0.0025 & h == 0.75), # strong omnivory
          !(s == 1 & a_bp == 0), # remove s = 1 for chain scenario
          !(s == 0 & a_bp != 0), # remove s = 0 for omnivory scenarios
-         !(p_disturb == 0 & mean_disturb_source == 0.2)) %>% 
+         !(p_disturb == 0 & mean_disturb_source == 0.2),
+         !(base_k == 1000 & r_b == 8),
+         !(base_k == 100 & r_b == 16)) %>% 
   arrange(p_disturb,
           theta) %>% 
   mutate(param_set = seq_len(nrow(.))) %>% 
