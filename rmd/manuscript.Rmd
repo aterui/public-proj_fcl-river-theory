@@ -120,10 +120,10 @@ where $\bar{A}_{ix,t}$ is the expected species abundance after within-patch trop
 
 $$
 \begin{aligned}
-B^+_{x,t} &= B_{x,t}g(B_{x,t})f_1(B'_{x,t}, C_{x,t})f_2(B'_{x,t}, P_{x,t})\\
-C^+_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})]f_3(C'_{x,t}, P_{x,t})\\
+B^+_{x,t} &= B_{x,t}g(B_{x,t})f_1(B'_{x,t}, C_{x,t})f_2(B'_{x,t}, P_{x,t}) &&\text{(5a)}\\
+C^+_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})]f_3(C'_{x,t}, P_{x,t}) &&\text{(5b)}\\
 P^+_{x,t} &= e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})] + e_{CP}C_{x,t}[1 - f_3(C'_{x,t}, P_{x,t})]
-~~\text{(5)}
+&&\text{(5c)}
 \end{aligned}
 $$
 
@@ -131,9 +131,9 @@ where $e_{ij}$ is the energetic conversion efficiency from $i$ to $j$. The funct
 
 $$
 \begin{aligned}
-B'_{x,t} &= B_{x,t}g(B_{x,t}) &&\text{B's recruitment}\\
-B''_{x,t} &= B'_{x,t}f_1(B'_{x,t}, C_{x,t}) &&\text{C's predation on B}\\
-C'_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})] &&\text{C's recruitment}
+B'_{x,t} &= B_{x,t}g(B_{x,t}) &&\text{B's recruitment} &&&\text{(6a)}\\
+B''_{x,t} &= B'_{x,t}f_1(B'_{x,t}, C_{x,t}) &&\text{C's predation on B} &&&\text{(6b)}\\
+C'_{x,t} &= e_{BC}B'_{x,t}[1 - f_1(B'_{x,t}, C_{x,t})] &&\text{C's recruitment} &&&\text{(6c)}
 \end{aligned}
 $$
 
@@ -143,7 +143,7 @@ We used the Beverton-Holt function to describe the density-dependent growth of t
 
 $$
 \begin{aligned}
-g(B_{x,t}) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}B_{x,t}} &&\text{(11)}
+g(B_{x,t}) = \frac{r_{b}} {1 + \frac{r_b - 1}{K_{x}}B_{x,t}} &&\text{(7)}
 \end{aligned}
 $$
 
@@ -151,16 +151,18 @@ where $r_{B}$ is the intrinsic growth rate and $K_x$ is the carrying capacity at
 
 $$
 \begin{aligned}
-f_1(B'_{x,t}, C_{x,t}) &= \exp \left(-\frac{a_{BC} C_{x,t}} {1 + a_{BC} h_{BC} B'_{x,t}} \right) &&\text{C on B}\\
-f_2(B''_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 + \phi) a_{BP} P_{x,t}} {1 + a_{BP} h_{BP} B''_{x,t}} \right) &&\text{P on B}\\
-f_3(C'_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 - \phi) a_{CP} P_{x,t}} {1 + a_{CP} h_{CP} C'_{x,t}} \right) &&\text{P on C}
+f_1(B'_{x,t}, C_{x,t}) &= \exp \left(-\frac{a_{BC} C_{x,t}} {1 + a_{BC} h_{BC} B'_{x,t}} \right) &&\text{C on B} &&&\text{(8a)}\\
+f_2(B''_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 + \phi) a_{BP} P_{x,t}} {1 + a_{BP} h_{BP} B''_{x,t}} \right) &&\text{P on B} &&&\text{(8b)}\\
+f_3(C'_{x,t}, P_{x,t}) &= \exp \left(-\frac{(1 - \phi) a_{CP} P_{x,t}} {1 + a_{CP} h_{CP} C'_{x,t}} \right) &&\text{P on C} &&&\text{(8c)}
 \end{aligned}
 $$
 
 The parameter $a_{ij}$ defines $j$'s attack rate to $i$, $h_{ij}$ the handling time, and $\phi$ the switching function for the intraguild predator. We assumed that switching is dependent on the relative abundance of $B''_{x,t}$ and $C'_{x,t}$:
 
 $$
-\phi = \frac{s(B''_{x,t} - C'_{x,t})}{B''_{x,t} + C'_{x,t}}
+\begin{aligned}
+\phi = \frac{s(B''_{x,t} - C'_{x,t})}{B''_{x,t} + C'_{x,t}} &&\text{(9)}
+\end{aligned}
 $$
 
 where the parameter $s$ determines the strength of switching ($0 \le s \le 1$). In this expression, the intraguild predator increases its attack rate to the basal species if $\phi > 0$, properly representing the switching behavior of the intraguild prey.
@@ -169,7 +171,7 @@ where the parameter $s$ determines the strength of switching ($0 \le s \le 1$). 
 
 $$
 \begin{aligned}
-\bar{A}_{ix,t}(t) &= A^+_{ix,t} (1 - \nu_t m'_{x,t}) &&\text{(15)}
+\bar{A}_{ix,t}(t) &= A^+_{ix,t} (1 - \nu_t m'_{x,t}) &&\text{(10)}
 \end{aligned}
 $$
 
@@ -180,7 +182,7 @@ where $m'_{x,t}$ is the disturbance intensity at patch $x$ and time $t$, which w
 $$
 \begin{aligned}
 \xi_{ix,t} &= \frac{\sum_{y, y \ne x}E_{iy,t}\exp(-\theta d_{xy})}{\sum_{x} \sum_{y, y \ne x}E_{iy,t}\exp(-\theta d_{xy})}
-&&\text{(16)}
+&&\text{(11)}
 \end{aligned}
 $$
 
@@ -191,14 +193,16 @@ where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path)
 $$
 \begin{aligned}
 \tau_{x,t} &= \delta_{x,t} + 2(1 - \delta_{x,t}) + 1
-&&\text{(17)}
+&&\text{(12)}
 \end{aligned}
 $$
 
 where $\delta_{x,t}$ is the derived parameter that represents the degree of omnivory and is defined as:
 
 $$
-\delta_{x,t} = \frac{e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})]}{P^+_{x,t}}
+\begin{aligned}
+\delta_{x,t} = \frac{e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})]}{P^+_{x,t}} &&\text{(13)}
+\end{aligned}
 $$
 
 Thus, our definition accounts for the influence of omnivory. We defined the global FCL $\bar{\tau}$ across patches $N_p$ and time $T$ as $\bar{\tau} = \frac{\sum_x \sum_t \tau_{x,t}}{N_p T}$ (i.e., average over space and time).
