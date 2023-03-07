@@ -25,63 +25,13 @@ df_heat <- df_param %>%
 ## df for loess plot
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb | p_disturb == 0,
-         (s == 0 & a_bp == 0) | s == s_set,
-         r_b %in% r_set)
-
-
-# plot: heatmap -----------------------------------------------------------
-
-theme_set(plt_theme)
-df_point <- expand.grid(r_b = r_set,
-                        p_disturb = unique(df_sim$p_disturb),
-                        rho1 = 0,
-                        rho2 = 0)
-
-## Ecosystem size
-g_size <- df_heat %>% 
-  ggplot(aes(x = r_b,
-             y = p_disturb,
-             fill = rho1)) +
-  geom_raster() +
-  geom_point(data = df_point) +
-  facet_grid(cols = vars(disp),
-             rows = vars(omn)) +
-  labs(y = expression("Disturbance prob. ("*p[m]*")"),
-       x = expression("Productivity ("*r[b]*")"),
-       fill = "Slope") +
-  scale_x_continuous(breaks = sort(unique(df_sim$r_b))) +
-  scale_fill_gradient2(mid = 0,
-                       limits = range(c(df_heat$rho1, df_heat$rho2))) +
-  theme_classic() +
-  theme(strip.background = element_blank()) +
-  ggtitle("Ecosystem size")
-
-## Ecosystem complexity
-g_branch <- df_heat %>% 
-  ggplot(aes(x = r_b,
-             y = p_disturb,
-             fill = rho2)) +
-  geom_raster() +
-  geom_point(data = df_point) +
-  facet_grid(cols = vars(disp),
-             rows = vars(omn)) +
-  labs(y = expression("Disturbance prob. ("*p[m]*")"),
-       x = expression("Productivity ("*r[b]*")"),
-       fill = "Slope") +
-  scale_x_continuous(breaks = sort(unique(df_sim$r_b))) +
-  scale_fill_gradient2(mid = 0,
-                       limits = range(c(df_heat$rho1, df_heat$rho2))) +
-  theme_classic() +
-  theme(strip.background = element_blank()) +
-  ggtitle("Ecosystem complexity")
-
-g_m <- (g_size + g_branch) + plot_annotation(tag_levels = "A")
+         (s == 0 & a_bp == 0) | s == s_set)
 
 
 # plot: geometry effect ---------------------------------------------------
 
-lab <- c(`8` = "Low~productivity~(r[b]==8)",
-         `16` = "High~productivity~(r[b]==16)")
+lab <- c(`8` = "Low~productivity",
+         `16` = "High~productivity")
 
 ## ecosystem size effect
 g_np <-  df_plot %>% 
@@ -124,12 +74,6 @@ g_pb <-  df_plot %>%
 
 
 # export ------------------------------------------------------------------
-
-## heatmap
-ggsave(g_m,
-       filename = here::here("figure/figure_si_heatmap.pdf"),
-       height = 7,
-       width = 14)
 
 ## ecosystem size with low productivity
 ggsave(g_np,
