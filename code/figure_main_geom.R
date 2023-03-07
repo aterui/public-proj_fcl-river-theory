@@ -13,13 +13,11 @@ df_coef <- readRDS("output/df_coef.rds")
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(8, 16)
 
 ## df for loess plot
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb,
-         (s == 0 & a_bp == 0) | s == s_set,
-         r_b %in% r_set)
+         (s == 0 & a_bp == 0) | s == s_set)
 
 
 # plot: geometry effect ---------------------------------------------------
