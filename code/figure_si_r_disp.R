@@ -13,7 +13,6 @@ df_coef <- readRDS("output/df_coef.rds")
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(8, 16)
 
 ## df for heatmap
 df_heat <- df_param %>% 
@@ -25,9 +24,8 @@ df_heat <- df_param %>%
 ## df for loess plot
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb | p_disturb == 0,
-         (s == 0 & a_bp == 0) | s == s_set,
-         r_b %in% r_set) %>% 
-  mutate(disp = fct_relevel(disp, "Short dispersal"))
+         (s == 0 & a_bp == 0) | s == s_set) %>% 
+  mutate(disp = ifelse(disp == "Short dispersal", "Short", "Long"))
 
 
 # plot: fcl boxplot -------------------------------------------------------
@@ -37,8 +35,8 @@ theme_set(plt_theme)
 g_r <- df_plot %>% 
   ggplot(aes(x = factor(p_disturb),
              y = fcl,
-             color = factor(r_b),
-             fill = factor(r_b))) +
+             color = factor(prod),
+             fill = factor(prod))) +
   geom_boxplot(alpha = 0.2,
                linewidth = 0.1,
                outlier.size = 0.5) +
@@ -48,8 +46,8 @@ g_r <- df_plot %>%
   MetBrewer::scale_fill_met_d("VanGogh3") +
   labs(x = "Disturbance probability",
        y = "Food chain length",
-       color = expression("Productivity"~"("*r[b]*")"),
-       fill = expression("Productivity"~"("*r[b]*")"))
+       color = "Productivity",
+       fill = "Productivity")
 
 g_disp <- df_plot %>% 
   ggplot(aes(x = factor(p_disturb),
@@ -94,8 +92,8 @@ df_plot_st <- df_plot %>%
 g_r_state <- df_plot_st %>% 
   ggplot(aes(x = factor(state),
              y = value,
-             color = factor(r_b),
-             fill = factor(r_b))) +
+             color = factor(prod),
+             fill = factor(prod))) +
   geom_boxplot(alpha = 0.2,
                linewidth = 0.1,
                outlier.size = 0.5) +
@@ -107,8 +105,8 @@ g_r_state <- df_plot_st %>%
                                                          label_parsed))) +
   labs(x = "State",
        y = "Occupancy",
-       color = expression("Productivity"~"("*r[b]*")"),
-       fill = expression("Productivity"~"("*r[b]*")")) + 
+       color = "Productivity",
+       fill = "Productivity") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 g_disp_state <- df_plot_st %>% 
