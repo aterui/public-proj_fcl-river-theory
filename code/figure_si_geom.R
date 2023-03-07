@@ -13,7 +13,6 @@ df_coef <- readRDS("output/df_coef.rds")
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.2
-r_set <- c(8, 16)
 
 ## df for loess plot
 df_plot <- df_sim %>% 
