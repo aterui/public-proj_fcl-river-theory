@@ -11,13 +11,11 @@ lapply(list("code/library.R",
 ## filter s & mean_disturb_source for visualization
 s_set <- 1
 mu_disturb <- 0.8
-r_set <- c(8, 16)
 
 ## df for gam plot
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb,
-         (s == 0 & a_bp == 0) | s == s_set,
-         r_b %in% r_set) %>% 
+         (s == 0 & a_bp == 0) | s == s_set) %>% 
   pivot_longer(cols = paste0("s", 0:4),
                values_to = "p_state",
                names_to = "state")
