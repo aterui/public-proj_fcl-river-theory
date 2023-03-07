@@ -15,13 +15,6 @@ s_set <- 1
 mu_disturb <- 0.8
 r_set <- c(8, 16)
 
-## df for heatmap
-df_heat <- df_param %>% 
-  left_join(df_coef,
-            by = "param_set") %>% 
-  filter(mean_disturb_source == mu_disturb,
-         (s == 0 & a_bp == 0) | s == s_set)
-
 ## df for loess plot
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb,
