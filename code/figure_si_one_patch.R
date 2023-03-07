@@ -40,8 +40,9 @@ foreach(i = 1:length(a1_set)) %do% {
       geom_raster(alpha = 0.8) +
       facet_grid(rows = vars(r_b),
                  cols = vars(h), labeller = labeller(h = as_labeller(lab[[1]], label_parsed),
-                                                        r_b = as_labeller(lab[[2]], label_parsed))) +
-      scale_fill_viridis_d(limits = factor(0:4), labels = state_lab) +
+                                                     r_b = as_labeller(lab[[2]], label_parsed))) +
+      scale_fill_viridis_d(limits = factor(0:4),
+                           labels = state_lab) +
       scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
       labs(x = expression("Attack rate ("*a[BP]*")"),
            y = expression("Attack rate ("*a[CP]*")"),

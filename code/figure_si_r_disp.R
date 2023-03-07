@@ -18,7 +18,8 @@ mu_disturb <- 0.8
 df_plot <- df_sim %>% 
   filter(mean_disturb_source == mu_disturb | p_disturb == 0,
          (s == 0 & a_bp == 0) | s == s_set) %>% 
-  mutate(disp = ifelse(disp == "Short dispersal", "Short", "Long"))
+  mutate(disp = ifelse(disp == "Short dispersal", "Short", "Long"),
+         disp = fct_relevel(disp, "Short"))
 
 
 # plot: fcl boxplot -------------------------------------------------------
