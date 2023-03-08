@@ -22,7 +22,7 @@ df_param <- expand.grid(n_timestep = 1000,
                         h = seq(0, 1, by = 0.25),
                         s = c(0, 1)) %>%
   filter(!(s == 1 & a2 == 0), # remove s = 1 for chain scenario
-         !(s == 0 & a2 != 0)) # remove s = 0 for omnivory scenarios
+         !(s == 0 & a2 != 0)) %>%  # remove s = 0 for omnivory scenarios
   mutate(param_set = seq_len(nrow(.))) %>% 
   as_tibble()
 
