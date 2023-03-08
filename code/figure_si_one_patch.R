@@ -57,7 +57,8 @@ foreach(i = 1:length(a1_set)) %do% {
                                                      r_b = as_labeller(lab[[2]], label_parsed))) +
       scale_fill_viridis_d(limits = factor(0:4),
                            labels = state_lab) +
-      scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
+      scale_x_continuous(breaks = c(0.01, 0.05, 0.09)) +
+      scale_y_continuous(breaks = c(0, 0.025, 0.05)) +
       theme_classic() +
       theme(strip.background = element_blank(),
             strip.text = element_text(size = 12), 
