@@ -42,7 +42,7 @@ n_sim <- df_sim1 %>%
 
 ## One-patch simulation
 
-We performed one-patch simulations to identify parameter combinations that allow stable coexistence of the three species without dispersal and disturbance. Specifically, we varied attack rates $a_{ij}$, handling time $h_{ij}$, intrinsic growth rate of the basal species $r_b$, and carrying capacity $K$. First, we considered `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` discrete combinations of $a_{BC}$, $r_b$, $K$, and $h$ (assumed $h_{ij} = h$). We further crossed `r nrow(dplyr::distinct(df_sim1, a2))` values of $a_{BP}$ (`r min(df_sim1$a2)` -- `r max(df_sim1$a2)` with an equal interval) and $a_{CP}$ (`r min(df_sim1$a3)` -- `r max(df_sim1$a3)`). Consequently, we had a total of `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, a2, a3, h))` combinations for one-patch simulations.
+We performed one-patch simulations to identify parameter combinations that allow stable coexistence of the three species without dispersal and disturbance. Specifically, we varied attack rates $a_{ij}$, handling time $h_{ij}$, intrinsic growth rate of the basal species $r_b$, and carrying capacity $K$. First, we considered `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` discrete combinations of $a_{BC}$, $r_b$, $K$, and $h$ (assumed $h_{ij} = h$). We further crossed `r nrow(dplyr::distinct(df_sim1, a2))` values of $a_{BP}$ (`r min(df_sim1$a2)` -- `r max(df_sim1$a2)` with an equal interval) and $a_{CP}$ (`r min(df_sim1$a3)` -- `r max(df_sim1$a3)`), resulting in `r nrow(dplyr::distinct(df_sim1, a2, a3))` combinations. Consequently, we had a total of `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, a2, a3, h))` combinations (`r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` $\times$ `r nrow(dplyr::distinct(df_sim1, a2, a3))`) for one-patch simulations.
 
 For each parameter combination, we ran 10 replications of `r n_sim[1]` time steps, which include `r n_sim[2]` warmup and `r n_sim[3]` burn-in periods. We recorded the patch state as numeric values ("No species" = 0, "B" = 1, "B + C" = 2, "B + P" =3, and "B + C + P" = 4) at $t = 1600$ and retrieved the maximum value of 10 replicates.
 
@@ -94,12 +94,18 @@ knitr::include_graphics(here::here("figure/figure_si_fcl_r_disp.pdf"))
 
 \newpage
 
-```{r fig8, fig.cap="Effects of productivity on state transitions. Colors distinguish productivity scenarios, and rows identify food web motifs. Disturbance intensity $\\mu_m = 0.8$."}
+```{r fig8, fig.cap="Effects of productivity on state transitions with high disturbance intensity $\\mu_m = 0.8$. Colors distinguish productivity scenarios, columns represent different disturbance probability $p_m$, and rows identify food web motifs."}
 knitr::include_graphics(here::here("figure/figure_si_state_r.pdf"))
 ```
 
 \newpage
 
-```{r fig9, fig.cap="Effects of dispersal on state transitions. Colors distinguish distinguish scenarios, and rows identify food web motifs. Disturbance intensity $\\mu_m = 0.8$."}
+```{r fig9, fig.cap="Effects of dispersal on state transitions with high disturbance intensity $\\mu_m = 0.8$. Colors distinguish dispersal scenarios, columns represent different disturbance probability $p_m$, and rows identify food web motifs."}
 knitr::include_graphics(here::here("figure/figure_si_state_disp.pdf"))
 ```
+
+
+## Add
+
+- total carrying capacity
+- mean distance
