@@ -1,0 +1,3 @@
+\contentsline {section}{Supplementary text}{1}{section*.2}%
+\contentsline {subsection}{One-patch simulation}{1}{section*.3}%
+\contentsline {section}{Figures}{2}{section*.4}%

@@ -56,6 +56,8 @@ list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
          fill = "Disturbance prob.") +
     scale_color_met_d("Hiroshige", direction = -1) +
     scale_fill_met_d("Hiroshige", direction = -1) +
+    theme(legend.title = element_text(size = 20),
+          legend.text =  element_text(size = 18)) +
     ggtitle(x)
 }
 
@@ -89,6 +91,8 @@ list_g_bp <- foreach(x = unique(df_plot$omn)) %do% {
     scale_x_continuous(breaks = c(0.1, 0.4, 0.7, 1.0)) +
     scale_color_met_d("Hiroshige", direction = -1) +
     scale_fill_met_d("Hiroshige", direction = -1) +
+    theme(legend.title = element_text(size = 20),
+          legend.text =  element_text(size = 18)) +
     ggtitle(x)
 }
 
@@ -102,11 +106,11 @@ g_bp_all <- list_g_bp[[1]] + list_g_bp[[2]] +
 # export ------------------------------------------------------------------
 
 ggsave(g_np_all,
-       filename = here::here(paste0("figure/si_figure_state_n_patch.pdf")),
+       filename = here::here(paste0("figure/figure_si_state_n_patch.pdf")),
        height = 14,
        width = 14)
 
 ggsave(g_bp_all,
-       filename = here::here(paste0("figure/si_figure_state_p_branch.pdf")),
+       filename = here::here(paste0("figure/figure_si_state_p_branch.pdf")),
        height = 14,
        width = 14)

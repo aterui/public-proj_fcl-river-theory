@@ -20,6 +20,20 @@ lab <- list(c(`0` = "h==0.0",
 
 state_lab <- c("No species", "B", "B + C", "B + P", "B + C + P")
 
+df_point <- tibble(a1 = 0.5,
+                   a2 = c(0, 0.02, 0.04),
+                   a3 = c(0.0025, 0.025, 0.0025),
+                   h = c(0.5, 0.5, 0.75),
+                   motif = c("Chain",
+                             "Weak omnivory",
+                             "Strong omnivory"),
+                   state = 0)
+
+df_point <- bind_rows(df_point, df_point) %>% 
+  mutate(r_b = rep(c(8, 16), each = 3),
+         motif = fct_relevel(motif, "Chain", "Weak omnivory"))
+  
+
 df_fcl <- readRDS(here::here("output/sim_one_patch.rds"))
 k_set <- unique(df_fcl$k)
 a1_set <- unique(df_fcl$a1)
@@ -44,20 +58,19 @@ foreach(i = 1:length(a1_set)) %do% {
       scale_fill_viridis_d(limits = factor(0:4),
                            labels = state_lab) +
       scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
-      labs(x = expression("Attack rate ("*a[BP]*")"),
-           y = expression("Attack rate ("*a[CP]*")"),
-           fill = "State") +
       theme_classic() +
       theme(strip.background = element_blank(),
             strip.text = element_text(size = 12), 
             axis.title = element_text(size = 14),
             axis.text = element_text(size = 10)) +
       ggtitle(paste0("K = ", k_set[j])) +
-      geom_point(data = tibble(a2 = c(0, 0.02, 0.04),
-                               a3 = c(0.0025, 0.025, 0.0025),
-                               h = c(0.5, 0.5, 0.75),
-                               state = 0),
-                 color = "salmon")
+      geom_point(data = df_point,
+                 size = 1.5,
+                 aes(shape = motif)) +
+      labs(x = expression("Attack rate ("*a[BP]*")"),
+           y = expression("Attack rate ("*a[CP]*")"),
+           fill = "State",
+           shape = "Motif")
     
     return(g_one)
   }
@@ -69,11 +82,11 @@ foreach(i = 1:length(a1_set)) %do% {
   # export ------------------------------------------------------------------
   
   ggsave(g_one_joint, 
-         filename = here::here(paste0("figure/si_figure_one_patch_a1_",
+         filename = here::here(paste0("figure/figure_si_one_patch_a1_",
                                       a1_set[i] * 100,
                                       ".pdf")),
-         width = 10,
-         height = 15)
+         width = 9,
+         height = 10)
   
 }
 

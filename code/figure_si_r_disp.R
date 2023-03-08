@@ -124,16 +124,16 @@ g_disp_state <- df_plot_st %>%
 # export ------------------------------------------------------------------
 
 ggsave(g_rd,
-       filename = here::here("figure/figure_si_rb_disp.pdf"),
+       filename = here::here("figure/figure_si_fcl_r_disp.pdf"),
        height = 8,
        width = 7)
 
 ggsave(g_r_state,
-       filename = here::here("figure/figure_si_r_state.pdf"),
+       filename = here::here("figure/figure_si_state_r.pdf"),
        height = 6,
        width = 10)
 
 ggsave(g_disp_state,
-       filename = here::here("figure/figure_si_disp_state.pdf"),
+       filename = here::here("figure/figure_si_state_disp.pdf"),
        height = 6,
        width = 10)
