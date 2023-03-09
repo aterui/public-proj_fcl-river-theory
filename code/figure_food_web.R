@@ -56,9 +56,24 @@ g_fw <- foreach(i = 1:3) %do% {
                    start_cap = circle(0.07, 'npc'),
                    end_cap = circle(0.07, 'npc'),
                    show.legend = T) +
-    scale_edge_color_continuous(low = "lightgrey",
-                                high = "black",
-                                guide = "none") +
+    geom_node_label(aes(label = label), 
+                    color = grey(0.25),
+                    size = 6,
+                    label.size = 0,
+                    fill = NA) +
+    labs(subtitle = title_fw[i]) +
+    theme(rect = element_blank(),
+          panel.border = element_blank(),
+          panel.background = element_blank())
+  
+  g <- ggraph(layout) + 
+    geom_edge_link(arrow = arrow(type = "closed",
+                                 ends = "last",
+                                 length = unit(0.05, "npc"),
+                                 angle = 15),
+                   start_cap = circle(0.07, 'npc'),
+                   end_cap = circle(0.07, 'npc'),
+                   show.legend = T) +
     geom_node_label(aes(label = label), 
                     color = grey(0.25),
                     size = 6,

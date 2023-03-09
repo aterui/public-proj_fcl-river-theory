@@ -64,22 +64,34 @@ g_net <- (ng[[1]] + labs(title = "A")) + ng[[2]] + ng[[3]] + plot_layout(guide =
 
 theme_set(plt_theme)
 
-df_wn <- readRDS("output/sim_within_net.rds")
+p_branch <- c(0.2, 0.5, 0.8)
+
+df_wn <- foreach(i = seq_len(length(p_branch)),
+                 .combine = bind_rows) %do% {
+                   
+                   set.seed(11)
+                   
+                   net <- brnet(p_branch = p_branch[i])
+                   net$df_patch %>% 
+                     mutate(n_patch = 50,
+                            p_branch = p_branch[i]) %>% 
+                     return()
+                 }
+
 
 labs <- c(`0.2` = "p[b]==0.2",
           `0.5` = "p[b]==0.5",
           `0.8` = "p[b]==0.8")
 
-df_wn %>% 
-  ggplot(aes(y = disturbance,
-             x = factor(n_patch),
+g_disturb <- df_wn %>% 
+  ggplot(aes(x = disturbance,
              color = factor(p_branch),
              fill = factor(p_branch))) +
-  geom_violin(alpha = 0.2, draw_quantiles = 0.5) +
-  facet_wrap(facets = ~p_branch,
-             labeller = labeller(p_branch = as_labeller(labs,
-                                                        label_parsed))) +
-  labs(x = "Ecosystem size (number of patches)",
-       y = "Disturbance intensity (m)",
+  geom_density(alpha = 0.2) +
+  labs(y = "Density",
+       x = "Disturbance intensity",
        color = "Branching prob.",
-       fill = "Branching prob.")
+       fill = "Branching prob.") +
+  geom_vline(xintercept = 0.8,
+             color = "grey",
+             linetype = "dashed")

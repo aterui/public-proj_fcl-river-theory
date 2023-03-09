@@ -1,5 +1,4 @@
 ---
-title: "Figures"
 output: pdf_document
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
@@ -9,29 +8,46 @@ knit: (function(inputFile, encoding) {
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE)
+
+options(knitr.kable.NA = '')
 ```
+
+# Tables
+
+```{r}
+source(here::here("code/table_param.R"))
+
+knitr::kable(df_value %>%
+               dplyr::select(-"One-patch") %>% 
+               rename(Value = "Main"),
+             escape = FALSE,
+             booktabs = TRUE,
+             caption = "Parameter values used in the main simulation") %>% 
+  kableExtra::kable_styling(latex_options = 'HOLD_position')
+```
+
+\pagebreak
+
+# Figures
 
 ```{r figure1, fig.width=12, fig.height=6}
-source(here::here("code/figure_concept.R"))
-print(g_concept)
+knitr::include_graphics(here::here("figure/figure_concept.pdf"))
 ```
 
-**Figure 1** (A) Example of simulated branching networks. Node color is reflective of the disturbance value calculated in network generation. (B) Distribution of disturbance values in branching networks. (C) Trophic interactions in a three-species community. $B$ refers to a basal species whose population level is controlled by a density-dependent function. The consumer species (or intraguild prey), $C$, consumes $B$ as a resource. The predator (or intraguild predator), $P$, is able to consume both $B$ and $C$. The structure and strength of these trophic interactions determined by functional responses. The strength of trophic interactions involving $P$ is represented by the darkness of the arrows (strength of the $B$-$C$ interaction is fixed), and food chain length varies in response to the proportion that each resource makes to the diet of $P$. On the far left, a simple linear food chain exists when the predator does not consume the basal species. Moving to the right, basal species' biomass is converted to predator biomass at higher efficiencies with greater attack rates. (D) Preference of predator $P$ to basal species $B$ over consumer $C$ under different omnivory scenarios. The preference changes with the relative density of $B$ to $C$ ($C=50$ in this example), and the rate of change is determined by attack rate and handling time.
+**Figure 1** (A) Example of simulated branching networks. Node color is reflective of the disturbance value calculated in network generation. (B) Density distributions of disturbance intensity (i.e., proportional reduction of a population). Three networks of 50 patches were produced with varied branching probabilities, which were shown in different colors. The vertical line indicates the mean disturbance intensity at headwaters ($\mu_m = 0.8$). (C) Trophic interactions in a three-species community. $B$ refers to a basal species whose population level is controlled by a density-dependent function. The consumer species (or intraguild prey), $C$, consumes $B$ as a resource. The predator (or intraguild predator), $P$, is able to consume both $B$ and $C$. The structure and strength of these trophic interactions determined by functional responses. On the far left, a simple linear food chain exists when the predator does not consume the basal species. Moving to the right, basal species' biomass is converted to predator biomass at higher efficiencies with greater attack rates. (D) Proportional contribution of basal species $B$ to predator $P$ under different omnivory scenarios. The contribution changes with the relative density of $B$ to $C$ ($C=50$ in this example), and the rate of change is determined by attack rate and handling time.
 
 \pagebreak
 
 ```{r figure2, fig.width=12, fig.height=5.5}
-source(here::here("code/figure_main_sim.R"))
-print(g_ld)
+knitr::include_graphics(here::here("figure/figure_main_n_patch.pdf"))
 ```
 
-**Figure 2** Ecosystem size (A) and complexity (B) have little influence on food chain length under low disturbance regime. Lines are loess curves fitted to simulated data and are colored based on omnivory. Shaded ribbons are 95% confidence intervals. Parameters for low disturbance regime: disturbance probability $p_m = 0.01$ and mean proportional mortality at headwaters $\mu_{m}=0.8$.
+**Figure 2** Relationships between food chain length and ecosystem size with high disturbance intensity $\mu_m = 0.8$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities.
 
 \pagebreak
 
 ```{r figure3, fig.width=12, fig.height=5.5}
-source(here::here("code/figure_main_sim.R"))
-print(g_hd)
+knitr::include_graphics(here::here("figure/figure_main_p_branch.pdf"))
 ```
 
-**Figure 3** Ecosystem size (A) and complexity (B) influence food chain length under high disturbance regime. Lines are loess curves fitted to simulated data and are colored based on omnivory. Shaded ribbons are 95% confidence intervals. Parameters for high disturbance regime: disturbance probability $p_{m} = 0.1$ and mean proportional mortality at headwaters $\mu_{m}=0.8$.
+**Figure 3** Relationships between food chain length and ecosystem complexity with high disturbance intensity $\mu_m = 0.8$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities.

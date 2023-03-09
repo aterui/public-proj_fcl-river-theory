@@ -51,11 +51,11 @@ n_sim <- df_sim1 %>%
 
 ## One-patch simulation
 
-We performed one-patch simulations to identify parameter combinations that allow stable coexistence of the three species without dispersal and disturbance. Specifically, we varied attack rates $a_{ij}$, handling time $h_{ij}$, intrinsic growth rate of the basal species $r_b$, and carrying capacity $K$. First, we considered `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` discrete combinations of $a_{BC}$, $r_b$, $K$, and $h$ (assumed $h_{ij} = h$). We further crossed `r nrow(dplyr::distinct(df_sim1, a2))` values of $a_{BP}$ (`r min(df_sim1$a2)` -- `r max(df_sim1$a2)` with an equal interval) and $a_{CP}$ (`r min(df_sim1$a3)` -- `r max(df_sim1$a3)`), resulting in `r nrow(dplyr::distinct(df_sim1, a2, a3))` combinations. Consequently, we had a total of `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, a2, a3, h))` combinations (`r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` $\times$ `r nrow(dplyr::distinct(df_sim1, a2, a3))`) for one-patch simulations. Note that we set the switching parmeter $s = 0$ if $a_{BP} = 0$, otherwise $s = 1$. Parameter values were summarized in **Table S1**.
+We performed one-patch simulations to identify parameter combinations that allow stable coexistence of the three species without dispersal and disturbance. Specifically, we varied attack rates $a_{ij}$, handling time $h_{ij}$, intrinsic growth rate of the basal species $r_b$, and carrying capacity $K$. First, we considered `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` discrete combinations of $a_{BC}$, $r_b$, $K$, and $h$ (assumed $h_{ij} = h$). We further crossed `r nrow(dplyr::distinct(df_sim1, a2))` values of $a_{BP}$ (`r min(df_sim1$a2)` -- `r max(df_sim1$a2)` with an equal interval) and $a_{CP}$ (`r min(df_sim1$a3)` -- `r max(df_sim1$a3)`), resulting in `r nrow(dplyr::distinct(df_sim1, a2, a3))` combinations. Consequently, we had a total of `r nrow(dplyr::distinct(df_sim1, r_b, k, a1, a2, a3, h))` combinations (`r nrow(dplyr::distinct(df_sim1, r_b, k, a1, h))` $\times$ `r nrow(dplyr::distinct(df_sim1, a2, a3))`) for one-patch simulations. Note that we set the switching parameter $s = 0$ if $a_{BP} = 0$; otherwise $s = 1$. Parameter values were summarized in **Table S1**.
 
-For each parameter combination, we ran 10 replications of `r n_sim[1]` time steps, which include `r n_sim[2]` warmup and `r n_sim[3]` burn-in periods. We recorded the patch state as numeric values ("No species" = 0, "B" = 1, "B + C" = 2, "B + P" =3, and "B + C + P" = 4) at $t = 1600$ and retrieved the maximum value of 10 replicates.
+For each parameter combination, we ran ten replications of `r n_sim[1]` time steps, which include `r n_sim[2]` warmup and `r n_sim[3]` burn-in periods. We recorded the patch state as numeric values ("No species" = 0, "B" = 1, "B + C" = 2, "B + P" =3, and "B + C + P" = 4) at $t = 1600$ and retrieved the maximum value of ten replicates.
 
-Results were summarized in **Figures S1 and S2**. We identified the following three parameter combinations that could maintain the state of "B + C + P" with distinct food web motifs: "chain (no omnivory)" $(a_{BP}, a_{CP}, h) = (0, 0.0025, 0.5)$, "weak omnivory" ($0.02, 0.025, 0.5$), and "strong omnivory" ($0.04, 0.0025, 0.75$) (see symbols in **Figures S1 and S2**). In the maintext, we reported the results with $a_{BC} = 0.5$ because qualitative patterns did not depend on $a_{BC}$.
+Results were summarized in **Figures S1 and S2**. We identified the following three parameter combinations that could maintain the state of "B + C + P" with distinct food web motifs: "chain (no omnivory)" $(a_{BP}, a_{CP}, h) = (0, 0.0025, 0.5)$, "weak omnivory" ($0.02, 0.025, 0.5$), and "strong omnivory" ($0.04, 0.0025, 0.75$) (see symbols in **Figures S1 and S2**). In the main text, we reported the results with $a_{BC} = 0.5$ because qualitative patterns did not depend on $a_{BC}$.
 
 \newpage
 
@@ -67,7 +67,7 @@ source(here::here("code/table_param.R"))
 kable(df_value,
       escape = FALSE,
       booktabs = TRUE,
-      caption = "Parameter values used in the main simulation and one-patch simulation") %>% 
+      caption = "Parameter values used in the main and one-patch simulation") %>% 
   kableExtra::kable_styling(latex_options = 'HOLD_position')
 ```
 
@@ -75,19 +75,19 @@ kable(df_value,
 
 # Figures
 
-```{r fig1, fig.cap="Results of one-patch simulation with $a_{BC} = 0.25$. Colors indicate the patch state, and points with different symbols identify parameter combinations used in the main simulation. Panels distinguishh the value of carrying capacity $K$. In both panels, rows represent different values of intrinsic growth rate $r_b$, and columns identify handling time $h$."}
+```{r fig1, fig.cap="Results of one-patch simulation with $a_{BC} = 0.25$. Colors indicate the patch state, and points with different symbols identify parameter combinations used in the main simulation. Panels distinguish the value of carrying capacity $K$. In both panels, rows represent different values of intrinsic growth rate $r_b$, and columns identify handling time $h$."}
 knitr::include_graphics(here::here("figure/figure_si_one_patch_a1_25.pdf"))
 ```
 
 \newpage
 
-```{r fig2, fig.cap="Results of one-patch simulation with $a_{BC} = 0.50$. Colors indicate the patch state, and points with different symbols identify parameter combinations used in the main simulation. Panels distinguishh the value of carrying capacity $K$. In both panels, rows represent different values of intrinsic growth rate $r_b$, and columns identify handling time $h$."}
+```{r fig2, fig.cap="Results of one-patch simulation with $a_{BC} = 0.50$. Colors indicate the patch state, and points with different symbols identify parameter combinations used in the main simulation. Panels distinguish the value of carrying capacity $K$. In both panels, rows represent different values of intrinsic growth rate $r_b$, and columns identify handling time $h$."}
 knitr::include_graphics(here::here("figure/figure_si_one_patch_a1_50.pdf"))
 ```
 
 \newpage
 
-```{r fig3, fig.cap="Relationships between food chain length and ecosystem size with low disturbance intensity $\\mu_m = 0.2$. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios."}
+```{r fig3, fig.cap="Relationships between food chain length and ecosystem size with low disturbance intensity $\\mu_m = 0.2$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities."}
 knitr::include_graphics(here::here("figure/figure_si_n_patch.pdf"))
 ```
 
