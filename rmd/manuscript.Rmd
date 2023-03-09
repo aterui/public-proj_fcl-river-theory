@@ -1,10 +1,10 @@
 ---
 title: "Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems"
 output: 
-  word_document:
-    reference_docx: "word_format.docx"
-  #pdf_document:
-  #  latex_engine: xelatex
+  # word_document:
+  #   reference_docx: "word_format.docx"
+  pdf_document:
+   latex_engine: xelatex
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
