@@ -190,7 +190,7 @@ $$
 
 where $d_{xy}$ is the network distance between patch $x$ and $y$ (shortest path), and $\theta$ indicates the inverse of mean dispersal distance (i.e., larger numbers mean shorter dispersal distance). The immigration potential at patch $x$, $\sum_{y, y \ne x}E_{iy,t}\exp(-\theta d_{xy})$, is scaled by the sum of immigration potential across patches so that $\sum_{x} \xi_{ix,t}=1$. The expected number of immigrants into patch $x$ is calculated as $I_{ix,t}=\xi_{ix,t} \sum_{x}E_{ix,t}$.
 
-***Food chain length.*** At each patch and time step, we determined local FCL as the highest trophic position ($\tau_{x,t}$) of the existing species. When the predator exists, the trophic position is determined as follows:
+***Food chain length and patch state.*** At each patch and time step, we determined local FCL as the highest trophic position ($\tau_{x,t}$) of the existing species. When the predator exists, the trophic position is determined as follows:
 
 $$
 \begin{aligned}
@@ -209,6 +209,8 @@ $$
 
 Thus, our definition accounts for the influence of omnivory. We defined the global FCL $\bar{\tau}$ across patches $N_p$ and time $T$ as $\bar{\tau} = \frac{\sum_x \sum_t \tau_{x,t}}{N_p T}$ (i.e., average over space and time).
 
+We also calculated the proportion of the patch state ("No species", "B", "B + C", "B + P", and "B + C + P") at each time step to infer mechanisms that drive changes in FCL. The time-averaged proportion of patch state $\bar{s}$ was obtained as $\bar{s} = \frac{s_t}{N_p T}$, where $s_t$ is the number of patches in a given patch state at time step $t$.
+
 ## Simulation
 
 Prior to the main simulation, we performed one-patch simulations to explore the predation parameter space ($a_{ij}$ and $h_{ij}$) that allows stable coexistence of the three species without disturbance and dispersal (see **Supporting Information**). In this simulation, we assumed $h_{ij} = h$ to reduce the dimension of parameter space. This analysis revealed that the stable coexistence of the three species is possible with certain combinations of predation parameters. Within this parameter space, we used three parameter combinations to represent distinctive food webs with varied levels of omnivory: "chain (no omnivory)" $(a_{BC}, a_{BP}, a_{CP}, h) = (0.5, 0, 0.0025, 0.5)$, "weak omnivory" ($0.5, 0.02, 0.025, 0.5$), and "strong omnivory" ($0.5, 0.04, 0.0025, 0.75$). We used $s = 1$ except for the chain scenario with $s = 0$. Without the loss of generality, we assumed $e_{ij} = e = 1$.
@@ -217,7 +219,7 @@ Under each motif, we crossed values of disturbance (frequency and intensity), pr
 
 We ran `r max(df_sim$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(df_sim$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(df_sim$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $\text{Poisson}(\lambda)$ ($\lambda=100, 10,~\text{and}~1$ for $B$, $C$, and $P$, respectively). Subsequently, we ran a burn-in period with no propagules for `r unique(df_sim$n_burnin)` time steps to remove the effects of initial conditions. Note that simulation replicates differ in ecosystem size ($N_{p}\sim \text{Unif}(10,150)$) and ecosystem complexity ($P_{b} \sim \text{Unif}(0.01, 0.99)$) so we can estimate their effects on FCL.
 
-We obtained the global FCL $\bar{\tau}$ for the last `r unique(df_sim$n_timestep)` time steps. We also calculated the proportion of the patch state ("No species", "B", "B + C", "B + P", and "B + C + P") to infer mechanisms that drive changes in FCL. All analysis was performed in R 4.2.1 [@rcoreteamLanguageEnvironmentStatistical2021]
+We obtained the global FCL $\bar{\tau}$ and $\bar{s}$ for the last `r unique(df_sim$n_timestep)` time steps. All analysis was performed in R 4.2.1 [@rcoreteamLanguageEnvironmentStatistical2021]
 
 # Results
 
