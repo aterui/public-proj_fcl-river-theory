@@ -129,7 +129,7 @@ P^+_{x,t} &= e_{BP}B'_{x,t}f_1(B'_{x,t}, C_{x,t})[1 - f_2(B''_{x,t}, P_{x,t})] +
 \end{aligned}
 $$
 
-where $e_{ij}$ is the energetic conversion efficiency from $i$ to $j$. The function $g(\cdot)$ defines the density-dependent recruitment for the basal species, and the function $f_k(\cdot)$ dictates the proportion of survived prey individuals after predation. In the above equations, we re-defined variables as follows to simplify the expression:
+where $e_{ij}$ is the energetic conversion efficiency from $i$ to $j$. The function $g(\cdot)$ defines the density-dependent recruitment for the basal species, and the function $f_k(\cdot)$ dictates the proportion of survived prey individuals after predation (see equation (8) below). In the above equations, we re-defined variables as follows to simplify the expression:
 
 $$
 \begin{aligned}
@@ -209,7 +209,7 @@ $$
 
 Thus, our definition accounts for the influence of omnivory. We defined the global FCL $\bar{\tau}$ across patches $N_p$ and time $T$ as $\bar{\tau} = \frac{\sum_x \sum_t \tau_{x,t}}{N_p T}$ (i.e., average over space and time).
 
-We also calculated the proportion of the patch state ("No species", "B", "B + C", "B + P", and "B + C + P") at each time step to infer mechanisms that drive changes in FCL. The time-averaged proportion of patch state $\bar{s}$ was obtained as $\bar{s} = \frac{s_t}{N_p T}$, where $s_t$ is the number of patches in a given patch state at time step $t$.
+We also calculated the proportion of the patch state ("No species", "B", "B + C", "B + P", and "B + C + P") at each time step to infer mechanisms that drive changes in FCL. The time-averaged proportion of patch state $\bar{\psi}$ was obtained as $\bar{\psi} = \frac{q_t}{N_p T}$, where $q_t$ is the number of patches in a given patch state at time step $t$.
 
 ## Simulation
 
@@ -219,7 +219,7 @@ Under each motif, we crossed values of disturbance (frequency and intensity), pr
 
 We ran `r max(df_sim$n_rep)` simulation replicates with `r n_sim` timesteps of trophic dynamics (including `r n_sim - unique(df_sim$n_timestep)` steps of warmup and burn-in). During the warmup period (`r unique(df_sim$n_warmup)` time steps), we introduced propagules into habitat patches every 10 time steps to allow species to establish populations. Propagules are random draws from $\text{Poisson}(\lambda)$ ($\lambda=100, 10,~\text{and}~1$ for $B$, $C$, and $P$, respectively). Subsequently, we ran a burn-in period with no propagules for `r unique(df_sim$n_burnin)` time steps to remove the effects of initial conditions. Note that simulation replicates differ in ecosystem size ($N_{p}\sim \text{Unif}(10,150)$) and ecosystem complexity ($P_{b} \sim \text{Unif}(0.01, 0.99)$) so we can estimate their effects on FCL.
 
-We obtained the global FCL $\bar{\tau}$ and $\bar{s}$ for the last `r unique(df_sim$n_timestep)` time steps. All analysis was performed in R 4.2.1 [@rcoreteamLanguageEnvironmentStatistical2021]
+We obtained the global FCL $\bar{\tau}$ and the proportion of the patch state $\bar{\psi}$ for the last `r unique(df_sim$n_timestep)` time steps. All analysis was performed in R 4.2.1 [@rcoreteamLanguageEnvironmentStatistical2021]
 
 # Results
 

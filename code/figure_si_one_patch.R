@@ -67,6 +67,7 @@ foreach(i = 1:length(a1_set)) %do% {
       ggtitle(paste0("K = ", k_set[j])) +
       geom_point(data = df_point,
                  size = 1.5,
+                 color = "salmon",
                  aes(shape = motif)) +
       labs(x = expression("Attack rate ("*a[BP]*")"),
            y = expression("Attack rate ("*a[CP]*")"),
