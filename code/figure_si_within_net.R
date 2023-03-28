@@ -64,5 +64,5 @@ g_net <- df_plot %>%
 
 ggsave(g_net,
        filename = "figure/figure_si_k_distance.pdf",
-       width = 8,
-       height = 11)
+       width = 6,
+       height = 8)
