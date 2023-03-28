@@ -1,10 +1,10 @@
 ---
 title: "Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems"
 output: 
-  word_document:
-    reference_docx: "word_format.docx"
-  # pdf_document:
-  #  latex_engine: xelatex
+  # word_document:
+  #   reference_docx: "word_format.docx"
+  pdf_document:
+   latex_engine: xelatex
 knit: (function(inputFile, encoding) {
         rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
       })
@@ -54,7 +54,7 @@ Understanding the drivers of food chain length in natural communities has intrig
 
 ## Data availability
 
-No primary data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.3.0 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
+No primary data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.3.1 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
 
 \clearpage
 
