@@ -31,7 +31,7 @@ df_dist <- foreach(i = seq_len(length(p_branch)),
                    }
 
 df_plot <- left_join(df_sim, df_dist,
-                    by = c("n_patch", "p_branch")) %>% 
+                     by = c("n_patch", "p_branch")) %>% 
   pivot_longer(cols = c(mc_capacity, mu_distance),
                values_to = "value",
                names_to = "y")
@@ -63,4 +63,6 @@ g_net <- df_plot %>%
 # export ------------------------------------------------------------------
 
 ggsave(g_net,
-       filename = "figure/figure_si_k_distance.pdf")
+       filename = "figure/figure_si_k_distance.pdf",
+       width = 8,
+       height = 11)
