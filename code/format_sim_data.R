@@ -29,5 +29,6 @@ df_param <- df_sim %>%
             mc_capacity,
             p_branch,
             n_patch,
-            n_rep)) %>% 
+            n_rep,
+            starts_with("s"))) %>% 
   distinct()
