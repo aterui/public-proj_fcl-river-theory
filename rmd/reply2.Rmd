@@ -1,0 +1,51 @@
+---
+title: "RE: Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems"
+output:
+  pdf_document:
+    latex_engine: xelatex
+knit: (function(inputFile, encoding) {
+        rmarkdown::render(inputFile, encoding = encoding, output_dir = "document_output")
+      })
+mainfont: Times New Roman
+---
+
+Dear Editor,
+
+This is a re-submission of a manuscript: ECS22-0646 "*Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems.*" Thank you for allowing us to revise our manuscript. The comments were very helpful in improving our manuscript. When revising the manuscript, we have put a particular emphasis on the following points:
+
+XXX
+
+We appended a point-by-point response below (reviewer comments are shown in *italics*). We hope our manuscript is now suitable for publication in your journal.
+
+Sincerely,
+
+Akira Terui on behalf of the authors
+
+
+## Response to Reviewer \#1
+
+*This is a thorough revision of the previous manuscript (ms) and has taken into account all of my previous criticisms. In particular, I highly appreciate the full reformulation and analysis of the simulation model, which now seems theoretically sound. One thing that I noticed is that the new model assumes non-overlapping generations of consumer (C) and predator (P). Because all consumer and predator individuals die each time step, they go extinct locally (without immigration) in the next time step if their resource species are totally absent to preclude their reproduction. Although the assumption of non-overlapping generations is theoretically fine, I suspect that this might be unrealistic for the riverine food webs that are modelled. Correcting this assumption would require another reformulation and analysis of the model (such that some surviving fractions of C and P abundances are carried over to the next time steps). At least, the ms should acknowledge this assumption and provide a justification for it.*
+
+> XXX
+
+## Response to Reviewer \#2
+
+*This is my second time reviewing the manuscript “Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems”. Food chain length (FCL) is important in the movement of energy and material through ecosystems and is an indicator used in ecosystem management. The manuscript takes a simulation approach to examining multiple drivers of food chain length related to branching ecosystems like river ecosystems. This is a broadly interesting topic and there are some interesting results presented. Since the manuscript is treated as a new submission, I do not have the ability to easily reference changes in the manuscript that specifically address comments of the first review. My review focuses on some general suggestions to improve the clarity of the manuscript.*
+
+*My main comments are that the manuscript would benefit from a clearer focus on the influence of complexity on food chain length. This could include some more synthetic or summary display items. A revised manuscript should still include presenting the material and trends related to other hypotheses and drivers, but getting into all of the different patterns should be done logically and with the goal of understanding the new general findings related to complexity and branching ecosystems. You may want to provide a new Figure or Table so that the different layers can be understood. Right now, there are different trends in figure 2 and 3 and there is a lot to look at in the supplement. So it is not clear that there is a general increasing relationship between FCL and complexity. The supplement figures are heavily relied on in the main results. Figure captions need to be clear and complete. Summary display items could for example, include a table listing the different simulation experiments in rows with a column that includes the key the takeaway for understanding the relationship between complexity and FCL.*
+
+*A question that remains unclear to me is how omnivory is affecting the FCL in the simulations. It seems that all trophic species (B,C,P) are not supported in the simulation under all conditions. So basal species only or the loss of the consumer or predator. Consequently, extinction in the simulations can reduce FCL (correct me if wrong but the simulations start with three species, so species are not added or inserted). Is this the only way that food chain length can change? Or is food chain length a product of the dynamic interactions that can be influenced by the magnitude of the trophic contributions from different trophic levels. This would be consistent with a continuous measure of food chain length rather than another measure like the number of distinct trophic levels that occupy a patch? There is a lot of occupancy information added to the supplement but I had a hard time understanding from the text.*
+
+*For the ecosystem size plot, when you have the straight chain the max FCL is 3 but when you add a some omnivory the max is 2, so a whole trophic level is lost. But when you go from weak omnivory to strong omnivory the max FCL stays the same. Looking at the figure 1 c (and from experience) the expectation is that as omnivory increases the FCL decreases. Now I am doubting that I understand the way the FCL is being determined. Also, in the supplement there are figures that show some FCL between 2 and 3 (Figure S3 and S4) but not sure what is happening.*
+
+*Generally, I found that the figure captions require more information. For example, it is not clear to me, for example in figure 2 and figure 3 what level of complexity is being shown in the ecosystem size plots and what level of size is being shown in the complexity plot.*
+
+*There are a lot of supplementary figures, but these figures are referenced in the main text without much text in the supplement. I felt like this left a lot of work for me to figure out what was going on. For example, in Figure S5c it is not clear to me how you have a change in occupancy with ecosystem size for the first row that is labelled no species. To me it doesn’t make sense that there is patch occupancy if there aren’t any species and the caption is not providing definitions for me to understand this. There are similarly confusing examples for many supplementary figures.*
+
+*Figure 1 c should be better labelled to confirm that the vertical position in the figure of P is showing the length of the food chain. You could add an axis to the figure labelled FCL or equivalent. Also, I still think that the figures showing weak omnivory and strong omnivory are incomplete. To me the figure shows a change in the vertical position of P, but it is not clear from the diagram that this is due to an increase in ominivory i.e., no indication of a increased reliance of P on B over P on C. So, is that what is intended?*
+
+*I think the manuscript requires some more clarification about how patch level productivity and the whole system productivity are changing and how this affects the relationship between FCL and complexity. It seems that the new simulations productivity is being manipulated through the parameters r and K in each patch (compared to only r previously) but then there is a small section of text that points out the ecosystem size is increasing the overall biomass produced or K (which makes sense) and an increase in FCL and complexity is reducing the overall K and thus FCL decreases. Ok, K of the whole system is changing with size and complexity. But K is also being manipulated at the patch level as part of productivity. To me it seems like there are productivity changes at two scales. How do these patch level versus whole system level productivity changes relate to FCL is being calculated at the whole system level?*
+
+*From Line 275: “however, these patterns characteristic of the chain scenario diminished when considering some levels of omnivory”. Some of the reasons for why this is happening follow in next paragraphs in the results section, but I found these sections to be written more as discussion than results. The figures that accompany the explanations are placed in the supplement which can be fine. But in this case, it may be better to have these as results and alter the text to describe the figures saving the discussion more for the discussion section. This is an important part of understanding what is happening in the manuscript.*
+
+*The term ecosystem geometry now appears in the results section and includes size and complexity. It would we better to introduce the term in the introduction or just use size and complexity.*
