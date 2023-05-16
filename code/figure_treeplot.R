@@ -24,9 +24,9 @@ V(adj)$label[c(2, 8)] <- "Omnivory"
 V(adj)$label[3] <- "Disturbance intensity"
 V(adj)$label[4:5] <- "Productivity"
 
-V(adj)$label[c(6, 10, 11)] <- '"No effect"'
-V(adj)$label[7] <- '"Very weak effect" \n (Fig. S3)'
-V(adj)$label[c(8:9, 12)] <- '"Positive"'
+V(adj)$label[c(6, 10, 11)] <- "No effect"
+V(adj)$label[7] <- "Very weak effect \n (Fig. S3)"
+V(adj)$label[c(8:9, 12)] <- "Positive"
 
 V(adj)$color[c(1:dim(m1)[1])] <- "node"
 V(adj)$color[c(6, 7, 8:12)] <- "pattern"
@@ -38,7 +38,7 @@ E(adj)$label[8:11] <- rep(c("Low", "High"), 2)
 
 g_tree1 <- ggraph(adj, layout = 'tree') +
   geom_edge_link(aes(label = label),
-                 color = grey(0, 0.25),
+                 color = grey(0.7),
                  linetype = "dashed",
                  arrow = arrow(length = unit(2,'mm'),
                                type = "closed"),
@@ -66,10 +66,10 @@ V(adj)$label[2] <- "Omnivory"
 V(adj)$label[3] <- "Disturbance intensity"
 V(adj)$label[4] <- "Productivity"
 
-V(adj)$label[c(5, 8)] <- '"Positive"'
-V(adj)$label[c(6, 10)] <- '"No effect"'
-V(adj)$label[7] <- '"Very weak effect" \n (Fig. S4)'
-V(adj)$label[9] <- '"Negative"'
+V(adj)$label[c(5, 8)] <- "Positive"
+V(adj)$label[c(6, 10)] <- "No effect"
+V(adj)$label[7] <- "Very weak effect \n (Fig. S4)"
+V(adj)$label[9] <- "Negative"
 
 V(adj)$color[1:10] <- "node"
 V(adj)$color[c(5:10)] <- "pattern"
@@ -82,7 +82,7 @@ E(adj)$label[8:9] <- c("Low", "High")
 
 g_tree2 <- ggraph(adj, layout = 'tree') +
   geom_edge_link(aes(label = label),
-                 color = grey(0, 0.25),
+                 color = grey(0.7),
                  linetype = "dashed",
                  arrow = arrow(length = unit(2,'mm'),
                                type = "closed"),
