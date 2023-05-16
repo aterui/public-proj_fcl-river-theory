@@ -99,18 +99,6 @@ knitr::include_graphics(here::here("figure/figure_si_p_branch.pdf"))
 
 \newpage
 
-```{r fig5, fig.cap="Relationships between patch state occupancy and ecosystem size with high disturbance intensity $\\mu_m = 0.8$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Panels indicate different food web motifs. In each panel, rows distinguish patch state, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities."}
-knitr::include_graphics(here::here("figure/figure_si_state_n_patch.pdf"))
-```
-
-\newpage
-
-```{r fig6, fig.cap="Relationships between patch state occupancy and ecosystem complexity with high disturbance intensity $\\mu_m = 0.8$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Panels indicate different food web motifs. In each panel, rows distinguish patch state, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities."}
-knitr::include_graphics(here::here("figure/figure_si_state_p_branch.pdf"))
-```
-
-\newpage
-
 ```{r fig7, fig.cap="Effects of productivity (left column) and dispersal (right column) on food chain length grouped by disturbance frequency ($p_m$; x-axis). Colors distinguish productivity or dispersal scenarios, and rows identify food web motifs. Disturbance intensity $\\mu_m = 0.8$."}
 knitr::include_graphics(here::here("figure/figure_si_fcl_r_disp.pdf"))
 ```
