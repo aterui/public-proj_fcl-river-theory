@@ -36,37 +36,56 @@ Akira Terui on behalf of the authors
 
 *My main comments are that the manuscript would benefit from a clearer focus on the influence of complexity on food chain length. This could include some more synthetic or summary display items. A revised manuscript should still include presenting the material and trends related to other hypotheses and drivers, but getting into all of the different patterns should be done logically and with the goal of understanding the new general findings related to complexity and branching ecosystems. You may want to provide a new Figure or Table so that the different layers can be understood. Right now, there are different trends in figure 2 and 3 and there is a lot to look at in the supplement. So it is not clear that there is a general increasing relationship between FCL and complexity. The supplement figures are heavily relied on in the main results. Figure captions need to be clear and complete. Summary display items could for example, include a table listing the different simulation experiments in rows with a column that includes the key the takeaway for understanding the relationship between complexity and FCL.*
 
-> This is a great idea!
+> This is a great idea! We included a new hierarchical tree figure to show how different factors detemine the FCL response to ecosystem size/complexity (Figure 2 in the revised MS).
+Also, we revised the figure captions to better guide readers.
 
+*A question that remains unclear to me is how omnivory is affecting the FCL in the simulations. It seems that all trophic species (B,C,P) are not supported in the simulation under all conditions. So basal species only or the loss of the consumer or predator. Consequently, extinction in the simulations can reduce FCL (correct me if wrong but the simulations start with three species, so species are not added or inserted). Is this the only way that food chain length can change? Or is food chain length a product of the dynamic interactions that can be influenced by the magnitude of the trophic contributions from different trophic levels. This would be consistent with a continuous measure of food chain length rather than another measure like the number of distinct trophic levels that occupy a patch?*
 
-*A question that remains unclear to me is how omnivory is affecting the FCL in the simulations. It seems that all trophic species (B,C,P) are not supported in the simulation under all conditions. So basal species only or the loss of the consumer or predator. Consequently, extinction in the simulations can reduce FCL (correct me if wrong but the simulations start with three species, so species are not added or inserted). Is this the only way that food chain length can change? Or is food chain length a product of the dynamic interactions that can be influenced by the magnitude of the trophic contributions from different trophic levels. This would be consistent with a continuous measure of food chain length rather than another measure like the number of distinct trophic levels that occupy a patch? There is a lot of occupancy information added to the supplement but I had a hard time understanding from the text.*
+> Our unclear explanation may have confused the reviewer. There are a number of cases where all species (B, C, P) coexist. "*...is food chain length a product of the dynamic interactions that can be influenced by the magnitude of the trophic contributions from different trophic levels.*" This is how we defined FCL in our model, which was articulated in equations 12 & 13.
 
-> XXX
+*There is a lot of occupancy information added to the supplement but I had a hard time understanding from the text.*
 
-*For the ecosystem size plot, when you have the straight chain the max FCL is 3 but when you add a some omnivory the max is 2, so a whole trophic level is lost. But when you go from weak omnivory to strong omnivory the max FCL stays the same. Looking at the figure 1 c (and from experience) the expectation is that as omnivory increases the FCL decreases. Now I am doubting that I understand the way the FCL is being determined. Also, in the supplement there are figures that show some FCL between 2 and 3 (Figure S3 and S4) but not sure what is happening.*
+> We appreciate your feedback. The figure captions were editted so the readers can better understand what those figures mean.
+In particular, we have reworded the confusing term "occupancy" to "proportion of patch state" to clarify the y-axis.
 
-> XXX
+*For the ecosystem size plot, when you have the straight chain the max FCL is 3 but when you add a some omnivory the max is 2, so a whole trophic level is lost.*
+
+> Thank you, please let us clarify.
+First, we defined FCL as trophic position, not as trophic level. Thus, the FCL can take continuous values.
+With omnivory, the max is greater than 2 becuase of the coexistence of C and P.
+P's trophic level depends on the relative abundance of B.
+Thus, with omnivory, the FCL can be shorter than the chain motif even if the same set of species coexist.
+
+*But when you go from weak omnivory to strong omnivory the max FCL stays the same. Looking at the figure 1 c (and from experience) the expectation is that as omnivory increases the FCL decreases. Now I am doubting that I understand the way the FCL is being determined. Also, in the supplement there are figures that show some FCL between 2 and 3 (Figure S3 and S4) but not sure what is happening.*
+
+> Thank you for your input. "*Looking at the figure 1 c (and from experience) the expectation is that as omnivory increases the FCL decreases.*" -- The response of FCL to increasing omnivory can be more complex.
+Weak omnivory can cause similar or even lower FCL than strong omnivory because the intraguild predator has a greater predation pressure on intraguild prey.
+For the definition of FCL in our study, please see equations 12 & 13 -- it accounts for relative availability of B and C in a given habitat patch.
 
 *Generally, I found that the figure captions require more information. For example, it is not clear to me, for example in figure 2 and figure 3 what level of complexity is being shown in the ecosystem size plots and what level of size is being shown in the complexity plot.*
 
-> XXX
+> Thank you, we have revised figure captions.
+Also, we clarified the values of ecosystem size or complexity in the main figures (both are randomly drawn from uniform distributions).
 
 *There are a lot of supplementary figures, but these figures are referenced in the main text without much text in the supplement. I felt like this left a lot of work for me to figure out what was going on. For example, in Figure S5c it is not clear to me how you have a change in occupancy with ecosystem size for the first row that is labelled no species. To me it doesn’t make sense that there is patch occupancy if there aren’t any species and the caption is not providing definitions for me to understand this. There are similarly confusing examples for many supplementary figures.*
 
-> XXX
+> Thank you, we have revised figure captions.
 
 *Figure 1 c should be better labelled to confirm that the vertical position in the figure of P is showing the length of the food chain. You could add an axis to the figure labelled FCL or equivalent. Also, I still think that the figures showing weak omnivory and strong omnivory are incomplete. To me the figure shows a change in the vertical position of P, but it is not clear from the diagram that this is due to an increase in ominivory i.e., no indication of a increased reliance of P on B over P on C. So, is that what is intended?*
 
-> XXX
+> Thank you! We have now added a color scale that indicate the relative reliance on B and C.
+Meanwhile, we avoided to include FCL in the figure; this is because the relative reliance per se may not necessarily determine the FCL.
+For example, weak omnivory could enhance the extirpation of intraguild prey, potentially resulting in a shorter FCL than that in strong omnivory.
 
 *I think the manuscript requires some more clarification about how patch level productivity and the whole system productivity are changing and how this affects the relationship between FCL and complexity. It seems that the new simulations productivity is being manipulated through the parameters r and K in each patch (compared to only r previously) but then there is a small section of text that points out the ecosystem size is increasing the overall biomass produced or K (which makes sense) and an increase in FCL and complexity is reducing the overall K and thus FCL decreases. Ok, K of the whole system is changing with size and complexity. But K is also being manipulated at the patch level as part of productivity. To me it seems like there are productivity changes at two scales. How do these patch level versus whole system level productivity changes relate to FCL is being calculated at the whole system level?*
 
-> XXX
+> Agreed -- there are two levels of productivity in our model, and this set up was unavoidable.
+In the meantime, we feel that too much emphasis on this part may over-complicate the content, which is complex enough already (as you pointed out earlier in this round of review). In looking at the one-patch simulation, the FCL response to increased productivity can be well understood based on the single-patch analog. Thus, we decided not to delve into the specifics on this issue.
 
 *From Line 275: “however, these patterns characteristic of the chain scenario diminished when considering some levels of omnivory”. Some of the reasons for why this is happening follow in next paragraphs in the results section, but I found these sections to be written more as discussion than results. The figures that accompany the explanations are placed in the supplement which can be fine. But in this case, it may be better to have these as results and alter the text to describe the figures saving the discussion more for the discussion section. This is an important part of understanding what is happening in the manuscript.*
 
-> XXX
+> We are not sure if we correctly understood this comment, but we interpreted this comment suggesting to move the patch state figures to the maintext. We have now moved those figures to the maintext. In the meantime, we kept the text to explain those figures in the result section, since it seems inappropriate to mention those findings in the discussion section without mentioning them in the result. 
 
 *The term ecosystem geometry now appears in the results section and includes size and complexity. It would we better to introduce the term in the introduction or just use size and complexity.*
 
-> XXX
+> We have defined the term in the Intro.
