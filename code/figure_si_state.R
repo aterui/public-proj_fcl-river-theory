@@ -50,7 +50,7 @@ list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
                #scales = "free",
                labeller = labeller(r_b = as_labeller(lab, label_parsed),
                                    state = state_lab)) +
-    labs(y = "Occupancy",
+    labs(y = "Proportion of patch state",
          x = "Ecosystem size (number of habitat patches)",
          color = "Disturbance prob.",
          fill = "Disturbance prob.") +
@@ -84,7 +84,7 @@ list_g_bp <- foreach(x = unique(df_plot$omn)) %do% {
                #scales = "free",
                labeller = labeller(r_b = as_labeller(lab, label_parsed),
                                    state = state_lab)) +
-    labs(y = "Occupancy",
+    labs(y = "Proportion of patch state",
          x = "Ecosystem complexity (branching prob.)",
          color = "Disturbance prob.",
          fill = "Disturbance prob.") +
@@ -106,11 +106,11 @@ g_bp_all <- list_g_bp[[1]] + list_g_bp[[2]] +
 # export ------------------------------------------------------------------
 
 ggsave(g_np_all,
-       filename = here::here(paste0("figure/figure_si_state_n_patch.pdf")),
+       filename = here::here(paste0("figure/figure_state_n_patch.pdf")),
        height = 14,
        width = 14)
 
 ggsave(g_bp_all,
-       filename = here::here(paste0("figure/figure_si_state_p_branch.pdf")),
+       filename = here::here(paste0("figure/figure_state_p_branch.pdf")),
        height = 14,
        width = 14)

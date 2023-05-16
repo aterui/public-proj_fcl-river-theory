@@ -7,7 +7,7 @@ source(here::here("code/library.R"))
 
 # figure ------------------------------------------------------------------
 
-delta <- c(0, 0.31, 0.73)
+delta <- c(0, 0.30, 0.70)
 title_fw <- c("Chain", "Weak omnivory", "Strong omnivory")
 
 g_fw <- foreach(i = 1:3) %do% {
@@ -35,6 +35,24 @@ g_fw <- foreach(i = 1:3) %do% {
     
     layout$x <- rep(0.5, 5)
     
+    g <- ggraph(layout) + 
+      geom_edge_link(arrow = arrow(type = "closed",
+                                   ends = "last",
+                                   length = unit(0.1, "npc"),
+                                   angle = 20),
+                     start_cap = circle(0.07, 'npc'),
+                     end_cap = circle(0.07, 'npc'),
+                     show.legend = T) +
+      geom_node_label(aes(label = label), 
+                      color = grey(0.25),
+                      size = 6,
+                      label.size = 0,
+                      fill = NA) +
+      labs(subtitle = title_fw[i]) +
+      theme(rect = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank())
+    
   } else {
     
     layout$x <- c(0.5, # Basal
@@ -42,47 +60,31 @@ g_fw <- foreach(i = 1:3) %do% {
                   0.5 + 1/layout$y[3], # Intraguild predator
                   0, # dummy 1
                   1 # dummy 2
-                  )
+    )
+    
+    g <- ggraph(layout) + 
+      geom_edge_link(arrow = arrow(type = "closed",
+                                   ends = "last",
+                                   length = unit(0.1, "npc"),
+                                   angle = 20),
+                     aes(edge_color = weight),
+                     start_cap = circle(0.07, 'npc'),
+                     end_cap = circle(0.07, 'npc'),
+                     show.legend = T) +
+      geom_node_label(aes(label = label), 
+                      color = grey(0.25),
+                      size = 6,
+                      label.size = 0,
+                      fill = NA) +
+      scale_edge_color_gradient(low = "grey",
+                                high = "black") +
+      labs(subtitle = title_fw[i]) +
+      theme(rect = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank()) +
+      guides(edge_color = "none")
     
   }
-  
-  # graph
-  g <- ggraph(layout) + 
-    geom_edge_link(arrow = arrow(type = "closed",
-                                 ends = "last",
-                                 length = unit(0.05, "npc"),
-                                 angle = 15),
-                   aes(edge_color = weight),
-                   start_cap = circle(0.07, 'npc'),
-                   end_cap = circle(0.07, 'npc'),
-                   show.legend = T) +
-    geom_node_label(aes(label = label), 
-                    color = grey(0.25),
-                    size = 6,
-                    label.size = 0,
-                    fill = NA) +
-    labs(subtitle = title_fw[i]) +
-    theme(rect = element_blank(),
-          panel.border = element_blank(),
-          panel.background = element_blank())
-  
-  g <- ggraph(layout) + 
-    geom_edge_link(arrow = arrow(type = "closed",
-                                 ends = "last",
-                                 length = unit(0.05, "npc"),
-                                 angle = 15),
-                   start_cap = circle(0.07, 'npc'),
-                   end_cap = circle(0.07, 'npc'),
-                   show.legend = T) +
-    geom_node_label(aes(label = label), 
-                    color = grey(0.25),
-                    size = 6,
-                    label.size = 0,
-                    fill = NA) +
-    labs(subtitle = title_fw[i]) +
-    theme(rect = element_blank(),
-          panel.border = element_blank(),
-          panel.background = element_blank())
   
   return(g)
 }
