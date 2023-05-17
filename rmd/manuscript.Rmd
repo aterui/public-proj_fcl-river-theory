@@ -111,7 +111,9 @@ where $K_{base}$ is the carrying capacity at the upstream terminal patch, and $z
 
 ## Tri-trophic model
 
-We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch (see **Table 1** for parameter notations). A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. Our simulation model consists of three species; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). The realized species abundance $A_{ix,t+1}$ for species $i$ (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
+We employed a discrete-time model to describe tri-trophic dynamics in each habitat patch (see **Table 1** for parameter notations). A discrete model is suitable for organisms with predictable reproduction cycles, a common life history for many lotic species, including macroinvertebrates and fish. We assume non-overlapping generations of species because many lotic species, if not all, have semelparous life histories.
+
+Our simulation model consists of three species; a basal species $B$ with positive logistic growth up to a carrying capacity, $K$; a primary consumer species or intraguild prey, $C$, which grows based on the consumption of $B$; and an intraguild predator $P$, which can consume both $B$ and $C$ (**Figure 1C**). The realized species abundance $A_{ix,t+1}$ for species $i$ (either $B,C,~or~P$) at patch $x$ and time $t+1$ is expressed as a composite of within-patch trophic interactions, immigration, and emigration:
 
 $$
 \begin{aligned}
@@ -234,7 +236,7 @@ There were three consistent patterns in the relationship between FCL and ecosyst
 
 Ecosystem geometry interacted with disturbance to dictate FCL in branching ecosystems (**Figures 3 and 4**). In the presence of disturbance, both geometric features (size and complexity) had noticeable influences on FCL. As disturbance frequency increased, the relationships between FCL and ecosystem geometry became clearer and positive. This interactive effect emerged because the sensitivity of FCL to disturbance depended on ecosystem geometry. Although increased disturbance frequency reduced overall FCL, smaller and/or simpler ecosystems exhibited greater vulnerability (**Figures 3 and 4**). Therefore, disturbance interacted with ecosystem geometry to produce the interdependence of these factors in determining FCL. Yet, the interactive effects were not observed with low disturbance intensity (**Figures S3 and S4**); this suggests that disturbance intensity must be strong enough to be influential.
 
-With no disturbance, the effects of ecosystem geometry were highly context dependent (**Figure 2**). In the chain scenario (no omnivory) with low productivity, ecosystem size had a positive effect on FCL (**Figure 3**), while ecosystem complexity had a negative influence (**Figure 4**). These opposing influences of ecosystem size and complexity were associated with their contrasting relationships with the total carrying capacity (i.e., carrying capacity summed across all patches): ecosystem size increased the total carrying capacity, whereas ecosystem complexity decreased it (**Figure S10**). However, when considering some levels of omnivory, these patterns characteristic of the chain scenario diminished. With weak omnivory (the second rows of **Figure 3 and 4**), ecosystem complexity had consistent positive effects on FCL, except the scenario with low productivity and short dispersal (**Figure 4**). In contrast, the effect of ecosystem size was more productivity dependent (**Figure 4**). Neither of ecosystem size and complexity influenced FCL with strong omnivory.
+With no disturbance, the effects of ecosystem geometry were highly context dependent (**Figure 2**). In the chain scenario (no omnivory) with low productivity, ecosystem size had a positive effect on FCL (**Figure 3**), while ecosystem complexity had a negative influence (**Figure 4**). These opposing influences of ecosystem size and complexity were associated with their contrasting relationships with the total carrying capacity (i.e., carrying capacity summed across all patches): ecosystem size increased the total carrying capacity, whereas ecosystem complexity decreased it (**Figure S8**). However, when considering some levels of omnivory, these patterns characteristic of the chain scenario diminished. With weak omnivory (the second rows of **Figure 3 and 4**), ecosystem complexity had consistent positive effects on FCL, except the scenario with low productivity and short dispersal (**Figure 4**). In contrast, the effect of ecosystem size was more productivity dependent (**Figure 4**). Neither of ecosystem size and complexity influenced FCL with strong omnivory.
 
 State transitions largely depended on motif structure and shed light on how FCL changes occurred. In the chain motif, an additive mechanism (i.e., the addition of higher trophic species) was always responsible for the changes in FCL. With disturbance, state transition occurs from "B" to "B + C" (low productivity) or "B + C" to "B + C + P" (high productivity) as ecosystem size or complexity increases (**Figures 5 and 6**). Exceptionally, the state transition of "B + C + P" $\rightarrow$ "B + C" occurred as ecosystem complexity increased with no disturbance and low productivity, a scenario in which ecosystem complexity decreased FCL.
 
@@ -286,17 +288,17 @@ JP developed the theoretical model of trophic dynamics with input from AT. JP an
 
 # Tables
 
-<!-- ```{r} -->
-<!-- source(here::here("code/table_param.R")) -->
+```{r}
+source(here::here("code/table_param.R"))
 
-<!-- knitr::kable(df_value %>% -->
-<!--                dplyr::select(-"One-patch") %>%  -->
-<!--                rename(Value = "Main"), -->
-<!--              escape = FALSE, -->
-<!--              booktabs = TRUE, -->
-<!--              caption = "Parameter values used in the main simulation") %>%  -->
-<!--   kableExtra::kable_styling(latex_options = 'HOLD_position') -->
-<!-- ``` -->
+knitr::kable(df_value %>%
+               dplyr::select(-"One-patch") %>%
+               rename(Value = "Main"),
+             escape = FALSE,
+             booktabs = TRUE,
+             caption = "Parameter values used in the main simulation") %>%
+  kableExtra::kable_styling(latex_options = 'HOLD_position')
+```
 
 \pagebreak
 
