@@ -25,9 +25,13 @@ Akira Terui on behalf of the authors
 
 ## Response to Reviewer \#1
 
-*This is a thorough revision of the previous manuscript (ms) and has taken into account all of my previous criticisms. In particular, I highly appreciate the full reformulation and analysis of the simulation model, which now seems theoretically sound. One thing that I noticed is that the new model assumes non-overlapping generations of consumer (C) and predator (P). Because all consumer and predator individuals die each time step, they go extinct locally (without immigration) in the next time step if their resource species are totally absent to preclude their reproduction. Although the assumption of non-overlapping generations is theoretically fine, I suspect that this might be unrealistic for the riverine food webs that are modelled. Correcting this assumption would require another reformulation and analysis of the model (such that some surviving fractions of C and P abundances are carried over to the next time steps). At least, the ms should acknowledge this assumption and provide a justification for it.*
+*This is a thorough revision of the previous manuscript (ms) and has taken into account all of my previous criticisms. In particular, I highly appreciate the full reformulation and analysis of the simulation model, which now seems theoretically sound.*
 
-> XXX
+> Thank you, your input was very helpful.
+
+*One thing that I noticed is that the new model assumes non-overlapping generations of consumer (C) and predator (P). Because all consumer and predator individuals die each time step, they go extinct locally (without immigration) in the next time step if their resource species are totally absent to preclude their reproduction. Although the assumption of non-overlapping generations is theoretically fine, I suspect that this might be unrealistic for the riverine food webs that are modelled. Correcting this assumption would require another reformulation and analysis of the model (such that some surviving fractions of C and P abundances are carried over to the next time steps). At least, the ms should acknowledge this assumption and provide a justification for it.*
+
+> True. It would be worthwhile to conduct the additional simulations, but we believe the assumption of non-overlapping generations is justifiable. Many aquatic species, if not all, have semelparous life histories. We have mentioned this fact in the methods section.
 
 ## Response to Reviewer \#2
 
@@ -37,49 +41,66 @@ Akira Terui on behalf of the authors
 
 *My main comments are that the manuscript would benefit from a clearer focus on the influence of complexity on food chain length. This could include some more synthetic or summary display items. A revised manuscript should still include presenting the material and trends related to other hypotheses and drivers, but getting into all of the different patterns should be done logically and with the goal of understanding the new general findings related to complexity and branching ecosystems. You may want to provide a new Figure or Table so that the different layers can be understood. Right now, there are different trends in figure 2 and 3 and there is a lot to look at in the supplement. So it is not clear that there is a general increasing relationship between FCL and complexity. The supplement figures are heavily relied on in the main results. Figure captions need to be clear and complete. Summary display items could for example, include a table listing the different simulation experiments in rows with a column that includes the key the takeaway for understanding the relationship between complexity and FCL.*
 
-> This is a great idea! We included a new hierarchical tree figure to show how different factors determine the FCL response to ecosystem size/complexity (Figure 2 in the revised MS).
-We revised the results section to reflect the addition of this new figure.
-Also, we editted figure captions as appropriate.
+> Great! We have incorporated a new hierarchical tree figure (Figure 2) into the revised manuscript. This figure visually demonstrates the influence of different factors on the response of food chain length (FCL) to ecosystem size/complexity, providing a comprehensive understanding of the relationships involved.
+
+> Furthermore, we have revised the results section to incorporate the insights and findings presented in the new figure. This ensures that the revised manuscript accurately reflects the added information and maintains a cohesive narrative.
+
+> In addition to incorporating the new figure, we have also made appropriate edits to the figure captions. This ensures that the captions are clear, informative, and provide the necessary details for readers to interpret the figures accurately.
+
+> These updates strengthen the manuscript by providing a clearer focus on the determinants of FCL in relation to ecosystem characteristics. The hierarchical tree figure, along with the revised results section and improved figure captions, enhances the overall clarity and impact of the manuscript.
 
 *A question that remains unclear to me is how omnivory is affecting the FCL in the simulations. It seems that all trophic species (B,C,P) are not supported in the simulation under all conditions. So basal species only or the loss of the consumer or predator. Consequently, extinction in the simulations can reduce FCL (correct me if wrong but the simulations start with three species, so species are not added or inserted). Is this the only way that food chain length can change? Or is food chain length a product of the dynamic interactions that can be influenced by the magnitude of the trophic contributions from different trophic levels. This would be consistent with a continuous measure of food chain length rather than another measure like the number of distinct trophic levels that occupy a patch?*
 
-> Our unclear explanation may have confused the reviewer. There are a number of cases where all species (B, C, P) coexist. "*...is food chain length a product of the dynamic interactions that can be influenced by the magnitude of the trophic contributions from different trophic levels.*" This is how we defined FCL in our model, which was articulated in equations 12 & 13. The FCL can change due to (1) the P's degree of omnivory, and/or (2) species extinction. We have clarified these in the Method.
+> Thank you for pointing out the need for clarification.
+
+> Regarding the effect of omnivory on food chain length (FCL) in the simulations, it is important to note that there are indeed scenarios in which all trophic species (B, C, P) coexist. In these cases, the dynamic interactions and trophic contributions from different trophic positions influence the FCL. Our model defines FCL based on these dynamic interactions, as articulated in equations 12 and 13, which take into account the trophic contributions from different trophic positions. 
+
+> In the simulations, FCL can change through two main mechanisms: (1) the degree of omnivory exhibited by the predator (P), and (2) species extinction. Changes in the magnitude of trophic contributions and the structure of trophic interactions can influence the FCL. 
+
+> We have clarified these in the Methods.
 
 *There is a lot of occupancy information added to the supplement but I had a hard time understanding from the text.*
 
-> We greatly appreciate your input. We have made improvements to the figure captions in order to enhance reader comprehension regarding the meaning of the figures.
-Specifically, we have carefully edited the captions to provide a clearer understanding of the y-axis by replacing the confusing term "occupancy" with the more explicit phrase "proportion of patch state." We also changed the presentation so the readers can understand what transitions happened (color codes changed).
+> Thank you for providing your valuable input. We sincerely appreciate it. 
+
+> In response to your feedback, we have made significant improvements to the figure captions to ensure better reader comprehension and understanding of the figures. Specifically, we have taken care to edit the captions in a way that clarifies the meaning of the y-axis. To achieve this, we have replaced the potentially confusing term "occupancy" with the more explicit phrase "proportion of patch state." This modification aims to provide a clearer understanding of the data presented in the figures.
+
+> Additionally, we have modified the presentation of the figures to make it easier for readers to discern the transitions that occurred. This was achieved by changing the color codes to more effectively represent the different transitions and highlight the relevant information (see Figures 5 & 6 in the revised MS, for example).
+
+> By making these changes to the figure captions and presentation, we believe that readers will have an improved understanding of the figures and the associated data.
 
 *For the ecosystem size plot, when you have the straight chain the max FCL is 3 but when you add a some omnivory the max is 2, so a whole trophic level is lost.*
 
-> Thank you, please let us clarify.
-We defined FCL as trophic position, not trophic level.
-Thus, the FCL can take continuous values.
-With omnivory, the max is greater than 2. This occurs when P and C coexist.
-P's trophic position depends on the relative abundance of B and C (see equations 12 & 13).
-Thus, with omnivory, the FCL is unavoidably shorter than the chain motif even if the same set of species coexist.
+> In our study, we defined FCL based on trophic position rather than trophic level. This distinction is important because trophic position allows for a continuous range of values, while trophic level typically represents discrete categories.
+
+> With the presence of omnivory, the maximum FCL can exceed 2. This occurs when both the consumer (C) and predator (P) coexist in the system. The trophic position of the predator (P) is influenced by the relative abundances of the basal species (B) and the consumer species (C), as described in equations 12 and 13.
+
+> It is worth noting that even when the same set of species coexist, the FCL in systems with omnivory is inevitably shorter than the chain motif. This is because omnivory introduces additional trophic interactions and modifies the flow of energy and resources within the food web.
 
 *But when you go from weak omnivory to strong omnivory the max FCL stays the same. Looking at the figure 1 c (and from experience) the expectation is that as omnivory increases the FCL decreases. Now I am doubting that I understand the way the FCL is being determined. Also, in the supplement there are figures that show some FCL between 2 and 3 (Figure S3 and S4) but not sure what is happening.*
 
-> Thank you for your input. "*Looking at the figure 1 c (and from experience) the expectation is that as omnivory increases the FCL decreases.*" -- After some thought, we realized that the response of FCL to increasing omnivory can be more complex.
-Weak omnivory can cause similar or even lower FCL than strong omnivory because the intraguild predator can have a greater predation pressure on intraguild prey (due to higher attack rate to C).
-We have rephrased the corresponding paragraph in the Introduction to reflect this.
+> Thank you for your valuable input. Upon careful consideration, we have come to realize that the relationship between food chain length (FCL) and increasing omnivory can be more complex than initially anticipated.
 
-> For the definition of FCL in our study, please see equations 12 & 13 -- it accounts for relative availability of B and C in a given habitat patch.
-Please see also our response to your earlier comments.
+> In fact, weak omnivory can lead to similar or even lower FCL compared to strong omnivory. This is because the presence of an intraguild predator can exert higher predation pressure on the intraguild prey (C) due to its higher attack rate. As a result, the FCL may be reduced in cases of weak omnivory.
+
+> To reflect this insight, we have rephrased the corresponding paragraph in the Introduction to incorporate this understanding and acknowledge the potential complexities of the FCL response to increasing omnivory.
+
+> For a comprehensive understanding of how FCL is defined in our study, we kindly direct your attention to equations 12 and 13. These equations consider the relative availability of basal species (B) and consumer species (C) within a given habitat patch, which contributes to the determination of FCL.
+
+> We also encourage you to review our response to your previous comments, as it provides additional information related to the definition and dynamics of FCL in our study.
 
 *Generally, I found that the figure captions require more information. For example, it is not clear to me, for example in figure 2 and figure 3 what level of complexity is being shown in the ecosystem size plots and what level of size is being shown in the complexity plot.*
 
 > Thank you, we have revised figure captions throughout the MS.
-We clarified the values of ecosystem size or complexity in the main figures (both are randomly drawn from uniform distributions).
+We clarified the values of ecosystem size or complexity in the main figures (both are randomly drawn from uniform distributions, as described in the Methods section).
 
 *There are a lot of supplementary figures, but these figures are referenced in the main text without much text in the supplement. I felt like this left a lot of work for me to figure out what was going on. For example, in Figure S5c it is not clear to me how you have a change in occupancy with ecosystem size for the first row that is labelled no species. To me it doesn’t make sense that there is patch occupancy if there aren’t any species and the caption is not providing definitions for me to understand this. There are similarly confusing examples for many supplementary figures.*
 
-> Thank you, we have revised figure captions.
-Specifically, we have carefully edited the captions to provide a clearer understanding of the y-axis by replacing the confusing term "occupancy" with the more explicit phrase "proportion of patch state."
+> Thank you for your feedback. We greatly appreciate it. 
 
-> Also, we thought those state transtion figures are better placed in the main text so the readers can see the associated text more easily.
-We have moved those figures to the main text.
+> In response to your suggestion, we have made significant improvements to the figure captions to ensure a clearer understanding of the y-axis. To achieve this, we have replaced the potentially confusing term "occupancy" with the more explicit phrase "proportion of patch state." This modification aims to provide a clearer and more accessible description of the data presented in the figures.
+
+> Furthermore, we agree with your recommendation to enhance the visibility of the state transition figures. As a result, we have moved these figures from the supplementary material to the main text. By placing them in the main text, readers can now easily refer to the associated text while examining the figures, facilitating a more coherent and comprehensive understanding of the results.
 
 *Figure 1 c should be better labelled to confirm that the vertical position in the figure of P is showing the length of the food chain. You could add an axis to the figure labelled FCL or equivalent. Also, I still think that the figures showing weak omnivory and strong omnivory are incomplete. To me the figure shows a change in the vertical position of P, but it is not clear from the diagram that this is due to an increase in ominivory i.e., no indication of a increased reliance of P on B over P on C. So, is that what is intended?*
 
