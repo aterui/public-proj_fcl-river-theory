@@ -12,9 +12,10 @@ fontsize: 12pt
 
 Dear Editor,
 
-This is a re-submission of a manuscript: ECS22-0646 "*Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems.*" Thank you for allowing us to revise our manuscript. The comments were very helpful in improving our manuscript. When revising the manuscript, we have put a particular emphasis on the following points:
+This is a re-submission of a manuscript: ECS22-0646 "*Ecosystem size and complexity as extrinsic drivers of food chain length in branching ecosystems.*" We appreciate the time you have taken for our manuscript. When revising the manuscript, we have put a particular emphasis on the following points:
 
-XXX
+1. Reorganized the results section to better focus on ecosystem size/complexity effects
+2. Improved figure captions
 
 We appended a point-by-point response below (reviewer comments are shown in *italics*). We hope our manuscript is now suitable for publication in your journal.
 

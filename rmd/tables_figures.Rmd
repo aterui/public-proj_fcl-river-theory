@@ -34,20 +34,44 @@ knitr::kable(df_value %>%
 knitr::include_graphics(here::here("figure/figure_concept.pdf"))
 ```
 
-**Figure 1** (A) Example of simulated branching networks. Node color is reflective of the disturbance value calculated in network generation. (B) Density distributions of disturbance intensity (i.e., proportional reduction of a population). Three networks of 50 patches were produced with varied branching probabilities, which were shown in different colors. The vertical line indicates the mean disturbance intensity at headwaters ($\mu_m = 0.8$). (C) Schematic diagram of trophic interactions in a three-species community. $B$ refers to a basal species whose population level is controlled by a density-dependent function. The consumer species (or intraguild prey), $C$, consumes $B$ as a resource. The predator (or intraguild predator), $P$, is able to consume both $B$ and $C$. The structure and strength of these trophic interactions determined by functional responses. On the far left, a simple linear food chain exists when the predator does not consume the basal species. Moving to the right, basal species' biomass is converted to predator biomass at higher efficiencies with greater attack rates. (D) Proportional contribution of basal species $B$ to predator $P$ under different omnivory scenarios. The contribution changes with the relative density of $B$ to $C$ ($C=50$ in this example), and the rate of change is determined by attack rate and handling time.
+**Figure 1** (A) Example of simulated branching networks. Node color reflects the disturbance value calculated during network generation. (B) Density distributions of disturbance intensity (i.e., proportional reduction of a population). Three networks of 50 patches were produced with varied branching probabilities, shown in different colors. The vertical line indicates the mean disturbance intensity at the headwaters ($\mu_m = 0.8$). (C) Schematic diagram of trophic interactions in a three-species community. $B$ refers to a basal species whose population level is controlled by a density-dependent function. The consumer species (or intraguild prey), $C$, consumes $B$ as a resource. The predator (or intraguild predator), $P$, is able to consume both $B$ and $C$. The structure and strength of these trophic interactions are determined by functional responses. On the far left, a simple linear food chain exists when the predator does not consume the basal species. Moving to the right, the basal species' biomass is converted to predator biomass at higher efficiencies with greater attack rates. Arrow colors schematically indicate the relative reliance of $P$ on $B$ and $C$, with black indicating trophic specialization. (D) Proportional contribution of basal species $B$ to predator $P$ under different omnivory scenarios. The contribution changes with the relative density of $B$ to $C$ ($C = 50$ in this example), and the rate of change is determined by attack rate and handling time.
 
 \pagebreak
 
 ```{r figure2, fig.width=12, fig.height=5.5}
-knitr::include_graphics(here::here("figure/figure_main_n_patch.pdf"))
+knitr::include_graphics(here::here("figure/figure_tree.pdf"))
 ```
 
-**Figure 2** Relationships between food chain length and ecosystem size with high disturbance intensity $\mu_m = 0.8$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities.
+**Figure 2** Summary of our simulation results. Black text in each node indicates the potential factors that may influence the association between food chain length and ecosystem geometry, and black text on arrows indicates simulated scenarios for a given factor. Blue text denotes the resultant association between food chain length and ecosystem geometry. Panel (A) indicates the effect of ecosystem size. Panel (B) indicates the effect of ecosystem complexity.
 
 \pagebreak
 
 ```{r figure3, fig.width=12, fig.height=5.5}
+knitr::include_graphics(here::here("figure/figure_main_n_patch.pdf"))
+```
+
+**Figure 3** Relationships between food chain length and ecosystem size with high disturbance intensity $\mu_m = 0.8$. Lines in each panel indicate loess curves fitted to $500$ simulation replicates, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities. In this figure, ecosystem complexity values for individual simulation replicates were drawn randomly from a uniform distribution $P_b \sim \text{Unif}(0.01, 0.99)$.
+
+\pagebreak
+
+```{r figure4, fig.width=12, fig.height=5.5}
 knitr::include_graphics(here::here("figure/figure_main_p_branch.pdf"))
 ```
 
-**Figure 3** Relationships between food chain length and ecosystem complexity with high disturbance intensity $\mu_m = 0.8$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities.
+**Figure 4** Relationships between food chain length and ecosystem complexity with high disturbance intensity $\mu_m = 0.8$. Lines in each panel indicate loess curves fitted to $500$ simulation replicates, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities. In this figure, ecosystem size values for individual simulation replicates were drawn randomly from a uniform distribution $N_p \sim \text{Unif}(10, 150)$.
+
+\pagebreak
+
+```{r figure5, fig.width=12, fig.height=5.5}
+knitr::include_graphics(here::here("figure/figure_state_n_patch.pdf"))
+```
+
+**Figure 5** Relationships between the proportion of each patch state $\bar{\psi}$ (colors indicate different patch states) and ecosystem size with high disturbance intensity $\mu_m = 0.8$. The proportion of each patch state $\bar{\psi}$ is averaged over time for each simulation replicate. Lines indicate loess curves fitted to $500$ simulation replicates, and shades are associated 95% confidence intervals. Panels indicate different food web motifs. In each panel, rows distinguish disturbance probability $p_m$, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities.
+
+\pagebreak
+
+```{r figure6, fig.width=12, fig.height=5.5}
+knitr::include_graphics(here::here("figure/figure_state_p_branch.pdf"))
+```
+
+**Figure 6** Relationships between the proportion of each patch state $\bar{\psi}$ (colors indicate different patch states) and ecosystem complexity with high disturbance intensity $\mu_m = 0.8$. The proportion of each patch state $\bar{\psi}$ is averaged over time for each simulation replicate. Lines indicate loess curves fitted to 500 simulation replicates, and shades are associated with 95% confidence intervals. Panels indicate different food web motifs. In each panel, rows distinguish disturbance probability $p_m$, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities.

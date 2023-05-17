@@ -244,9 +244,9 @@ In the weak and strong omnivory motifs, different state transitions were associa
 
 ## Direct effects of productivity and dispersal
 
-In the chain motif, productivity greatly increased the overall FCL (**Figure S5**), thereby shifting the upper bound of FCL (**Figures 3 and 4**). In contrast, increased productivity decreased FCL with weak and strong omnivory (**Figures 3, 4, and S5**). This negative effect of increased productivity was apparent in smaller and/or simpler ecosystems, steepening the slopes between FCL and ecosystem geometry (**Figures 3 and 4**). State transitions associated with increased productivity depended on the motif structure. In the chain motif, the transition from "B + C" to "B + C + P" was dominant regardless of disturbance frequency (**Figure S8**). The introduction of omnivory allowed the transition between "B + P" and "B + C + P". With weak omnivory, the transition of "B + C + P" $\rightarrow$ "B + P" was prevalent and shortened FCL across disturbance regimes (**Figure S8**). However, this transition was marginal in the strong omnivory motif. Instead, productivity significantly increased the proportion of the "No species" state (**Figure S8**) in disturbed scenarios, especially in small and/or simple ecosystems (**Figures S5 and S6**).
+In the chain motif, productivity greatly increased the overall FCL (**Figure S5**), thereby shifting the upper bound of FCL (**Figures 3 and 4**). In contrast, increased productivity decreased FCL with weak and strong omnivory (**Figures 3, 4, and S5**). This negative effect of increased productivity was apparent in smaller and/or simpler ecosystems, steepening the slopes between FCL and ecosystem geometry (**Figures 3 and 4**). State transitions associated with increased productivity depended on the motif structure. In the chain motif, the transition from "B + C" to "B + C + P" was dominant regardless of disturbance frequency (**Figure S6**). The introduction of omnivory allowed the transition between "B + P" and "B + C + P". With weak omnivory, the transition of "B + C + P" $\rightarrow$ "B + P" was prevalent and shortened FCL across disturbance regimes (**Figure S6**). However, this transition was marginal in the strong omnivory motif. Instead, productivity significantly increased the proportion of the "No species" state (**Figure S6**) in disturbed scenarios, especially in small and/or simple ecosystems (**Figures 5 and 6**).
 
-Dispersal distance had a positive influence on FCL regardless of simulation scenarios (**Figure S5**). State transitions occurred through an additive (chain) or insertion mechanism (omnivory). In the chain motif, the transitions were either "B" $\rightarrow$ "B + C" or "B + C" $\rightarrow$ "B + C+ P", depending on disturbance frequency (**Figure S9**). In the omnivory motifs, the predominant transition was from "B + P" to "B + C + P" (**Figure S9**). However, this direct effect was weak in comparison to other factors with no qualitative alteration to the relationships between FCL and ecosystem geometry (**Figures 3 and 4**).
+Dispersal distance had a positive influence on FCL regardless of simulation scenarios (**Figure S5**). State transitions occurred through an additive (chain) or insertion mechanism (omnivory). In the chain motif, the transitions were either "B" $\rightarrow$ "B + C" or "B + C" $\rightarrow$ "B + C+ P", depending on disturbance frequency (**Figure S7**). In the omnivory motifs, the predominant transition was from "B + P" to "B + C + P" (**Figure S7**). However, this direct effect was weak in comparison to other factors with no qualitative alteration to the relationships between FCL and ecosystem geometry (**Figures 3 and 4**).
 
 # Discussion
 
@@ -296,8 +296,7 @@ knitr::kable(df_value %>%
                rename(Value = "Main"),
              escape = FALSE,
              booktabs = TRUE,
-             caption = "Parameter values used in the main simulation") %>%
-  kableExtra::kable_styling(latex_options = 'HOLD_position')
+             caption = "Parameter values used in the main simulation")
 ```
 
 \pagebreak
