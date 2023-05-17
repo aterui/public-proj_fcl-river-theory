@@ -87,36 +87,36 @@ knitr::include_graphics(here::here("figure/figure_si_one_patch_a1_50.pdf"))
 
 \newpage
 
-```{r fig3, fig.cap="Relationships between food chain length and ecosystem size with low disturbance intensity $\\mu_m = 0.2$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities."}
+```{r fig3, fig.cap="Relationships between food chain length and ecosystem size with low disturbance intensity $\\mu_m = 0.2$.  Lines in each panel indicate loess curves fitted to $500$ simulation replicates, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities. In this figure, ecosystem complexity values for individual simulation replicates were drawn randomly from a uniform distribution $P_b \\sim \\text{Unif}(0.01, 0.99)$."}
 knitr::include_graphics(here::here("figure/figure_si_n_patch.pdf"))
 ```
 
 \newpage
 
-```{r fig4, fig.cap="Relationships between food chain length and ecosystem complexity with low disturbance intensity $\\mu_m = 0.2$. Lines indicate loess curves, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities."}
+```{r fig4, fig.cap="Relationships between food chain length and ecosystem complexity with low disturbance intensity $\\mu_m = 0.2$. Lines in each panel indicate loess curves fitted to $500$ simulation replicates, and shades are associated 95% confidence intervals. Rows distinguish food web motifs, and columns indicate different dispersal and productivity scenarios. Different line colors indicate different disturbance probabilities. In this figure, ecosystem complexity values for individual simulation replicates were drawn randomly from a uniform distribution $N_p \\sim \\text{Unif}(10, 150)$."}
 knitr::include_graphics(here::here("figure/figure_si_p_branch.pdf"))
 ```
 
 \newpage
 
-```{r fig7, fig.cap="Effects of productivity (left column) and dispersal (right column) on food chain length grouped by disturbance frequency ($p_m$; x-axis). Colors distinguish productivity or dispersal scenarios, and rows identify food web motifs. Disturbance intensity $\\mu_m = 0.8$."}
+```{r fig5, fig.cap="Effects of productivity (left column) and dispersal (right column) on food chain length grouped by disturbance frequency ($p_m$; x-axis). Box plots show median (horizontal center line) and quartiles (box limits) of $500$ simulation replicates with whiskers extending up to the most extreme data points that are within ±1.5 interquartile range. Dots are outliers extending beyond ±1.5 interquartile range. Colors distinguish productivity or dispersal scenarios, and rows identify food web motifs. Disturbance intensity $\\mu_m = 0.8$."}
 knitr::include_graphics(here::here("figure/figure_si_fcl_r_disp.pdf"))
 ```
 
 \newpage
 
-```{r fig8, fig.cap="Effects of productivity on state transitions with high disturbance intensity $\\mu_m = 0.8$. Colors distinguish productivity scenarios, columns represent different disturbance probability $p_m$, and rows identify food web motifs."}
+```{r fig6, fig.cap="Effects of productivity on state transitions with high disturbance intensity $\\mu_m = 0.8$. The proportion of each patch state $\\bar{\\psi}$ is averaged over time for each simulation replicate. Box plots show median (horizontal center line) and quartiles (box limits) of $500$ simulation replicates with whiskers extending up to the most extreme data points that are within ±1.5 interquartile range. Dots are outliers extending beyond ±1.5 interquartile range. Colors distinguish productivity scenarios, columns represent different disturbance probability $p_m$, and rows identify food web motifs."}
 knitr::include_graphics(here::here("figure/figure_si_state_r.pdf"))
 ```
 
 \newpage
 
-```{r fig9, fig.cap="Effects of dispersal on state transitions with high disturbance intensity $\\mu_m = 0.8$. Colors distinguish dispersal scenarios, columns represent different disturbance probability $p_m$, and rows identify food web motifs."}
+```{r fig7, fig.cap="Effects of dispersal on state transitions with high disturbance intensity $\\mu_m = 0.8$. The proportion of each patch state $\\bar{\\psi}$ is averaged over time for each simulation replicate. Box plots show median (horizontal center line) and quartiles (box limits) of $500$ simulation replicates with whiskers extending up to the most extreme data points that are within ±1.5 interquartile range. Dots are outliers extending beyond ±1.5 interquartile range. Colors distinguish dispersal scenarios, columns represent different disturbance probability $p_m$, and rows identify food web motifs."}
 knitr::include_graphics(here::here("figure/figure_si_state_disp.pdf"))
 ```
 
 \newpage
 
-```{r fig10, fig.cap="Ecosystem size and complexity dictate total carrying capacity (= $\\sum_x K_x$) and mean distance between a given pair of habitat patches within a network."}
+```{r fig8, fig.cap="Ecosystem size and complexity dictate total carrying capacity (= $\\sum_x K_x$) and mean distance between a given pair of habitat patches within a network."}
 knitr::include_graphics(here::here("figure/figure_si_k_distance.pdf"))
 ```
