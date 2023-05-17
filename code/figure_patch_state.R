@@ -18,7 +18,13 @@ df_plot <- df_sim %>%
          (s == 0 & a_bp == 0) | s == s_set) %>% 
   pivot_longer(cols = paste0("s", 0:4),
                values_to = "p_state",
-               names_to = "state")
+               names_to = "state") %>% 
+  mutate(state = case_when(state == "s0" ~ "No species",
+                           state == "s1" ~ "B",
+                           state == "s2" ~ "B + C",
+                           state == "s3" ~ "B + P",
+                           state == "s4" ~ "B + C + P"),
+         state = fct_relevel(state, "No species", "B", "B + C", "B + P"))
 
 
 # plot: state transition --------------------------------------------------
@@ -28,11 +34,11 @@ theme_set(plt_theme)
 lab <- c(`8` = "Low~productivity",
          `16` = "High~productivity")
 
-state_lab <- c(`s0` = "No species",
-               `s1` = "B",
-               `s2` = "B + C",
-               `s3` = "B + P",
-               `s4` = "B + C + P")
+pm_lab <- c(`0` = "p[m]==0",
+            `0.05` = "p[m]==0.05",
+            `0.1` = "p[m]==0.10",
+            `0.15` = "p[m]==0.15",
+            `0.2` = "p[m]==0.20")
 
 ## ecosystem size effect
 list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
@@ -41,21 +47,20 @@ list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
     filter(omn == x) %>% 
     ggplot(aes(x = n_patch,
                y = p_state,
-               color = factor(p_disturb),
-               fill = factor(p_disturb))) +
-    #geom_point(alpha = 0.1) +
-    geom_smooth(method = "loess") +
-    facet_grid(rows = vars(state),
+               color = factor(state),
+               fill = factor(state))) +
+    geom_smooth(method = "loess",
+                linewidth = 0.75) +
+    facet_grid(rows = vars(p_disturb),
                cols = vars(disp, r_b),
-               #scales = "free",
                labeller = labeller(r_b = as_labeller(lab, label_parsed),
-                                   state = state_lab)) +
-    labs(y = "Proportion of patch state",
+                                   p_disturb = as_labeller(pm_lab, label_parsed))) +
+    labs(y = expression("Proportion of patch state"~bar(psi)),
          x = "Ecosystem size (number of habitat patches)",
-         color = "Disturbance prob.",
-         fill = "Disturbance prob.") +
-    scale_color_met_d("Hiroshige", direction = -1) +
-    scale_fill_met_d("Hiroshige", direction = -1) +
+         color = "Patch state",
+         fill = "Patch state") +
+    scale_color_met_d("Austria", direction = -1) +
+    scale_fill_met_d("Austria", direction = -1) +
     theme(legend.title = element_text(size = 20),
           legend.text =  element_text(size = 18)) +
     ggtitle(x)
@@ -75,22 +80,20 @@ list_g_bp <- foreach(x = unique(df_plot$omn)) %do% {
     filter(omn == x) %>% 
     ggplot(aes(x = p_branch,
                y = p_state,
-               color = factor(p_disturb),
-               fill = factor(p_disturb))) +
-    #geom_point(alpha = 0.1) +
+               color = factor(state),
+               fill = factor(state))) +
     geom_smooth(method = "loess") +
-    facet_grid(rows = vars(state),
+    facet_grid(rows = vars(p_disturb),
                cols = vars(disp, r_b),
-               #scales = "free",
                labeller = labeller(r_b = as_labeller(lab, label_parsed),
-                                   state = state_lab)) +
-    labs(y = "Proportion of patch state",
+                                   p_disturb = as_labeller(pm_lab, label_parsed))) +
+    labs(y = expression("Proportion of patch state"~bar(psi)),
          x = "Ecosystem complexity (branching prob.)",
-         color = "Disturbance prob.",
-         fill = "Disturbance prob.") +
+         color = "Patch state",
+         fill = "Patch state") +
     scale_x_continuous(breaks = c(0.1, 0.4, 0.7, 1.0)) +
-    scale_color_met_d("Hiroshige", direction = -1) +
-    scale_fill_met_d("Hiroshige", direction = -1) +
+    scale_color_met_d("Austria", direction = -1) +
+    scale_fill_met_d("Austria", direction = -1) +
     theme(legend.title = element_text(size = 20),
           legend.text =  element_text(size = 18)) +
     ggtitle(x)
