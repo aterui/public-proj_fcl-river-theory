@@ -82,7 +82,8 @@ list_g_bp <- foreach(x = unique(df_plot$omn)) %do% {
                y = p_state,
                color = factor(state),
                fill = factor(state))) +
-    geom_smooth(method = "loess") +
+    geom_smooth(method = "loess",
+                linewidth = 0.75) +
     facet_grid(rows = vars(p_disturb),
                cols = vars(disp, r_b),
                labeller = labeller(r_b = as_labeller(lab, label_parsed),
