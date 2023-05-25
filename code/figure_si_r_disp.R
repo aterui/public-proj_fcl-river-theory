@@ -98,7 +98,7 @@ g_r_state <- df_plot_st %>%
              labeller = labeller(p_disturb = as_labeller(label,
                                                          label_parsed))) +
   labs(x = "State",
-       y = "Occupancy",
+       y = expression("Proportion of patch state"~bar(psi)),
        color = "Productivity",
        fill = "Productivity") + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
@@ -116,7 +116,7 @@ g_disp_state <- df_plot_st %>%
              labeller = labeller(p_disturb = as_labeller(label,
                                                          label_parsed))) +
   labs(x = "State",
-       y = "Occupancy",
+       y = expression("Proportion of patch state"~bar(psi)),
        color = "Dispersal",
        fill = "Dispersal") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
