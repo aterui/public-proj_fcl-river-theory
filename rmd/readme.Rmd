@@ -1,0 +1,51 @@
+---
+title: "README"
+knit: (function(inputFile, encoding) {
+        rmarkdown::render(inputFile, encoding = encoding, output_dir = here::here())
+      })
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      message = F,
+                      warning = F)
+
+pacman::p_load(tidyverse)
+```
+
+## Article Information
+
+Title: Ecosystem size and complexity are extrinsic drivers of food chain length in branching networks
+
+## File descriptions
+
+`code/` includes all R codes to reproduce findings from this research:
+
+
+```{r}
+
+list.files(here::here("code")) %>% 
+  as_tibble() %>% 
+  mutate(Description = case_when(str_detect(value, "^figure_")~"Code for figures: '_concept', Figure 1; '_delta', Figure 1D; '_food_web', Figure 1C; '_treeplot', Figure2; '_main_geom', Figure 3, 4; '_network', Figure 1A; '_patch_state', Figure 5, 6",
+                                 str_detect(value, "^figure_si")~"Code for SI figures: '_geom', Figure S3, S4; '_one_patch', Figure S1, S2; '_r_disp', Figure S5; '_within_net', Figure S8",
+                                 str_detect(value, "^format_")~"Code for formatting",
+                                 str_detect(value, "^library")~"Code for figures",
+                                 str_detect(value, "^run_")~"Code for simulations",
+                                 str_detect(value, "^table_")~"Code for tables",
+                                 str_detect(value, "^set_")~"Code for setting figure themes"
+                                 )) %>% 
+  rename(Name = value) %>% 
+  knitr::kable(format = "markdown")
+```
+
+
+## Session Information
+
+```{r}
+
+source(here::here("code/library.R"))
+sessionInfo()
+
+```
+
