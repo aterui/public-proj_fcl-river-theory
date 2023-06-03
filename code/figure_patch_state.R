@@ -40,6 +40,12 @@ pm_lab <- c(`0` = "p[m]==0",
             `0.15` = "p[m]==0.15",
             `0.2` = "p[m]==0.20")
 
+cols <- c("No species" = "grey",
+          "B" = "steelblue",
+          "B + C" = "steelblue",
+          "B + P",
+          "B + C + P")
+
 ## ecosystem size effect
 list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
 
@@ -59,10 +65,8 @@ list_g_np <- foreach(x = unique(df_plot$omn)) %do% {
          x = "Ecosystem size (number of habitat patches)",
          color = "Patch state",
          fill = "Patch state") +
-    scale_color_viridis_d() +
-    scale_fill_viridis_d() +
-    # scale_color_met_d("Austria", direction = -1) +
-    # scale_fill_met_d("Austria", direction = -1) +
+    scale_color_viridis_d(end = 0.9) +
+    scale_fill_viridis_d(end = 0.9) +
     theme(legend.title = element_text(size = 20),
           legend.text =  element_text(size = 18)) +
     ggtitle(x)
@@ -95,10 +99,8 @@ list_g_bp <- foreach(x = unique(df_plot$omn)) %do% {
          color = "Patch state",
          fill = "Patch state") +
     scale_x_continuous(breaks = c(0.1, 0.4, 0.7, 1.0)) +
-    scale_color_viridis_d() +
-    scale_fill_viridis_d() +
-    # scale_color_met_d("Austria", direction = -1) +
-    # scale_fill_met_d("Austria", direction = -1) +
+    scale_color_viridis_d(end = 0.9) +
+    scale_fill_viridis_d(end = 0.9) +
     theme(legend.title = element_text(size = 20),
           legend.text =  element_text(size = 18)) +
     ggtitle(x)

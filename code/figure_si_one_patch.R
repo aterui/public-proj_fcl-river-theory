@@ -56,7 +56,8 @@ foreach(i = 1:length(a1_set)) %do% {
                  cols = vars(h), labeller = labeller(h = as_labeller(lab[[1]], label_parsed),
                                                      r_b = as_labeller(lab[[2]], label_parsed))) +
       scale_fill_viridis_d(limits = factor(0:4),
-                           labels = state_lab) +
+                           labels = state_lab,
+                           end = 0.9) +
       scale_x_continuous(breaks = c(0.01, 0.05, 0.09)) +
       scale_y_continuous(breaks = c(0, 0.025, 0.05)) +
       theme_classic() +
