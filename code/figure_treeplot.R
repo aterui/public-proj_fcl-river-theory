@@ -31,7 +31,8 @@ V(adj)$label[c(8:9, 12)] <- "Positive"
 V(adj)$color[c(1:dim(m1)[1])] <- "node"
 V(adj)$color[c(6, 7, 8:12)] <- "pattern"
 
-E(adj)$label[1] <- "Absent"; E(adj)$label[2] <- "Present"
+E(adj)$label[1] <- "Absent \n (Disturb prob. = 0)"
+E(adj)$label[2] <- "Present \n (Disturb prob. > 0)"
 E(adj)$label[3:5] <- c("None (Chain)", "Weak", "Strong")
 E(adj)$label[6:7] <- c("Weak", "Strong")
 E(adj)$label[8:11] <- rep(c("Low", "High"), 2)
@@ -75,7 +76,7 @@ V(adj)$color[1:10] <- "node"
 V(adj)$color[c(5:10)] <- "pattern"
 
 E(adj)$label[1:(dim(m2)[1] - 1)] <- "NA"
-E(adj)$label[1:2] <- c("Absent", "Present")
+E(adj)$label[1:2] <- c("Absent \n (Disturb prob. = 0)", "Present \n (Disturb prob. > 0)")
 E(adj)$label[3:5] <- c("None (Chain)", "Weak", "Strong")
 E(adj)$label[6:7] <- c("Weak", "Strong")
 E(adj)$label[8:9] <- c("Low", "High")

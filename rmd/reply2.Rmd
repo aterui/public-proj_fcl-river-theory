@@ -88,7 +88,7 @@ Akira Terui on behalf of the authors
 
 > For a comprehensive understanding of how FCL is defined in our study, we kindly direct your attention to equations 12 and 13. These equations consider the relative availability of basal species (B) and consumer species (C) within a given habitat patch, which contributes to the determination of FCL.
 
-> We also encourage you to review our response to your previous comments, as it provides additional information related to the definition and dynamics of FCL in our study.
+> We also encourage you to review our response to your earlier comments in this letter, as it provides additional information related to the definition and dynamics of FCL in our study.
 
 *Generally, I found that the figure captions require more information. For example, it is not clear to me, for example in figure 2 and figure 3 what level of complexity is being shown in the ecosystem size plots and what level of size is being shown in the complexity plot.*
 
