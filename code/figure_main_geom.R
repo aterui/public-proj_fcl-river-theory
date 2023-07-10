@@ -22,6 +22,8 @@ df_plot <- df_sim %>%
 
 # plot: geometry effect ---------------------------------------------------
 
+theme_set(plt_theme)
+
 lab <- c(`8` = "Low~productivity",
          `16` = "High~productivity")
 
@@ -37,10 +39,10 @@ g_np <-  df_plot %>%
              cols = vars(disp, r_b),
              scales = "free",
              labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
-  labs(y = "Food chain length",
-       x = "Ecosystem size (number of habitat patches)",
-       color = "Disturbance prob.",
-       fill = "Disturbance prob.") +
+  labs(y = "Food chain length\n",
+       x = "\nEcosystem size (number of habitat patches)",
+       color = "Disturb prob.",
+       fill = "Disturb prob.") +
   scale_color_met_d("Hiroshige", direction = -1) +
   scale_fill_met_d("Hiroshige", direction = -1)
 
@@ -56,10 +58,10 @@ g_pb <-  df_plot %>%
              cols = vars(disp, r_b),
              scales = "free",
              labeller = labeller(r_b = as_labeller(lab, label_parsed))) +
-  labs(y = "Food chain length",
-       x = "Ecosystem complexity (branching probability)",
-       color = "Disturbance prob.",
-       fill = "Disturbance prob.") +
+  labs(y = "Food chain length\n",
+       x = "\nEcosystem complexity (branching probability)",
+       color = "Disturb prob.",
+       fill = "Disturb prob.") +
   scale_x_continuous(breaks = c(0.1, 0.4, 0.7, 1)) +
   scale_color_met_d("Hiroshige", direction = -1) +
   scale_fill_met_d("Hiroshige", direction = -1)

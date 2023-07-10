@@ -24,9 +24,9 @@ V(adj)$label[c(2, 8)] <- "Omnivory"
 V(adj)$label[3] <- "Disturbance intensity"
 V(adj)$label[4:5] <- "Productivity"
 
-V(adj)$label[c(6, 10, 11)] <- "No effect"
-V(adj)$label[7] <- "Very weak effect \n (Fig. S3)"
-V(adj)$label[c(8:9, 12)] <- "Positive"
+V(adj)$label[c(6, 10, 11)] <- "0"
+V(adj)$label[7] <- "(0)"
+V(adj)$label[c(8:9, 12)] <- "+"
 
 V(adj)$color[c(1:dim(m1)[1])] <- "node"
 V(adj)$color[c(6, 7, 8:12)] <- "pattern"
@@ -37,14 +37,15 @@ E(adj)$label[3:5] <- c("None (Chain)", "Weak", "Strong")
 E(adj)$label[6:7] <- c("Weak", "Strong")
 E(adj)$label[8:11] <- rep(c("Low", "High"), 2)
 
-g_tree1 <- ggraph(adj, layout = 'tree') +
+g_tree1 <- ggraph(adj, layout = "tree") +
   geom_edge_link(aes(label = label),
                  color = grey(0.7),
                  linetype = "dashed",
                  arrow = arrow(length = unit(2,'mm'),
                                type = "closed"),
-                 start_cap = circle(8,'mm'),
-                 end_cap = circle(8,'mm')) +
+                 start_cap = circle(5,'mm'),
+                 end_cap = circle(5,'mm'),
+                 angle_calc = "along") +
   geom_node_label(aes(label = label,
                       color = color),
                   label.size = 0) +
@@ -67,10 +68,10 @@ V(adj)$label[2] <- "Omnivory"
 V(adj)$label[3] <- "Disturbance intensity"
 V(adj)$label[4] <- "Productivity"
 
-V(adj)$label[c(5, 8)] <- "Positive"
-V(adj)$label[c(6, 10)] <- "No effect"
-V(adj)$label[7] <- "Very weak effect \n (Fig. S4)"
-V(adj)$label[9] <- "Negative"
+V(adj)$label[c(5, 8)] <- "+"
+V(adj)$label[c(6, 10)] <- "0"
+V(adj)$label[7] <- "(0)"
+V(adj)$label[9] <- "-"
 
 V(adj)$color[1:10] <- "node"
 V(adj)$color[c(5:10)] <- "pattern"
@@ -87,8 +88,9 @@ g_tree2 <- ggraph(adj, layout = 'tree') +
                  linetype = "dashed",
                  arrow = arrow(length = unit(2,'mm'),
                                type = "closed"),
-                 start_cap = circle(8,'mm'),
-                 end_cap = circle(8,'mm')) +
+                 start_cap = circle(5,'mm'),
+                 end_cap = circle(5,'mm'),
+                 angle_calc = "along") +
   geom_node_label(aes(label = label,
                       color = color),
                   label.size = 0) +
@@ -103,5 +105,5 @@ g_tree <- (g_tree1 + ggtitle("(A) Ecosystem size")) + (g_tree2 + ggtitle("(B) Ec
 
 ggsave(g_tree,
        filename = "figure/figure_tree.pdf",
-       width = 14,
-       height = 6)
+       width = 10,
+       height = 5)

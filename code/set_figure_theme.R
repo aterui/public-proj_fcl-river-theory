@@ -15,9 +15,14 @@ plt_theme <- theme_bw() + theme(
   panel.grid.minor.x = element_blank(),
   panel.grid.minor.y = element_blank(),
   
-  axis.text = element_text(size = 10),
+  legend.title = element_text(size = 18),
+  legend.text = element_text(size = 18),
+  
+  axis.text = element_text(size = 18),
     
   strip.background = element_blank(),
-  strip.text = element_text(size = 12),
-  axis.title = element_text(size = 14)
+  strip.text = element_text(size = 22),
+  axis.title = element_text(size = 22),
+  axis.title.x = element_text(margin = margin(t = 0, r = 0, b = 20, l = 0)),
+  axis.title.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 20))
 )
