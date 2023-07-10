@@ -12,17 +12,17 @@ length in branching networks
 
 | Name                   | Description                                                                                                                                                                                     |
 |:-----------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| figure_concept.R       | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_delta.R         | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_food_web.R      | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_main_geom.R     | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_network.R       | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_patch_state.R   | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_si_geom.R       | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_si_one_patch.R  | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_si_r\_disp.R    | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_si_within_net.R | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
-| figure_treeplot.R      | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5, 6 |
+| figure_concept.R       | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_delta.R         | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_food_web.R      | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_main_geom.R     | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_network.R       | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_patch_state.R   | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_si_geom.R       | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_si_one_patch.R  | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_si_r_disp.R     | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_si_within_net.R | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
+| figure_treeplot.R      | Code for figures: ’\_concept’, Figure 1; ’\_delta’, Figure 1D; ’\_food_web’, Figure 1C; ’\_treeplot’, Figure2; ’\_main_geom’, Figure 3, 4; ’\_network’, Figure 1A; ’\_patch_state’, Figure 5-10 |
 | format_sim_data.R      | Code for formatting                                                                                                                                                                             |
 | library.R              | Code for figures                                                                                                                                                                                |
 | run_sim.R              | Code for simulations                                                                                                                                                                            |
@@ -69,7 +69,7 @@ length in branching networks
     ## [13] gridExtra_2.3       compiler_4.2.1      cli_3.6.1          
     ## [16] rvest_1.0.3         pacman_0.5.1        xml2_1.3.3         
     ## [19] scales_1.2.1        digest_0.6.31       rmarkdown_2.17     
-    ## [22] pkgconfig_2.0.3     htmltools_0.5.3     dbplyr_2.2.1       
+    ## [22] pkgconfig_2.0.3     htmltools_0.5.5     dbplyr_2.2.1       
     ## [25] fastmap_1.1.0       highr_0.9           rlang_1.1.1        
     ## [28] readxl_1.4.1        rstudioapi_0.14     farver_2.1.1       
     ## [31] generics_0.1.3      jsonlite_1.8.3      googlesheets4_1.0.1
@@ -79,7 +79,7 @@ length in branching networks
     ## [43] ggrepel_0.9.3       crayon_1.5.2        graphlayouts_0.8.4 
     ## [46] haven_2.5.1         hms_1.1.2           pillar_1.9.0       
     ## [49] codetools_0.2-18    reprex_2.0.2        glue_1.6.2         
-    ## [52] evaluate_0.17       modelr_0.1.9        vctrs_0.6.2        
+    ## [52] evaluate_0.17       modelr_0.1.9        vctrs_0.6.3        
     ## [55] tzdb_0.3.0          tweenr_2.0.2        cellranger_1.1.0   
     ## [58] gtable_0.3.3        polyclip_1.10-4     assertthat_0.2.1   
     ## [61] xfun_0.34           ggforce_0.4.1       googledrive_2.0.0  
