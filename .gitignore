@@ -3,4 +3,6 @@
 .RData
 .Ruserdata
 rmd/document_output*
+rmd/reply*
+rmd/cover_letter*
 output/*.pdf
