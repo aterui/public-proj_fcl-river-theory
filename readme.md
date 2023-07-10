@@ -3,8 +3,14 @@ README
 
 ## Article Information
 
-Title: Ecosystem size and complexity are extrinsic drivers of food chain
+[![DOI](https://zenodo.org/badge/469160066.svg)](https://zenodo.org/badge/latestdoi/469160066)
+
+Title: Ecosystem size and complexity as extrinsic drivers of food chain
 length in branching networks
+
+Author: Justin Pomeranz, Jacques Finlay, Akira Terui
+
+Journal: Ecosphere
 
 ## File descriptions
 
