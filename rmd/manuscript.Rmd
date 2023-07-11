@@ -49,6 +49,8 @@ Author: Justin P.F. Pomeranz^1,2^, Jacques C. Finlay^3^, Akira Terui^1^
 
 \*Corresponding Author: A Terui, [hanabi0111\@gmail.com](mailto:hanabi0111@gmail.com){.email}
 
+Track: Freshwater Ecology
+
 # Abstract
 
 Understanding the drivers of food chain length in natural communities has intrigued ecologists since Elton publicized 'food cycles' in the early 20th century. Proposed drivers of food chain length have included productivity, disturbance regime, ecosystem size, and trophic omnivory. However, current theories have largely assumed simple, two-dimensional habitat architectures and may not be adequate to predict food chain length in ecosystems with a complex, branching structure. Here, we develop a spatially explicit theoretical model which provides an integrated framework for understanding variation in food chain length in branching networks. We show independent, positive influences of ecosystem size and complexity (as indicated by branching properties) on food chain length. However, the effects of ecosystem size and complexity were contingent upon other factors, appearing more clearly in high-disturbance and high-productivity regimes. Our results suggest that ecosystem complexity is an important yet overlooked driver of food chain length that may increase the resilience to anthropogenic environmental changes.
@@ -57,7 +59,7 @@ Understanding the drivers of food chain length in natural communities has intrig
 
 ## Data availability
 
-No primary data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.3.1 (available at <https://github.com/aterui/mcbrnet>). Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory>.
+No primary data were used or produced in this research. R functions for simulations are provided as the R package mcbrnet version 1.3.1 (available at <https://github.com/aterui/mcbrnet>) [@teruiMcbrnetMetacommunitySimulation2023]. Codes for simulations, statistical analysis, figures, and tables are available at <https://github.com/aterui/public-proj_fcl-river-theory> [@pomeranzCodeEcosystemSize2023].
 
 \clearpage
 
@@ -297,7 +299,7 @@ knitr::kable(df_value %>%
                rename(Value = "Main"),
              escape = FALSE,
              booktabs = TRUE,
-             caption = "Parameter values used in the main simulation")
+             caption = "Table 1: Parameter values used in the main simulation")
 ```
 
 \pagebreak
