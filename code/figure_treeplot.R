@@ -48,7 +48,8 @@ g_tree1 <- ggraph(adj, layout = "tree") +
                  angle_calc = "along") +
   geom_node_label(aes(label = label,
                       color = color),
-                  label.size = 0) +
+                  label.size = 0,
+                  size = 4) +
   scale_color_manual(values = c("black", "steelblue")) +
   theme_void() +
   guides(color = "none")
@@ -71,7 +72,7 @@ V(adj)$label[4] <- "Productivity"
 V(adj)$label[c(5, 8)] <- "+"
 V(adj)$label[c(6, 10)] <- "0"
 V(adj)$label[7] <- "(0)"
-V(adj)$label[9] <- "-"
+V(adj)$label[9] <- "\u2212"
 
 V(adj)$color[1:10] <- "node"
 V(adj)$color[c(5:10)] <- "pattern"
@@ -93,7 +94,8 @@ g_tree2 <- ggraph(adj, layout = 'tree') +
                  angle_calc = "along") +
   geom_node_label(aes(label = label,
                       color = color),
-                  label.size = 0) +
+                  label.size = 0,
+                  size = 4) +
   scale_color_manual(values = c("black", "steelblue")) +
   theme_void() +
   guides(color = "none")
