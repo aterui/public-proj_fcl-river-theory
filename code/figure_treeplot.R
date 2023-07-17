@@ -19,9 +19,9 @@ m1[5, 11:12] <- 1 # freq:no x omn:weak x prod
 
 adj <- igraph::graph.adjacency(m1)
 
-V(adj)$label[1] <- "Disturbance frequency"
+V(adj)$label[1] <- "Disturb frequency"
 V(adj)$label[c(2, 8)] <- "Omnivory"
-V(adj)$label[3] <- "Disturbance intensity"
+V(adj)$label[3] <- "Disturb intensity"
 V(adj)$label[4:5] <- "Productivity"
 
 V(adj)$label[c(6, 10, 11)] <- "0"
@@ -48,7 +48,8 @@ g_tree1 <- ggraph(adj, layout = "tree") +
                  angle_calc = "along") +
   geom_node_label(aes(label = label,
                       color = color),
-                  label.size = 0) +
+                  label.size = 0,
+                  size = 4) +
   scale_color_manual(values = c("black", "steelblue")) +
   theme_void() +
   guides(color = "none")
@@ -63,15 +64,15 @@ m2[4, 9:10] <- 1
 
 adj <- igraph::graph.adjacency(m2)
 
-V(adj)$label[1] <- "Disturbance frequency"
+V(adj)$label[1] <- "Disturb frequency"
 V(adj)$label[2] <- "Omnivory"
-V(adj)$label[3] <- "Disturbance intensity"
+V(adj)$label[3] <- "Disturb intensity"
 V(adj)$label[4] <- "Productivity"
 
 V(adj)$label[c(5, 8)] <- "+"
 V(adj)$label[c(6, 10)] <- "0"
 V(adj)$label[7] <- "(0)"
-V(adj)$label[9] <- "-"
+V(adj)$label[9] <- "\u2212"
 
 V(adj)$color[1:10] <- "node"
 V(adj)$color[c(5:10)] <- "pattern"
@@ -93,7 +94,8 @@ g_tree2 <- ggraph(adj, layout = 'tree') +
                  angle_calc = "along") +
   geom_node_label(aes(label = label,
                       color = color),
-                  label.size = 0) +
+                  label.size = 0,
+                  size = 4) +
   scale_color_manual(values = c("black", "steelblue")) +
   theme_void() +
   guides(color = "none")
