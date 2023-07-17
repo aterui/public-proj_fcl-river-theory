@@ -245,7 +245,7 @@ With disturbance, state transition occurs from "B" to "B + C" (low productivity)
 Exceptionally, the state transition of "B + C + P" $\rightarrow$ "B + C" occurred as ecosystem complexity increased with no disturbance and low productivity, a scenario in which ecosystem complexity decreased FCL.
 
 In the weak and strong omnivory motifs, different state transitions were associated with ecosystem size and complexity.
-Ecosystem size increased FCL primarily through additive mechanisms, facilitating the state transition of "B" $\rightarrow$ "B + P" (low productivity) or "No species" $\rightarrow$ "B + P" (high productivity), particularly with frequent disturbance (**Figure 6--7**).
+Ecosystem size increased FCL primarily through additive mechanisms, facilitating the state transition of "B" $\rightarrow$ "B + P" (low productivity) or "No species" $\rightarrow$ "B + P" (high productivity), particularly with frequent disturbance (**Figures 6 and 7**).
 In contrast, insertion (i.e., the insertion of intermediate trophic species) and additive mechanisms were responsible for the effect of ecosystem complexity.
 With weak omnivory, the transition from "B + P" to "B + C + P" (insertion) was predominant when productivity was low (**Figure 9**).
 However, the additive mechanism ("No species" $\rightarrow$ "B + P") took primacy in the high productivity scenario (**Figure 9**).
